@@ -3,7 +3,7 @@
 Interactive, family-friendly 3D versions of museum artifacts. Each one is a single HTML page using three.js r128, with no build step.
 
 ```bash
-cd museum-friends && python3 -m http.server 8000   # open http://localhost:8000/painted-jar/
+cd museum-friends && python3 -m http.server 8000   # open http://localhost:8000/jarra/ or /painted-jar/
 ```
 
 ## painted-jar
@@ -18,3 +18,19 @@ cd museum-friends && python3 -m http.server 8000   # open http://localhost:8000/
   - "Count the triangles": tap each triangle to number it.
   - "Wake it up": an optional friendly face with eyes that follow the pointer.
 - **Languages and sound:** English and Arabic, with small synthesized sound effects. Reduced-motion settings are respected.
+
+## jarra
+
+The painted jar as a character, named Jarra (جرّة means "jar" in Arabic). It is a copy of `painted-jar`, which stays unchanged as the version without a face.
+
+- **Face:** always on, with eyes that follow the pointer, eyebrows, blush, and blinking.
+- **Expressions:**
+  - idle smile
+  - surprised when tapped
+  - talking: the mouth moves while the speech bubble is showing
+  - happy when a triangle is found or the jar is fixed
+  - "hmm" on a wrong tap
+  - dizzy "Wheee!" after a fast spin
+- **Turning:** after a spin, Jarra turns back to face you. In the counting game it doesn't turn back, so children can find the triangles on the back.
+- **Nap time:** closed eyes and floating "z"s. Tapping Jarra wakes it up.
+- **Greeting:** says hello when the page opens.
