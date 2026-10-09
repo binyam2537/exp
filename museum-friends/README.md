@@ -3,7 +3,7 @@
 Interactive, family-friendly 3D versions of museum artifacts. Each one is a single HTML page using three.js r128, with no build step.
 
 ```bash
-cd museum-friends && python3 -m http.server 8000   # open /jarra/, /siraj/ or /painted-jar/
+cd museum-friends && python3 -m http.server 8000   # open /jarra/, /siraj/, /siraj-v2/ or /painted-jar/
 ```
 
 ## painted-jar
@@ -44,3 +44,13 @@ A bronze oil lamp as a talking character. Siraj (سراج) is an Arabic word for
 - **Light my flame:** rub the lamp until it glows warm and the wick lights. The scene turns to night, lit by the flame. Tapping the flame makes Siraj say "Ouch!", and "Blow it out" puts the flame out with a puff of smoke. Siraj explains that rubbing a lamp is magic only in stories.
 - **Polish me:** rubbing paints shiny bronze through the green patina, using per-part colour and roughness/metalness canvases. Siraj then explains that museums never polish real objects, and "Bring back my patina" restores the green.
 - **Also:** nap time, spin to "Wheee", and tap for facts, the same as Jarra.
+
+## siraj-v2
+
+A copy of `siraj` with a **Voice & sound** settings window. The original `siraj` is unchanged.
+
+- **Voice options:** turn Siraj's voice on or off, turn sound effects on or off, and pick a voice for each language. Each voice has a "Hear" preview button.
+- **English voices:** Ana (`en-US-AnaNeural`, the default), Andrew, Jenny, Ryan.
+- **Arabic voices:** Fatima (`ar-AE-FatimaNeural`, the default), Hamdan.
+- **Saved choices:** settings are remembered in the browser.
+- **Voice files:** every line is pre-recorded for every voice as `voice/<voice id>/<line>.mp3` (108 files). The page can't call the TTS service live, so the clips are generated ahead of time. Regenerate them with `python voice/gen_voices.py voice/lines.json voice`.
