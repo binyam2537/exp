@@ -1,3 +1,4 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>
 <title>Sultan bin Saqr Living Portrait</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -113,49 +114,6 @@ select {
   display: flex; flex-wrap: wrap; gap: 6px 18px; border-top: 1px solid var(--rule); padding-top: 14px;
 }
 .made b { color: var(--ink); font-weight: 500; }
-.made a { color: var(--brass); text-underline-offset: 3px; }
-
-/* speech */
-.speak {
-  display: grid; gap: 12px;
-  background: var(--wall-2); border: 1px solid var(--rule); padding: 16px; border-radius: 3px;
-}
-.speak-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
-.speak-head h2 { margin: 0; font: 500 12px/1 var(--font-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--brass); }
-.disclaimer { margin: 0; font-size: 14px; color: var(--ink-dim); font-style: italic; min-width: 0; }
-.speak-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.speak-row > * { min-width: 0; }
-button.say { text-transform: none; letter-spacing: .02em; font-family: var(--font-display); font-size: 15px; padding: 9px 16px; }
-button.say[lang="ar"] { font-family: var(--font-arabic); font-size: 16px; padding-block: 6px; }
-button:disabled { opacity: .4; cursor: default; }
-button:disabled:hover { border-color: var(--rule); color: var(--ink); }
-#ttsText {
-  flex: 1 1 260px; font: 400 16px/1.4 var(--font-display); color: var(--ink); background: var(--wall);
-  border: 1px solid var(--rule); border-radius: 999px; padding: 8px 16px; unicode-bidi: plaintext;
-}
-#ttsText::placeholder { color: var(--ink-dim); }
-.file { position: relative; overflow: hidden; display: inline-flex; align-items: center;
-  font: 500 12px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink);
-  border: 1px dashed var(--rule); border-radius: 999px; padding: 9px 14px; cursor: pointer; }
-.file:hover { border-color: var(--brass); color: var(--brass); }
-.file:focus-within { outline: 2px solid var(--brass); outline-offset: 2px; }
-.file input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
-.speak-status { margin: 0; font: 400 12px/1.5 var(--font-mono); color: var(--ink-dim); min-height: 1.5em; }
-.speak-status:empty { display: none; }
-.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-.caption {
-  position: absolute; left: 50%; bottom: 12%; transform: translateX(-50%); width: min(86%, 760px);
-  text-align: center; color: var(--ink); text-shadow: 0 1px 2px #000, 0 0 18px rgba(0,0,0,.9);
-  pointer-events: none; transition: opacity .4s ease; display: grid; gap: 2px;
-}
-.caption .c1 { font-size: clamp(15px, 2.3vw, 24px); line-height: 1.35; unicode-bidi: plaintext; }
-.caption .c1[lang="ar"] { font-family: var(--font-arabic); }
-.caption .c2 { font-size: clamp(12px, 1.5vw, 15px); color: var(--ink-dim); font-style: italic; }
-.badge {
-  position: absolute; top: 12px; right: 12px; font: 500 10px/1 var(--font-mono); letter-spacing: .14em; text-transform: uppercase;
-  color: var(--wall); background: var(--brass); padding: 6px 9px; border-radius: 999px; pointer-events: none;
-}
 
 @media (max-width: 720px) {
   .label { grid-template-columns: 1fr; }
@@ -172,8 +130,6 @@ button:disabled:hover { border-color: var(--rule); color: var(--ink); }
     <img id="still" src="photo.jpg" alt="Black and white portrait of Sheikh Sultan bin Saqr Al Qasimi wearing a patterned headdress and dark bisht.">
     <div class="hint" id="hint"><span class="long">Move across the portrait · </span><span class="short">Drag to look · </span>tap the face</div>
     <div class="status" id="status" role="status"></div>
-    <div class="badge" id="badge" hidden>Synthetic voice</div>
-    <div class="caption" id="caption" hidden><div class="c1" id="cap1"></div><div class="c2" id="cap2"></div></div>
   </div>
 
   <section class="label" aria-label="Museum label">
@@ -186,25 +142,6 @@ button:disabled:hover { border-color: var(--rule); color: var(--ink); }
       <h2>الشيخ سلطان بن صقر القاسمي</h2>
       <p>حاكم الشارقة (١٩٢٤ – ١٩٥١م)</p>
     </div>
-  </section>
-
-  <section class="speak" aria-label="Make him speak">
-    <div class="speak-head">
-      <h2>Voice</h2>
-      <p class="disclaimer">A synthetic voice made for this animation. It is not his voice, and the words are not his.</p>
-    </div>
-    <div class="speak-row">
-      <button class="say" id="sayAr" type="button" lang="ar">السلام عليكم</button>
-      <button class="say" id="sayEn" type="button">Peace be upon you</button>
-      <button id="stopTalk" type="button" disabled>Stop</button>
-    </div>
-    <form class="speak-row" id="ttsForm">
-      <label class="vh" for="ttsText">Line for him to say</label>
-      <input id="ttsText" type="text" maxlength="240" autocomplete="off" placeholder="Type a line in Arabic or English">
-      <button type="submit" id="ttsGo">Speak text</button>
-      <label class="file" for="audioFile">Use an audio file<input id="audioFile" type="file" accept="audio/*"></label>
-    </form>
-    <p class="speak-status" id="speakStatus" role="status"></p>
   </section>
 
   <section class="controls" aria-label="Portrait controls">
@@ -228,9 +165,7 @@ button:disabled:hover { border-color: var(--rule); color: var(--ink); }
     <span><b>Restoration</b> Swin2SR ×4 real-world</span>
     <span><b>Eyes</b> MediaPipe Face Landmarker</span>
     <span><b>Render</b> three.js relief mesh + per-pixel motion shaders</span>
-    <span><b>Voice</b> Meta MMS-TTS, Arabic and English</span>
     <span>Source photograph: HH Private Collection</span>
-    <span><a href="v1-silent.html">Silent version (v1)</a></span>
   </footer>
 </main>
 
@@ -248,7 +183,6 @@ button:disabled:hover { border-color: var(--rule); color: var(--ink); }
   const EYE_L = [0.4622, 0.2506], EYE_LS = [0.0235, 0.0125];
   const EYE_R = [0.5418, 0.2521], EYE_RS = [0.0225, 0.0128];
   const FACE = [0.501, 0.345];
-  const MOUTH = [0.4998, 0.3995], MOUTH_HW = 0.035;
 
   if (typeof THREE === "undefined") { statusEl.textContent = "3D engine did not load. Showing the still photograph."; return; }
 
@@ -271,10 +205,8 @@ button:disabled:hover { border-color: var(--rule); color: var(--ink); }
     uniform float uSway;
     uniform float uHeadRot;
     uniform vec2  uHeadOff;
-    uniform float uOpen;
-    uniform float uWide;
     uniform sampler2D uDepth;
-    float gScarf; float gHead; float gChest; float gMouth; float gMouthY;
+    float gScarf; float gHead; float gChest;
     float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
     float vnoise(vec2 p){
       vec2 i = floor(p), f = fract(p); vec2 u = f*f*(3.0-2.0*f);
@@ -302,25 +234,6 @@ button:disabled:hover { border-color: var(--rule); color: var(--ink); }
       d = mat2(cos(a), sin(a), -sin(a), cos(a)) * d;
       q = piv + d / A;
       q -= (uHeadOff + vec2(0.0, -0.0035 * uBreath)) * gHead;
-      // speech: the jaw drops, lips part and spread or round
-      vec2 mc = vec2(${MOUTH[0]}, ${MOUTH[1]});
-      float mhw = ${MOUTH_HW};
-      float D = uOpen * 0.019;
-      vec2 mq = q - mc;
-      float ax = abs(mq.x);
-      float iw = mhw * (0.55 + 0.3 * uWide);
-      vec2 iq = (mq - vec2(0.0, D * 0.5)) / vec2(iw, D * 0.5 + 0.0012);
-      // lens-shaped opening that tapers into the corners
-      float lens = (1.0 - iq.x * iq.x) - abs(iq.y);
-      gMouth = smoothstep(0.0, 0.45, lens) * smoothstep(0.03, 0.12, uOpen);
-      gMouthY = iq.y;
-      float soft = mix(0.003, 0.035, smoothstep(mhw * 0.7, mhw * 1.6, ax));
-      float jaw = smoothstep(-0.0015, soft, mq.y) * (1.0 - smoothstep(0.075, 0.19, mq.y)) * (1.0 - smoothstep(0.05, 0.095, ax));
-      float lip = 1.0 - smoothstep(0.6, 1.0, length(mq / vec2(mhw * 1.5, 0.03)));
-      q.x = mc.x + (q.x - mc.x) / (1.0 + 0.12 * (uWide - 0.5) * uOpen * lip);
-      float up = 1.0 - smoothstep(0.5, 1.0, length((mq - vec2(0.0, -0.008)) / vec2(mhw * 1.1, 0.012)));
-      q.y += uOpen * 0.0022 * up;
-      q.y -= D * jaw;
       // headdress tails: a slow ripple travelling down the cloth
       float sl = 1.0 - smoothstep(0.55, 1.0, capsule(p, vec2(0.405, 0.12), vec2(0.385, 1.02), 0.115));
       float sr = 1.0 - smoothstep(0.55, 1.0, capsule(p, vec2(0.595, 0.12), vec2(0.66, 1.02), 0.125));
@@ -393,11 +306,6 @@ button:disabled:hover { border-color: var(--rule); color: var(--ink); }
       vec2 br = blink(s, vec2(${EYE_R[0]}, ${EYE_R[1]}), vec2(${EYE_RS[0]}, ${EYE_RS[1]}), uBlink, lidR);
       col = mix(col, lidL, bl.x) * bl.y;
       col = mix(col, lidR, br.x) * br.y;
-      if (gMouth > 0.0) {
-        float teeth = smoothstep(-1.0, -0.6, gMouthY) * (1.0 - smoothstep(-0.45, -0.05, gMouthY)) * smoothstep(0.3, 0.7, uOpen);
-        vec3 inner = vec3(0.16, 0.15, 0.14) * (0.75 + 0.5 * smoothstep(1.0, -1.0, gMouthY)) + teeth * vec3(0.26, 0.25, 0.24);
-        col = mix(col, inner, gMouth * 0.88);
-      }
 
       // relight from the depth map
       vec3 n = normalize(texture2D(uNormal, t).xyz * 2.0 - 1.0);
@@ -436,7 +344,7 @@ button:disabled:hover { border-color: var(--rule); color: var(--ink); }
   const uniforms = {
     uTime: { value: 0 }, uBreath: { value: 0 }, uSway: { value: 1 }, uHeadRot: { value: 0 },
     uHeadOff: { value: new THREE.Vector2() }, uDepth: { value: null }, uPhoto: { value: null }, uNormal: { value: null },
-    uDepthAmt: { value: 1 }, uOpen: { value: 0 }, uWide: { value: 0.5 }, uBlink: { value: 0 }, uLight: { value: new THREE.Vector3(-0.35, 0.45, 0.85) },
+    uDepthAmt: { value: 1 }, uBlink: { value: 0 }, uLight: { value: new THREE.Vector3(-0.35, 0.45, 0.85) },
     uSpot: { value: new THREE.Vector2(0.45, 0.3) }, uLightAmt: { value: 1 }, uTone: { value: 1 },
     uFlicker: { value: 1 }, uGrainSeed: { value: 0 }, uDebug: { value: 0 }
   };
@@ -557,168 +465,6 @@ button:disabled:hover { border-color: var(--rule); color: var(--ink); }
 
   const damp = (a, b, k, dt) => a + (b - a) * (1 - Math.exp(-k * dt));
 
-
-  // ---------- speech ----------
-  const CLIPS = {
-    ar: { url: "voice-ar.wav", c1: "السلام عليكم ورحمة الله وبركاته. أهلاً وسهلاً بكم في الشارقة.", lang: "ar",
-          c2: "Peace, mercy and blessings of God be upon you. Welcome to Sharjah." },
-    en: { url: "voice-en.wav", c1: "Peace be upon you. Welcome to Sharjah.", lang: "en", c2: "" }
-  };
-  const speakStatus = document.getElementById("speakStatus");
-  const stopBtn = document.getElementById("stopTalk");
-  const badge = document.getElementById("badge");
-  const caption = document.getElementById("caption");
-  const cap1 = document.getElementById("cap1"), cap2 = document.getElementById("cap2");
-  const ttsText = document.getElementById("ttsText");
-  const speech = {
-    mode: null, actx: null, analyser: null, src: null, freqBuf: null, peak: -60, cache: {},
-    open: 0, wide: 0.5, slow: 0, tts: null, cursor: 0, rate: 1
-  };
-  const isArabic = (t) => /[؀-ۿ]/.test(t);
-
-  function showCaption(t1, lang, t2) {
-    cap1.textContent = t1; cap1.lang = lang || ""; cap2.textContent = t2 || "";
-    caption.hidden = !t1; badge.hidden = false; stopBtn.disabled = false;
-    stage.classList.add("touched");
-  }
-  function endTalk() {
-    speech.mode = null; speech.src = null; speech.tts = null;
-    caption.hidden = true; badge.hidden = true; stopBtn.disabled = true;
-  }
-  function stopTalk() {
-    if (speech.src) { try { speech.src.onended = null; speech.src.stop(); } catch (e) {} }
-    if (speech.mode === "tts" && window.speechSynthesis) window.speechSynthesis.cancel();
-    endTalk();
-  }
-  function ensureAudio() {
-    if (!speech.actx) {
-      const AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC) throw new Error("no-audio");
-      speech.actx = new AC();
-      speech.analyser = speech.actx.createAnalyser();
-      speech.analyser.fftSize = 1024;
-      speech.analyser.smoothingTimeConstant = 0.15;
-      speech.analyser.connect(speech.actx.destination);
-      speech.freqBuf = new Float32Array(speech.analyser.frequencyBinCount);
-    }
-    if (speech.actx.state === "suspended") speech.actx.resume();
-    return speech.actx;
-  }
-  function playBuffer(buf, t1, lang, t2) {
-    stopTalk();
-    const actx = ensureAudio();
-    const src = actx.createBufferSource();
-    src.buffer = buf; src.connect(speech.analyser);
-    src.onended = () => { if (speech.src === src) endTalk(); };
-    speech.src = src; speech.mode = "audio"; speech.peak = -60;
-    src.start(actx.currentTime + 0.03);
-    showCaption(t1, lang, t2);
-    speakStatus.textContent = "";
-  }
-  async function sayClip(key) {
-    const c = CLIPS[key];
-    try {
-      const actx = ensureAudio();
-      if (!speech.cache[key]) {
-        speakStatus.textContent = "Loading voice…";
-        const res = await fetch(c.url);
-        if (!res.ok) throw new Error("fetch");
-        speech.cache[key] = await actx.decodeAudioData(await res.arrayBuffer());
-      }
-      playBuffer(speech.cache[key], c.c1, c.lang, c.c2);
-    } catch (e) { speakStatus.textContent = "The voice clip could not be played in this browser."; }
-  }
-  document.getElementById("sayAr").addEventListener("click", () => sayClip("ar"));
-  document.getElementById("sayEn").addEventListener("click", () => sayClip("en"));
-  stopBtn.addEventListener("click", stopTalk);
-
-  document.getElementById("audioFile").addEventListener("change", async (e) => {
-    const f = e.target.files && e.target.files[0];
-    e.target.value = "";
-    if (!f) return;
-    try {
-      const actx = ensureAudio();
-      speakStatus.textContent = "Reading " + f.name + "…";
-      const buf = await actx.decodeAudioData(await f.arrayBuffer());
-      playBuffer(buf, "", "", "");
-      speakStatus.textContent = "Lip-syncing to " + f.name + ".";
-    } catch (err) { speakStatus.textContent = "That file could not be decoded. Try an MP3, WAV or M4A recording."; }
-  });
-
-  function pickVoice(lang) {
-    const vs = window.speechSynthesis.getVoices();
-    const pref = vs.filter((v) => v.lang && v.lang.toLowerCase().startsWith(lang));
-    const male = pref.find((v) => /male|man|maged|tarik|hamed|naayf|daniel|george|david|guy|ryan/i.test(v.name) && !/female/i.test(v.name));
-    return male || pref[0] || null;
-  }
-  document.getElementById("ttsForm").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const text = ttsText.value.trim();
-    if (!text) { speakStatus.textContent = "Type a line first."; ttsText.focus(); return; }
-    if (!("speechSynthesis" in window)) { speakStatus.textContent = "This browser has no built-in voice. Use a greeting or an audio file instead."; return; }
-    stopTalk();
-    const lang = isArabic(text) ? "ar" : "en";
-    const u = new SpeechSynthesisUtterance(text);
-    const v = pickVoice(lang);
-    if (v) u.voice = v; else u.lang = lang === "ar" ? "ar-SA" : "en-GB";
-    u.rate = 0.92; u.pitch = 0.8;
-    speech.tts = { text, lang, words: true, start: 0 };
-    speech.cursor = 0; speech.rate = 0.92;
-    u.onstart = () => { speech.mode = "tts"; speech.cursor = 0; showCaption(text, lang, ""); };
-    u.onboundary = (ev) => { if (speech.tts && typeof ev.charIndex === "number") speech.cursor = Math.max(speech.cursor, ev.charIndex); };
-    u.onend = () => { if (speech.mode === "tts") endTalk(); };
-    u.onerror = () => { if (speech.mode === "tts") endTalk(); speakStatus.textContent = "The browser voice stopped. Try a greeting or an audio file."; };
-    window.speechSynthesis.speak(u);
-    speakStatus.textContent = v ? "Browser voice: " + v.name + ". Lip movement is estimated from the text." : "Using the browser's default voice. Lip movement is estimated from the text.";
-    setTimeout(() => { if (!speech.mode && speech.tts) speakStatus.textContent = "No browser voice for " + (lang === "ar" ? "Arabic" : "English") + " is installed. Try the greetings or an audio file."; }, 2500);
-  });
-  if ("speechSynthesis" in window) window.speechSynthesis.getVoices();
-
-  const VOWEL = /[aeiouyáéíóúاوىيآأإة]/i, ROUND = /[ouwو]/i, WIDE = /[eiyيى]/i, CLOSED = /[mbpfvمبف]/i;
-  function textTargets(dt) {
-    const t = speech.tts.text;
-    speech.cursor = Math.min(t.length, speech.cursor + dt * 13.5 * speech.rate);
-    const i = Math.floor(speech.cursor), ch = t[i] || " ", frac = speech.cursor - i;
-    let open = 0, wide = 0.5;
-    if (/[\s.,!?؟،]/.test(ch)) open = 0;
-    else if (VOWEL.test(ch)) { open = 0.75; wide = ROUND.test(ch) ? 0.1 : WIDE.test(ch) ? 0.95 : 0.55; }
-    else if (CLOSED.test(ch)) open = 0.02;
-    else open = 0.3;
-    // between letters the mouth passes through a half-open shape
-    open *= 0.75 + 0.25 * Math.sin(frac * Math.PI);
-    return [open, wide];
-  }
-  function audioTargets(dt) {
-    const a = speech.analyser, fb = speech.freqBuf;
-    a.getFloatFrequencyData(fb);
-    const hz = speech.actx.sampleRate / a.fftSize;
-    const band = (lo, hi) => {
-      let p = 0, n = 0;
-      for (let i = Math.floor(lo / hz); i <= Math.min(fb.length - 1, Math.floor(hi / hz)); i++) { p += Math.pow(10, fb[i] / 10); n++; }
-      return 10 * Math.log10(p / Math.max(1, n) + 1e-12);
-    };
-    const low = band(250, 1000), mid = band(1000, 2600), high = band(3500, 7500);
-    // auto gain: compare against a slowly decaying peak so quiet and loud files both work
-    speech.peak = Math.max(low, (speech.peak ?? -60) - 8 * dt);
-    const open = Math.pow(Math.max(0, Math.min(1, (low - (speech.peak - 20)) / 17)), 1.7) * 0.92;
-    const wide = Math.max(0, Math.min(1, 0.5 + (mid - low) / 24 + Math.max(0, high - low) / 40));
-    return [open, wide];
-  }
-  // called every frame: returns how much he is talking (0..1), sets mouth uniforms
-  speech.update = function (dt) {
-    let to = 0, tw = 0.5;
-    if (speech.mode === "audio" && speech.analyser) [to, tw] = audioTargets(dt);
-    else if (speech.mode === "tts" && speech.tts) [to, tw] = textTargets(dt);
-    const k = to > speech.open ? 28 : 14;
-    speech.open += (to - speech.open) * (1 - Math.exp(-k * dt));
-    speech.wide += (tw - speech.wide) * (1 - Math.exp(-10 * dt));
-    speech.slow += ((speech.mode ? 1 : 0) - speech.slow) * (1 - Math.exp(-2 * dt));
-    uniforms.uOpen.value = speech.open;
-    uniforms.uWide.value = speech.wide;
-    return speech.slow;
-  };
-  window.__portrait.speech = speech;
-
   Promise.all([load("photo.jpg"), load("depth.png"), load("normal.png")]).then(([photo, depth, normal]) => {
     // no mipmaps: the eyelid remap jumps UVs, and mip selection would smear the seam
     photo.minFilter = THREE.LinearFilter; photo.generateMipmaps = false;
@@ -760,14 +506,10 @@ button:disabled:hover { border-color: var(--rule); color: var(--ink); }
       uniforms.uBreath.value = breathCurve(lifeT) * L;
       uniforms.uSway.value = L;
       state.nod = damp(state.nod, 0, 2.2, dt);
-      const talk = speech.update(dt);
-      state.talkNod = damp(state.talkNod || 0, speech.open, 3, dt);
-      uniforms.uHeadRot.value = (Math.sin(lifeT * 0.37) * 0.007 + Math.sin(lifeT * 0.83 + 2.0) * 0.003) * L
-        + talk * Math.sin(clockT * 1.3) * 0.006;
+      uniforms.uHeadRot.value = (Math.sin(lifeT * 0.37) * 0.007 + Math.sin(lifeT * 0.83 + 2.0) * 0.003) * L;
       uniforms.uHeadOff.value.set(
-        (state.px * 0.0045 + Math.sin(lifeT * 0.29) * 0.0018) * L + talk * Math.sin(clockT * 0.9) * 0.002,
+        (state.px * 0.0045 + Math.sin(lifeT * 0.29) * 0.0018) * L,
         (-state.py * 0.0025 + state.nod * Math.sin((1 - state.nod) * Math.PI) * 0.006) * L
-          + (speech.open - state.talkNod) * 0.006
       );
 
       if (L > 0.5 && lifeT > state.nextBlink) {
@@ -800,3 +542,4 @@ button:disabled:hover { border-color: var(--rule); color: var(--ink); }
   }).catch(() => { statusEl.textContent = "Could not load the portrait textures. Showing the still photograph."; });
 })();
 </script>
+</body></html>
