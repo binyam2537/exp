@@ -53,4 +53,5 @@ A copy of `siraj` with a **Voice & sound** settings window. The original `siraj`
 - **English voices:** Ana (`en-US-AnaNeural`, the default), Andrew, Jenny, Ryan.
 - **Arabic voices:** Fatima (`ar-AE-FatimaNeural`, the default), Hamdan.
 - **Saved choices:** settings are remembered in the browser.
+- **Kid-talk wording:** lines use sound words and rhymes ("swishy-swish", "wipy-wipe"), and the patina is Siraj's "green coat". The About note gives grown-ups the real word.
 - **Voice files:** every line is pre-recorded for every voice as `voice/<voice id>/<line>.mp3` (108 files). The page can't call the TTS service live, so the clips are generated ahead of time. Regenerate them with `python voice/gen_voices.py voice/lines.json voice`.
