@@ -1,0 +1,20 @@
+{
+ "hello":  ["Hello, hello! I'm Siraj the lamp. Give me a tap-tap!", "مرحبا مرحبا! أنا سراج المصباح. المسني لمسة لمستين!"],
+ "fact1":  ["I'm an oil lamp! Glug-glug, the oil goes in, and a tiny flame sits on the tip of my long, long nose!", "أنا مصباح زيت! بُق بُق، يدخل الزيت، وتجلس شعلة صغيرة على طرف أنفي الطويل الطويل!"],
+ "fact2":  ["Copper and tin, stir them in, swirly-twirly... and out comes bronze! That's me!", "نحاس وقصدير، نخلطهما ونُدير، فيصير برونزًا لامعًا... وهذا أنا!"],
+ "fact3":  ["See my green coat? Bronze grows it slowly, slowly, over years and years and years!", "هل ترى معطفي الأخضر؟ البرونز يلبسه شيئًا فشيئًا، على مرّ سنين وسنين وسنين!"],
+ "fact4":  ["Long, long ago, before light switches went click, lamps like me made the night go bright!", "زمان زمان، قبل أزرار الكهرباء، كانت مصابيح مثلي تجعل الليل مضيئًا!"],
+ "fact5":  ["Look at my curly-wurly handle! Hold it tight and carry me along!", "انظر إلى مقبضي الملفوف الملفوف! أمسكه جيدًا وخذني معك!"],
+ "fact6":  ["Peekaboo! Can you find the little red flowers on my round, round tummy?", "بَخ! هل تجد الزهور الحمراء الصغيرة على بطني المدوّر المدوّر؟"],
+ "rubStart": ["Swishy-swishy-swish! Swish my tummy to wake up my flame!", "فِش فِش فِش! امسح على بطني لتستيقظ شعلتي!"],
+ "tickle": ["Hee hee hee! Swishy tickles, swishy tickles!", "هِهِهِه! فِش فِش، هذا يدغدغني!"],
+ "lit":    ["Ta-da! Flicker-flicker, here's my flame! In stories, a swish is magic. But really, people lit me with a teeny fire.", "تادا! رِف رِف، هذه شعلتي! في الحكايات، المسح سحر. لكن في الحقيقة، كان الناس يشعلونني بنار صغيرة."],
+ "ouch":   ["Ouchy-ouch! Hot-hot-hot! No touching my flame!", "أخ أخ! حارّ حارّ حارّ! لا تلمس شعلتي!"],
+ "blown":  ["Whoooosh! Puff-puff, my flame is off!", "فووووو! نفخة نفخة، انطفأت شعلتي!"],
+ "polishStart": ["Wipy-wipy-wipe! Wipe off my green coat and see how sparkly I was when I was brand new!", "مَسحة مَسحة مَسحة! امسح معطفي الأخضر لترى كم كنتُ ألمع وأنا جديد!"],
+ "polished": ["Sparkle-sparkle, look at me! But shh... real museums never wipe me. My green coat shows how old I am!", "لمعة لمعة، انظر إليّ! لكن هُسّ... المتاحف الحقيقية لا تمسحني أبدًا. معطفي الأخضر يخبركم كم عمري!"],
+ "sleepy": ["Yaaawn... snoozy-snooze time. Night-night!", "آآآه... نَعسان نَعسان. تصبحون على خير!"],
+ "woke":   ["Huh? Wha? Oh! Hello-hello again!", "هاه؟ ماذا؟ أوه! مرحبا مرحبا من جديد!"],
+ "whee":   ["Wheee! Spinny-spin-spin! I'm all dizzy-whizzy!", "وييييي! لفّة لفّة لفّة! رأسي يدور ويدور!"],
+ "hmm":    ["Oopsie! Try my round, round tummy!", "أوبس! جرّب بطني المدوّر المدوّر!"]
+}

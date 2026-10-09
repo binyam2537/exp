@@ -1,0 +1,818 @@
+<title>Jarra the Painted Jar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Baloo+Bhaijaan+2:wght@500;700;800&display=swap">
+<style>
+/* Layout: one big play-table for the jar, a mission strip under it, chunky buttons, a quiet "about this object" note. Deliberately one warm daylight look, like a children's gallery. */
+:root {
+  --sand: #f7ecdc;       /* gallery wall */
+  --sand-2: #efdcc3;     /* table and panels */
+  --clay: #d9a98a;       /* hairlines, from the jar body */
+  --ink: #2b211d;        /* text */
+  --ink-soft: #6b5a50;   /* secondary text */
+  --plum: #874460;       /* accent: the jar's painted triangles */
+  --sun: #f2ae3a;        /* celebrations and progress */
+  --white: #fffaf3;
+  --font-play: "Baloo 2", "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+  --font-ar: "Baloo Bhaijaan 2", "Baloo 2", "Geeza Pro", "Segoe UI", Tahoma, sans-serif;
+  color-scheme: light;
+}
+html, body { background: var(--sand); color: var(--ink); }
+body {
+  font-family: var(--font-play); font-size: 17px; line-height: 1.45;
+  padding-inline: clamp(16px, 4vw, 40px); padding-block: clamp(14px, 3vw, 30px) 36px;
+}
+:lang(ar), [lang="ar"] { font-family: var(--font-ar); }
+.wrap { max-width: 1100px; margin-inline: auto; display: grid; gap: 18px; }
+
+header { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 8px 20px; }
+header > * { min-width: 0; }
+h1 { margin: 0; font-weight: 800; font-size: clamp(30px, 5vw, 50px); line-height: 1; letter-spacing: -.01em; text-wrap: balance; }
+h1 .dot { color: var(--plum); }
+.tagline { margin: 6px 0 0; color: var(--ink-soft); font-size: clamp(16px, 2vw, 19px); }
+.top-actions { display: flex; gap: 8px; }
+
+.stage {
+  position: relative; width: 100%; aspect-ratio: 16 / 10; max-height: 70vh; border-radius: 28px; overflow: hidden;
+  background:
+    radial-gradient(ellipse 60% 55% at 50% 42%, #fff6e8 0%, rgba(255,246,232,0) 72%),
+    radial-gradient(ellipse 80% 30% at 50% 100%, #e8cfae 0%, rgba(232,207,174,0) 70%),
+    var(--sand-2);
+  box-shadow: inset 0 0 0 3px var(--clay);
+  touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none;
+}
+.stage:active { cursor: grabbing; }
+.stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.stage .fx { pointer-events: none; }
+.bubble {
+  position: absolute; top: 18px; left: 50%; transform: translate(-50%, 0) scale(1); transform-origin: 50% 100%;
+  max-width: min(88%, 520px); background: var(--white); color: var(--ink); border: 3px solid var(--ink);
+  border-radius: 22px; padding: 10px 18px; font-size: clamp(15px, 2vw, 19px); font-weight: 700; text-align: center;
+  box-shadow: 0 6px 0 rgba(43,33,29,.18); transition: opacity .25s ease, transform .25s cubic-bezier(.3,1.6,.5,1);
+  pointer-events: none; unicode-bidi: plaintext;
+}
+.bubble::after {
+  content: ""; position: absolute; left: 50%; bottom: -14px; width: 20px; height: 20px; background: var(--white);
+  border-right: 3px solid var(--ink); border-bottom: 3px solid var(--ink); transform: translateX(-50%) rotate(45deg);
+}
+.bubble.hide { opacity: 0; transform: translate(-50%, 8px) scale(.9); }
+.status { position: absolute; left: 16px; bottom: 14px; font-size: 13px; color: var(--ink-soft); }
+
+.mission {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px;
+  background: var(--white); border: 3px solid var(--ink); border-radius: 20px; padding: 12px 18px;
+  box-shadow: 0 5px 0 rgba(43,33,29,.15);
+}
+.mission > * { min-width: 0; }
+.mission-text { flex: 1 1 260px; font-weight: 700; font-size: clamp(16px, 2vw, 20px); unicode-bidi: plaintext; }
+.meter { flex: 0 1 220px; height: 16px; border-radius: 999px; background: var(--sand-2); border: 2px solid var(--ink); overflow: hidden; }
+.meter i { display: block; height: 100%; width: 0; background: var(--sun); transition: width .4s cubic-bezier(.3,1.4,.5,1); }
+
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  font: 800 clamp(16px, 2vw, 19px)/1 var(--font-play); color: var(--ink); background: var(--white);
+  border: 3px solid var(--ink); border-radius: 999px; padding: 14px 22px; cursor: pointer;
+  box-shadow: 0 5px 0 var(--ink); transition: transform .08s ease, box-shadow .08s ease, background .2s;
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.btn:lang(ar), .btn[lang="ar"] { font-family: var(--font-ar); }
+.btn:hover { background: #fff1dc; }
+.btn:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); }
+.btn:focus-visible { outline: 3px solid var(--plum); outline-offset: 3px; }
+.btn.primary { background: var(--plum); color: var(--white); }
+.btn.primary:hover { background: #9a5272; }
+.btn[aria-pressed="true"] { background: var(--sun); }
+.btn.small { font-size: 15px; padding: 9px 14px; box-shadow: 0 3px 0 var(--ink); }
+.btn svg { width: 22px; height: 22px; flex: none; }
+
+.about { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; align-items: start; color: var(--ink-soft); font-size: 15px; border-top: 2px dashed var(--clay); padding-top: 14px; }
+.about b { color: var(--ink); }
+.about p { margin: 0; max-width: 70ch; unicode-bidi: plaintext; }
+.about .tag { font-weight: 800; color: var(--plum); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; padding-top: 2px; }
+
+[dir="rtl"] .mission, [dir="rtl"] .actions, [dir="rtl"] header { direction: rtl; }
+
+@media (max-width: 640px) {
+  .stage { aspect-ratio: 4 / 5; max-height: none; border-radius: 22px; }
+  .btn { padding: 12px 16px; }
+  .about { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bubble, .meter i { transition: none; }
+}
+</style>
+
+<div class="wrap" id="app">
+  <header>
+    <div>
+      <h1 id="t-title">Hi, I'm Jarra<span class="dot">.</span></h1>
+      <p class="tagline" id="t-tagline">I'm a painted clay jar. Spin me, tap me, and help me with my missions!</p>
+    </div>
+    <div class="top-actions">
+      <button class="btn small" id="langBtn" type="button" lang="ar">عربي</button>
+      <button class="btn small" id="soundBtn" type="button" aria-pressed="true">Sound on</button>
+    </div>
+  </header>
+
+  <div class="stage" id="stage" aria-label="A 3D painted clay jar. Drag to spin it, tap it to hear about it.">
+    <canvas class="fx" id="fx"></canvas>
+    <div class="bubble hide" id="bubble" aria-live="polite"></div>
+    <div class="status" id="status"></div>
+  </div>
+
+  <div class="mission" role="status">
+    <div class="mission-text" id="missionText">Drag to spin. Tap the jar.</div>
+    <div class="meter" id="meter" hidden><i id="meterFill"></i></div>
+  </div>
+
+  <div class="actions">
+    <button class="btn primary" id="fixBtn" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l6-6M14 4l6 6-8 8-6-6z"/><path d="M12 8l4 4"/></svg>
+      <span id="t-fix">Fix the jar</span>
+    </button>
+    <button class="btn" id="countBtn" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><path d="M5 5h14L12 19z"/><path d="M8 9h8M10 13h4"/></svg>
+      <span id="t-count">Count the triangles</span>
+    </button>
+    <button class="btn" id="wakeBtn" type="button" aria-pressed="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 11c1.5 1.5 3.5 1.5 5 0M14 11c1.5 1.5 3.5 1.5 5 0"/><path d="M15 3h4l-4 4h4" stroke-width="1.8"/></svg>
+      <span id="t-wake">Nap time</span>
+    </button>
+  </div>
+
+  <section class="about">
+    <span class="tag" id="t-abouttag">About</span>
+    <p id="t-about">A hand-made 3D model inspired by a painted clay jar recorded by the Sharjah Archaeology Authority with Global Digital Heritage. It is not a scan, so some details are different from the real jar.</p>
+  </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  const $ = (id) => document.getElementById(id);
+  const stage = $("stage"), fx = $("fx"), statusEl = $("status");
+  if (typeof THREE === "undefined") { statusEl.textContent = "The 3D engine did not load."; return; }
+
+  // ---------------- words ----------------
+  const T = {
+    en: {
+      title: 'Hi, I\'m Jarra<span class="dot">.</span>', tagline: "I'm a painted clay jar. Spin me, tap me, and help me with my missions!",
+      fix: "Fix the jar", count: "Count the triangles", wake: "Wake up", rest: "Nap time",
+      soundOn: "Sound on", soundOff: "Sound off", lang: "عربي", abouttag: "About",
+      about: "A hand-made 3D model inspired by a painted clay jar recorded by the Sharjah Archaeology Authority with Global Digital Heritage. It is not a scan, so some details are different from the real jar.",
+      free: "Drag to spin. Tap the jar.",
+      facts: [
+        "Archaeologists found me in pieces and glued me back together. Can you spot my cracks?",
+        "Someone painted my purple triangles by hand, a very long time ago.",
+        "The rings on my neck were probably made while the clay spun on a potter's wheel.",
+        "I am made of clay that was baked hard in a very hot oven called a kiln.",
+        "Be gentle with me! Real jars like me live safely in museums."
+      ],
+      hello: "Hi! I'm Jarra, the painted jar. Tap me!", sleepy: "Yawn... time for a little nap.",
+      woke: "Huh? Oh, hello again!", whee: "Wheee! That made me dizzy!",
+      breakMsg: "Oh no, the jar broke! Tap each piece to put it back.",
+      pieces: (n, N) => n + " of " + N + " pieces back",
+      fixed: "You fixed it, just like a real archaeologist!",
+      countStart: "How many striped triangles can you find? Tap each one.",
+      found: (n) => n === 1 ? "1 triangle found" : n + " triangles found",
+      already: "You already found that one!", miss: "Look for the striped triangles that point down.",
+      allFound: (n) => "You found all " + n + " triangles!",
+      spinMore: "Spin the jar to find the ones on the back.",
+      busy: "Finish fixing the jar first!"
+    },
+    ar: {
+      title: 'مرحبًا، أنا جرّة<span class="dot">.</span>', tagline: "أنا جرّة فخارية مرسومة. أدِرني، المسني، وساعدني في مهماتي!",
+      fix: "أصلِح الجرّة", count: "عُدّ المثلثات", wake: "استيقظي", rest: "وقت القيلولة",
+      soundOn: "الصوت يعمل", soundOff: "الصوت مطفأ", lang: "English", abouttag: "عن القطعة",
+      about: "نموذج ثلاثي الأبعاد صُنع يدويًا، مستوحى من جرّة فخارية مرسومة وثّقتها هيئة الشارقة للآثار مع مؤسسة Global Digital Heritage. ليس مسحًا ضوئيًا، لذلك تختلف بعض التفاصيل عن الجرّة الحقيقية.",
+      free: "اسحب لتدوير الجرّة. المسها لتسمع عنها.",
+      facts: [
+        "وجدني علماء الآثار قطعًا صغيرة، ثم ألصقوني من جديد. هل ترى الشقوق؟",
+        "رسم أحدهم مثلثاتي البنفسجية بيده، منذ زمن طويل جدًا.",
+        "صُنعت الحلقات على رقبتي غالبًا بينما كان الطين يدور على عجلة الفخّار.",
+        "أنا مصنوعة من طين خُبز في فرن حار جدًا اسمه الكَمين حتى صار صلبًا.",
+        "كن لطيفًا معي! الجرار الحقيقية مثلي تعيش بأمان في المتاحف."
+      ],
+      hello: "مرحبًا! أنا جرّة، الجرّة المرسومة. المسني!", sleepy: "آه... حان وقت قيلولة صغيرة.",
+      woke: "هاه؟ أوه، مرحبًا من جديد!", whee: "ويييي! أصابني الدوار!",
+      breakMsg: "يا للهول، انكسرت الجرّة! المس كل قطعة لتعيدها إلى مكانها.",
+      pieces: (n, N) => "أعدت " + n + " من " + N + " قطعة",
+      fixed: "أصلحتها مثل عالم آثار حقيقي!",
+      countStart: "كم مثلثًا مخططًا تستطيع أن تجد؟ المس كل واحد.",
+      found: (n) => "وجدت " + n + (n === 1 ? " مثلثًا" : " مثلثات"),
+      already: "لقد وجدت هذا المثلث من قبل!", miss: "ابحث عن المثلثات المخططة التي تشير إلى الأسفل.",
+      allFound: (n) => "وجدت المثلثات الـ" + n + " كلها!",
+      spinMore: "أدِر الجرّة لتجد المثلثات في الخلف.",
+      busy: "أكمل إصلاح الجرّة أولًا!"
+    }
+  };
+  let lang = "en";
+  try { if (localStorage.getItem("jar-lang") === "ar") lang = "ar"; } catch (e) {}
+  const t = () => T[lang];
+
+  // ---------------- sound ----------------
+  let soundOn = true, actx = null;
+  function tone(freq, dur, type, vol, slide) {
+    if (!soundOn) return;
+    try {
+      if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+      if (actx.state === "suspended") actx.resume();
+      const o = actx.createOscillator(), g = actx.createGain(), now = actx.currentTime;
+      o.type = type || "sine"; o.frequency.setValueAtTime(freq, now);
+      if (slide) o.frequency.exponentialRampToValueAtTime(slide, now + dur);
+      g.gain.setValueAtTime(0.0001, now); g.gain.exponentialRampToValueAtTime(vol || 0.15, now + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+      o.connect(g); g.connect(actx.destination); o.start(now); o.stop(now + dur + 0.02);
+    } catch (e) {}
+  }
+  const sfx = {
+    boing: () => tone(220, 0.28, "sine", 0.18, 520),
+    pop: () => tone(660, 0.12, "triangle", 0.14, 990),
+    click: () => { tone(880, 0.08, "square", 0.05); tone(1320, 0.14, "sine", 0.1); },
+    crash: () => { for (let i = 0; i < 5; i++) setTimeout(() => tone(300 + Math.random() * 500, 0.12, "triangle", 0.09, 120), i * 45); },
+    win: () => [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => tone(f, 0.22, "triangle", 0.14), i * 110)),
+    nope: () => tone(260, 0.18, "sine", 0.1, 200)
+  };
+
+  // ---------------- renderer ----------------
+  let renderer;
+  try { renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); }
+  catch (e) { statusEl.textContent = "WebGL is not available in this browser."; return; }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.setClearColor(0x000000, 0);
+  stage.insertBefore(renderer.domElement, fx);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(32, 1.6, 0.1, 50);
+  scene.add(new THREE.HemisphereLight(0xfff4e6, 0xd9a07e, 0.85));
+  const key = new THREE.DirectionalLight(0xfff0dc, 0.95); key.position.set(-3, 5, 4); scene.add(key);
+  const rim = new THREE.DirectionalLight(0xbfd8ff, 0.55); rim.position.set(3, 2.5, -4); scene.add(rim);
+  const fill = new THREE.DirectionalLight(0xffe2c8, 0.25); fill.position.set(4, 1, 3); scene.add(fill);
+
+  // contact shadow
+  const shCanvas = document.createElement("canvas"); shCanvas.width = shCanvas.height = 128;
+  const sg = shCanvas.getContext("2d"), grd = sg.createRadialGradient(64, 64, 4, 64, 64, 64);
+  grd.addColorStop(0, "rgba(90,50,30,0.45)"); grd.addColorStop(1, "rgba(90,50,30,0)");
+  sg.fillStyle = grd; sg.fillRect(0, 0, 128, 128);
+  const shadow = new THREE.Mesh(new THREE.PlaneGeometry(2.2, 2.2), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(shCanvas), transparent: true, depthWrite: false }));
+  shadow.rotation.x = -Math.PI / 2; shadow.position.y = 0.002; scene.add(shadow);
+
+  // ---------------- jar shape (measured from the reference photo) ----------------
+  const HT = 1.95;            // jar height in model units
+  const OUTER = [[0,0],[0.17,0],[0.195,0.012],[0.205,0.05],[0.27,0.107],[0.337,0.164],[0.405,0.221],[0.458,0.279],[0.507,0.336],
+    [0.552,0.393],[0.592,0.45],[0.627,0.507],[0.656,0.564],[0.682,0.621],[0.705,0.679],[0.72,0.736],[0.727,0.793],[0.732,0.85],
+    [0.729,0.907],[0.719,0.964],[0.704,1.021],[0.68,1.079],[0.649,1.136],[0.613,1.193],[0.569,1.25],[0.514,1.307],[0.455,1.364],
+    [0.413,1.421],[0.377,1.479],[0.352,1.536],[0.335,1.593],[0.333,1.65],[0.345,1.70],[0.40,1.735],[0.452,1.77],[0.462,1.82],
+    [0.463,1.88],[0.455,1.925],[0.44,1.945],[0.425,1.94]];
+  const INNER = [[0.425,1.94],[0.418,1.86],[0.41,1.78],[0.33,1.72],[0.30,1.64],[0.295,1.52],[0.22,1.44],[0,1.40]];
+  function resample(pts, n, ridges) {
+    const curve = new THREE.SplineCurve(pts.map((p) => new THREE.Vector2(p[0], p[1])));
+    const out = curve.getSpacedPoints(n).map((v) => [Math.max(0, v.x), v.y]);
+    if (ridges) out.forEach((p) => {
+      const h = p[1];
+      if (h > 1.30 && h < 1.70) {
+        const env = Math.sin(Math.PI * (h - 1.30) / 0.40);
+        p[0] += 0.011 * env * Math.pow(0.5 + 0.5 * Math.cos(2 * Math.PI * (h - 1.30) / 0.066), 2);
+      }
+    });
+    return out;
+  }
+  const outerP = resample(OUTER, 260, true), innerP = resample(INNER, 50, false);
+  const radiusAt = (h) => { let best = outerP[0]; for (const p of outerP) if (p[1] < 1.6 && Math.abs(p[1] - h) < Math.abs(best[1] - h)) best = p; return best[0]; };
+
+  // ---------------- shard layout: a seeded, warped Voronoi on the jar surface ----------------
+  const CIRC = 3.6, N_SHARDS = 14;
+  function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let x = Math.imul(seed ^ seed >>> 15, 1 | seed); x = x + Math.imul(x ^ x >>> 7, 61 | x) ^ x; return ((x ^ x >>> 14) >>> 0) / 4294967296; }; }
+  const rand = rng(1206);
+  const seeds = [];
+  [[0.22, 3], [0.68, 4], [1.15, 4], [1.68, 3]].forEach(([h, n], row) => {
+    for (let i = 0; i < n; i++) seeds.push([((i + 0.5 + (rand() - 0.5) * 0.5) / n + row * 0.13) % 1 * CIRC, h + (rand() - 0.5) * 0.22]);
+  });
+  function cellOf(x, y) {
+    const wx = x + 0.06 * Math.sin(y * 11 + Math.sin(x * 7) * 1.5), wy = y + 0.05 * Math.sin(x * 9 + Math.sin(y * 6) * 1.7);
+    let d1 = 1e9, d2 = 1e9, c = 0;
+    for (let i = 0; i < seeds.length; i++) {
+      let dx = Math.abs(wx - seeds[i][0]); dx = Math.min(dx, CIRC - dx);
+      const dy = wy - seeds[i][1], d = dx * dx + dy * dy;
+      if (d < d1) { d2 = d1; d1 = d; c = i; } else if (d < d2) d2 = d;
+    }
+    return [c, Math.sqrt(d2) - Math.sqrt(d1)];
+  }
+
+  // ---------------- painted texture ----------------
+  const TW = 2048, TH = 1024, N_TRI = 10;
+  const BAND_TOP = 1.12, BAND_BOT = 0.72;
+  const tex = document.createElement("canvas"); tex.width = TW; tex.height = TH;
+  const g = tex.getContext("2d");
+  const vy = (h) => (1 - h / HT) * TH;   // canvas y for a jar height
+  const triHalf = 0.5 / N_TRI * 0.9;
+  const PAINT = "#7d4157";
+  function paintBase() {
+    const lg = g.createLinearGradient(0, 0, 0, TH);
+    lg.addColorStop(0, "#f0d9c0"); lg.addColorStop(vy(1.5) / TH, "#e8c9ab"); lg.addColorStop(vy(1.14) / TH, "#ecd2b8");
+    lg.addColorStop(vy(1.0) / TH, "#f4e4d2"); lg.addColorStop(vy(0.72) / TH, "#f1dfcb"); lg.addColorStop(vy(0.6) / TH, "#e6c4a8");
+    lg.addColorStop(1, "#d9b294");
+    g.fillStyle = lg; g.fillRect(0, 0, TW, TH);
+    const r = rng(7);
+    for (let i = 0; i < 26000; i++) {   // clay speckle
+      const a = r() * 0.08; g.fillStyle = r() < 0.5 ? "rgba(120,80,60," + a + ")" : "rgba(255,245,235," + a + ")";
+      g.fillRect(r() * TW, r() * TH, 1 + r() * 3, 1 + r() * 3);
+    }
+    g.lineCap = "round";
+    const groove = (h, w) => { g.strokeStyle = "rgba(120,78,58,.45)"; g.lineWidth = w; g.beginPath(); g.moveTo(0, vy(h)); g.lineTo(TW, vy(h)); g.stroke();
+      g.strokeStyle = "rgba(255,248,238,.5)"; g.lineWidth = w * 0.6; g.beginPath(); g.moveTo(0, vy(h) + w); g.lineTo(TW, vy(h) + w); g.stroke(); };
+    [1.17, 1.15, 1.13].forEach((h) => groove(h, 3));
+    [0.70, 0.675, 0.65, 0.625].forEach((h) => groove(h, 3));
+    for (let h = 1.32; h < 1.70; h += 0.066) groove(h, 4);
+  }
+  function triPath(k) {
+    const cu = (k + 0.5) / N_TRI, top = vy(BAND_TOP - 0.01), apex = vy(BAND_BOT);
+    return { l: (cu - triHalf) * TW, r: (cu + triHalf) * TW, c: cu * TW, top, apex };
+  }
+  function paintTriangles() {
+    const r = rng(42);
+    for (let k = 0; k < N_TRI; k++) {
+      const p = triPath(k), j = () => (r() - 0.5) * 6;
+      g.strokeStyle = PAINT; g.lineJoin = "round"; g.lineCap = "round"; g.lineWidth = 11;
+      g.beginPath(); g.moveTo(p.l + j(), p.top + j()); g.quadraticCurveTo((p.l + p.c) / 2 + j(), (p.top + p.apex) / 2 + j(), p.c + j(), p.apex);
+      g.quadraticCurveTo((p.r + p.c) / 2 + j(), (p.top + p.apex) / 2 + j(), p.r + j(), p.top + j()); g.stroke();
+      g.lineWidth = 8;
+      for (let s = 1; s <= 6; s++) {        // ladder stripes
+        const f = s / 7.3, y = p.top + (p.apex - p.top) * (0.18 + f * 0.82), half = (p.r - p.c) * (1 - (0.18 + f * 0.82)) * 0.86;
+        g.beginPath(); g.moveTo(p.c - half + j(), y + j() * 0.5); g.lineTo(p.c + half + j(), y + j() * 0.5); g.stroke();
+      }
+      g.fillStyle = PAINT;                  // three dots near the top
+      [-0.32, 0, 0.32].forEach((o) => { g.beginPath(); g.arc(p.c + o * (p.r - p.l) * 0.5 + j(), p.top + 26 + j(), 7 + r() * 2, 0, Math.PI * 2); g.fill(); });
+    }
+  }
+  function paintCracks() {
+    const img = g.getImageData(0, 0, TW, TH), d = img.data;
+    for (let py = 0; py < TH; py++) {
+      const y = (1 - (py + 0.5) / TH) * HT;
+      for (let px = 0; px < TW; px++) {
+        const edge = cellOf((px + 0.5) / TW * CIRC, y)[1];
+        if (edge < 0.016) {
+          const a = edge < 0.006 ? 0.62 : 0.62 * (1 - (edge - 0.006) / 0.010), i = (py * TW + px) * 4;
+          d[i] *= 1 - a; d[i + 1] *= 1 - a * 1.05; d[i + 2] *= 1 - a * 1.1;
+        }
+      }
+    }
+    g.putImageData(img, 0, 0);
+  }
+  paintBase(); paintTriangles(); paintCracks();
+  const baseImage = g.getImageData(0, 0, TW, TH);
+  const jarTex = new THREE.CanvasTexture(tex);
+  jarTex.encoding = THREE.sRGBEncoding; jarTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+
+  // ---------------- geometry, split into shards ----------------
+  const SEG = 180;
+  function buildSurface(prof, inward) {
+    const n = prof.length, verts = [], norms = [], uvs = [];
+    for (let i = 0; i <= SEG; i++) {
+      const th = i / SEG * Math.PI * 2, s = Math.sin(th), c = Math.cos(th);
+      for (let j = 0; j < n; j++) {
+        const [r, h] = prof[j], a = prof[Math.max(0, j - 1)], b = prof[Math.min(n - 1, j + 1)];
+        let nr = b[1] - a[1], nh = -(b[0] - a[0]); const l = Math.hypot(nr, nh) || 1; nr /= l; nh /= l;
+        if (inward) { nr = -nr; nh = -nh; }
+        verts.push([r * s, h, r * c]); norms.push([nr * s, nh, nr * c]); uvs.push([i / SEG, h / HT]);
+      }
+    }
+    const tris = [];
+    for (let i = 0; i < SEG; i++) for (let j = 0; j < n - 1; j++) {
+      const a = i * n + j, b = (i + 1) * n + j, c = i * n + j + 1, d = (i + 1) * n + j + 1;
+      if (inward) { tris.push([a, c, b], [b, c, d]); } else { tris.push([a, b, c], [b, d, c]); }
+    }
+    return { verts, norms, uvs, tris };
+  }
+  const outerS = buildSurface(outerP, false), innerS = buildSurface(innerP, true);
+
+  const clayMat = new THREE.MeshStandardMaterial({ map: jarTex, roughness: 0.86, metalness: 0 });
+  const insideMat = new THREE.MeshStandardMaterial({ color: 0x9c6f57, roughness: 0.95, side: THREE.DoubleSide });
+  const jar = new THREE.Group(); scene.add(jar);
+  const spinner = new THREE.Group(); jar.add(spinner);
+
+  const shardData = Array.from({ length: N_SHARDS }, () => ({ outer: [], inner: [] }));
+  function assign(S, key) {
+    for (const tri of S.tris) {
+      let x = 0, y = 0, z = 0;
+      for (const k of tri) { x += S.verts[k][0]; y += S.verts[k][1]; z += S.verts[k][2]; }
+      let th = Math.atan2(x, z); if (th < 0) th += Math.PI * 2;
+      shardData[cellOf(th / (Math.PI * 2) * CIRC, y / 3)[0]][key].push(tri);
+    }
+  }
+  assign(outerS, "outer"); assign(innerS, "inner");
+  function toGeometry(S, tris, center) {
+    const pos = new Float32Array(tris.length * 9), nor = new Float32Array(tris.length * 9), uv = new Float32Array(tris.length * 6);
+    let o = 0, u = 0;
+    for (const tri of tris) for (const k of tri) {
+      const v = S.verts[k], nn = S.norms[k];
+      pos[o] = v[0] - center.x; pos[o + 1] = v[1] - center.y; pos[o + 2] = v[2] - center.z;
+      nor[o] = nn[0]; nor[o + 1] = nn[1]; nor[o + 2] = nn[2]; o += 3;
+      uv[u] = S.uvs[k][0]; uv[u + 1] = S.uvs[k][1]; u += 2;
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+    geo.setAttribute("normal", new THREE.BufferAttribute(nor, 3));
+    geo.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
+    return geo;
+  }
+  const shards = [], pickables = [];
+  shardData.forEach((sd, idx) => {
+    if (!sd.outer.length) return;
+    const center = new THREE.Vector3(); let cnt = 0;
+    for (const tri of sd.outer) for (const k of tri) { const v = outerS.verts[k]; center.x += v[0]; center.y += v[1]; center.z += v[2]; cnt++; }
+    center.divideScalar(cnt);
+    const piece = new THREE.Group(); piece.position.copy(center);
+    const om = new THREE.Mesh(toGeometry(outerS, sd.outer, center), clayMat); om.userData.shard = shards.length; piece.add(om); pickables.push(om);
+    if (sd.inner.length) { const im = new THREE.Mesh(toGeometry(innerS, sd.inner, center), insideMat); im.userData.shard = shards.length; piece.add(im); pickables.push(im); }
+    spinner.add(piece);
+    const blob = new THREE.Mesh(new THREE.PlaneGeometry(0.75, 0.75), new THREE.MeshBasicMaterial({ map: shadow.material.map, transparent: true, depthWrite: false, opacity: 0 }));
+    blob.rotation.x = -Math.PI / 2; blob.position.y = 0.004; spinner.add(blob);
+    shards.push({ piece, blob, home: center.clone(), from: new THREE.Vector3(), to: new THREE.Vector3(), rotFrom: new THREE.Euler(), rotTo: new THREE.Euler(),
+      t: 1, dur: 1, state: "home", angle: Math.atan2(center.x, center.z) });
+  });
+
+  // cartoon outline (inverted hull), only while the jar is whole
+  const outlineGeo = new THREE.BufferGeometry();
+  {
+    const P = new Float32Array(outerS.verts.length * 3), Nn = new Float32Array(outerS.verts.length * 3);
+    outerS.verts.forEach((v, i) => { P.set(v, i * 3); Nn.set(outerS.norms[i], i * 3); });
+    outlineGeo.setAttribute("position", new THREE.BufferAttribute(P, 3));
+    outlineGeo.setAttribute("normal", new THREE.BufferAttribute(Nn, 3));
+    outlineGeo.setIndex(outerS.tris.flat());
+  }
+  const outline = new THREE.Mesh(outlineGeo, new THREE.ShaderMaterial({
+    side: THREE.BackSide,
+    vertexShader: "void main(){ vec3 p = position + normal * 0.016; gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0); }",
+    fragmentShader: "void main(){ gl_FragColor = vec4(0.17, 0.11, 0.09, 1.0); }"
+  }));
+  spinner.add(outline);
+
+  // ---------------- Jarra's face ----------------
+  const face = new THREE.Group(); spinner.add(face);
+  const white = new THREE.MeshStandardMaterial({ color: 0xfffaf3, roughness: 0.35 });
+  const dark = new THREE.MeshStandardMaterial({ color: 0x2b1d1a, roughness: 0.4 });
+  const tongueMat = new THREE.MeshStandardMaterial({ color: 0xd9667a, roughness: 0.5 });
+  const blushMat = new THREE.MeshBasicMaterial({ color: 0xe97a86, transparent: true, opacity: 0.45, depthWrite: false });
+  function onSurface(obj, theta, h, lift) {
+    const r = radiusAt(h) + lift;
+    obj.position.set(r * Math.sin(theta), h, r * Math.cos(theta));
+    obj.lookAt(obj.position.x * 3, h + 0.05, obj.position.z * 3);
+    face.add(obj); return obj;
+  }
+  const arc = (r, tube, len) => new THREE.TorusGeometry(r, tube, 8, 28, len);
+  const eyes = [-0.27, 0.27].map((th, side) => {
+    const e = new THREE.Group();
+    const open = new THREE.Group(); e.add(open);
+    const ball = new THREE.Mesh(new THREE.SphereGeometry(0.11, 28, 18), white); ball.scale.set(1, 1.1, 0.45); open.add(ball);
+    const pupil = new THREE.Group(); pupil.position.z = 0.04; open.add(pupil);
+    const pm = new THREE.Mesh(new THREE.SphereGeometry(0.058, 20, 14), dark); pm.scale.z = 0.4; pupil.add(pm);
+    const glint = new THREE.Mesh(new THREE.SphereGeometry(0.016, 10, 8), white); glint.position.set(0.02, 0.022, 0.025); pupil.add(glint);
+    const happy = new THREE.Mesh(arc(0.065, 0.017, Math.PI), dark); happy.position.set(0, -0.02, 0.03); e.add(happy);   // ^
+    const shut = new THREE.Mesh(arc(0.065, 0.015, Math.PI), dark); shut.rotation.z = Math.PI; shut.position.set(0, 0.02, 0.03); e.add(shut); // u
+    const browPivot = new THREE.Group(); browPivot.position.set(0, 0.17, 0.085); e.add(browPivot);
+    const brow = new THREE.Mesh(arc(0.085, 0.016, Math.PI * 0.42), dark); brow.rotation.z = Math.PI * 0.29; brow.position.y = -0.075; browPivot.add(brow);
+    onSurface(e, th, 0.52, 0.02);
+    return { e, open, pupil, happy, shut, browPivot, side: side ? 1 : -1 };
+  });
+  const mouth = new THREE.Group(); onSurface(mouth, 0, 0.34, 0.012);
+  const mSmile = new THREE.Mesh(arc(0.075, 0.014, Math.PI), dark); mSmile.rotation.z = Math.PI; mouth.add(mSmile);
+  const mO = new THREE.Mesh(arc(0.032, 0.013, Math.PI * 2), dark); mouth.add(mO);
+  const mOpen = new THREE.Group(); mouth.add(mOpen);
+  { const hole = new THREE.Mesh(new THREE.SphereGeometry(0.08, 24, 16), dark); hole.scale.set(1, 0.7, 0.25); mOpen.add(hole);
+    const tongue = new THREE.Mesh(new THREE.SphereGeometry(0.045, 18, 12), tongueMat); tongue.scale.set(1, 0.55, 0.3); tongue.position.set(0, -0.03, 0.012); mOpen.add(tongue); }
+  [-0.46, 0.46].forEach((th) => { const b = new THREE.Mesh(new THREE.CircleGeometry(0.055, 24), blushMat); onSurface(b, th, 0.42, 0.006); });
+
+  // ---------------- state ----------------
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const S = {
+    mode: "free", spin: 0, spinVel: reduce ? 0 : 0.25, auto: !reduce, tilt: 0,
+    squash: 0, squashT: 9, hopT: 9, nextHop: 3, awake: true, faceScale: 0, blinkT: 9, nextBlink: 2,
+    expr: "idle", exprUntil: 0, talkUntil: 0, nextZ: 0,
+    placed: 0, found: new Set(), factIdx: 0, ptr: new THREE.Vector2(), camT: 0
+  };
+  const missionText = $("missionText"), meter = $("meter"), meterFill = $("meterFill"), bubble = $("bubble");
+  let bubbleTimer = 0;
+  const nowS = () => performance.now() / 1000;
+  function feel(expr, sec) { S.expr = expr; S.exprUntil = nowS() + sec; }
+  function say(text, ms) {
+    S.talkUntil = nowS() + Math.min(4.2, 0.5 + text.length * 0.045);
+    bubble.textContent = text; bubble.classList.remove("hide");
+    clearTimeout(bubbleTimer); bubbleTimer = setTimeout(() => bubble.classList.add("hide"), ms || 4200);
+  }
+  function setMission(text, frac) {
+    missionText.textContent = text;
+    meter.hidden = frac == null; if (frac != null) meterFill.style.width = Math.round(frac * 100) + "%";
+  }
+  function refreshMission() {
+    if (S.mode === "puzzle") setMission(t().pieces(S.placed, shards.length), S.placed / shards.length);
+    else if (S.mode === "count") setMission(S.found.size ? t().found(S.found.size) : t().countStart, S.found.size / N_TRI);
+    else setMission(t().free, null);
+  }
+
+  // ---------------- language ----------------
+  function applyLang() {
+    const L = t();
+    document.documentElement.lang = lang;
+    $("app").dir = lang === "ar" ? "rtl" : "ltr";
+    $("t-title").innerHTML = L.title; $("t-tagline").textContent = L.tagline;
+    $("t-fix").textContent = L.fix; $("t-count").textContent = L.count;
+    $("t-wake").textContent = S.awake ? L.rest : L.wake;
+    $("soundBtn").textContent = soundOn ? L.soundOn : L.soundOff;
+    $("langBtn").textContent = L.lang; $("langBtn").lang = lang === "ar" ? "en" : "ar";
+    $("t-abouttag").textContent = L.abouttag; $("t-about").textContent = L.about;
+    refreshMission();
+  }
+  $("langBtn").addEventListener("click", () => {
+    lang = lang === "en" ? "ar" : "en";
+    try { localStorage.setItem("jar-lang", lang); } catch (e) {}
+    applyLang(); sfx.pop();
+  });
+  $("soundBtn").addEventListener("click", () => { soundOn = !soundOn; $("soundBtn").setAttribute("aria-pressed", String(soundOn)); applyLang(); sfx.pop(); });
+
+  // ---------------- counting texture ----------------
+  function redrawFound() {
+    g.putImageData(baseImage, 0, 0);
+    S.found.forEach((k) => {
+      const p = triPath(k);
+      g.fillStyle = "rgba(242,174,58,.55)";
+      g.beginPath(); g.moveTo(p.l, p.top); g.lineTo(p.c, p.apex); g.lineTo(p.r, p.top); g.closePath(); g.fill();
+    });
+    let n = 0;
+    [...S.found].forEach((k) => {
+      n++;
+      const p = triPath(k), cx = p.c, cy = p.top + (p.apex - p.top) * 0.38;
+      g.fillStyle = "#fffaf3"; g.strokeStyle = "#2b211d"; g.lineWidth = 6;
+      g.beginPath(); g.arc(cx, cy, 34, 0, Math.PI * 2); g.fill(); g.stroke();
+      g.fillStyle = "#2b211d"; g.font = "800 44px 'Baloo 2', sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
+      g.fillText(String(n), cx, cy + 3);
+    });
+    jarTex.needsUpdate = true;
+  }
+
+  // ---------------- fx overlay: sparkles and confetti ----------------
+  const fctx = fx.getContext("2d"); let parts = [];
+  function sparkle(x, y, n, colors) {
+    for (let i = 0; i < n; i++) {
+      const a = Math.random() * Math.PI * 2, s = 80 + Math.random() * 220;
+      parts.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 60, life: 0.6 + Math.random() * 0.4, age: 0, size: 4 + Math.random() * 5,
+        color: colors[(Math.random() * colors.length) | 0], kind: "star", rot: Math.random() * 6 });
+    }
+  }
+  function confetti() {
+    const w = fx.clientWidth;
+    for (let i = 0; i < 140; i++) parts.push({ x: Math.random() * w, y: -20 - Math.random() * 200, vx: (Math.random() - 0.5) * 80, vy: 80 + Math.random() * 160,
+      life: 3.2, age: 0, size: 6 + Math.random() * 6, color: ["#874460", "#f2ae3a", "#2f8f83", "#e97a86", "#fffaf3"][(Math.random() * 5) | 0], kind: "paper", rot: Math.random() * 6, vr: (Math.random() - 0.5) * 10 });
+  }
+  function drawFx(dt) {
+    const dpr = renderer.getPixelRatio(), w = fx.clientWidth, h = fx.clientHeight;
+    if (fx.width !== Math.round(w * dpr)) { fx.width = Math.round(w * dpr); fx.height = Math.round(h * dpr); }
+    fctx.setTransform(dpr, 0, 0, dpr, 0, 0); fctx.clearRect(0, 0, w, h);
+    parts = parts.filter((p) => (p.age += dt) < p.life);
+    for (const p of parts) {
+      p.x += p.vx * dt; p.y += p.vy * dt;
+      if (p.kind === "star") { p.vx *= 0.9; p.vy = p.vy * 0.9 + 300 * dt; } else if (p.kind === "paper") { p.rot += p.vr * dt; p.vx += Math.sin(p.age * 3 + p.size) * 4; } else { p.vx = Math.sin(p.age * 2.5) * 22; }
+      const a = 1 - p.age / p.life; fctx.globalAlpha = Math.min(1, a * 1.6); fctx.fillStyle = p.color;
+      fctx.save(); fctx.translate(p.x, p.y); fctx.rotate(p.rot);
+      if (p.kind === "z") { fctx.font = "800 " + (p.size * (0.7 + p.age * 0.3)) + "px 'Baloo 2', sans-serif"; fctx.fillText("z", 0, 0); }
+      else if (p.kind === "star") { fctx.beginPath(); for (let i = 0; i < 8; i++) { const r = i % 2 ? p.size * 0.4 : p.size; fctx.lineTo(Math.cos(i * Math.PI / 4) * r, Math.sin(i * Math.PI / 4) * r); } fctx.fill(); }
+      else fctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+      fctx.restore();
+    }
+    fctx.globalAlpha = 1;
+  }
+  function screenOf(v3) {
+    const v = v3.clone().project(camera);
+    return [(v.x * 0.5 + 0.5) * stage.clientWidth, (-v.y * 0.5 + 0.5) * stage.clientHeight];
+  }
+
+  // ---------------- puzzle ----------------
+  const easeOut = (x) => 1 - Math.pow(1 - x, 3);
+  const easeBack = (x) => { const c = 1.7; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+  function breakJar() {
+    S.mode = "puzzle"; S.placed = 0; S.found.clear(); redrawFound();
+    S.auto = false; S.spinVel = 0; outline.visible = false;
+    const r = rng((Math.random() * 1e9) | 0);
+    shards.forEach((sh) => {
+      const ang = sh.angle + (r() - 0.5) * 0.5, rad = 1.35 + r() * 0.75;
+      sh.from.copy(sh.piece.position); sh.rotFrom.copy(sh.piece.rotation);
+      sh.to.set(Math.sin(ang) * rad, 0.12 + r() * 0.08, Math.cos(ang) * rad);
+      sh.rotTo.set((r() - 0.5) * 1.6, (r() - 0.5) * 2, (r() - 0.5) * 1.2);
+      sh.t = 0; sh.dur = 0.8 + r() * 0.35; sh.state = "flying-out"; sh.arc = 0.6 + r() * 0.5;
+    });
+    sfx.crash(); refreshMission(); say(t().breakMsg, 5000);
+  }
+  function sendHome(i) {
+    const sh = shards[i]; if (sh.state !== "out") return;
+    sh.from.copy(sh.piece.position); sh.rotFrom.copy(sh.piece.rotation);
+    sh.to.copy(sh.home); sh.rotTo.set(0, 0, 0); sh.t = 0; sh.dur = 0.7; sh.state = "flying-home"; sh.arc = 0.7;
+    sfx.pop();
+  }
+  function shardArrived(sh) {
+    S.placed++; sfx.click();
+    const [x, y] = screenOf(sh.piece.getWorldPosition(new THREE.Vector3()));
+    sparkle(x, y, 14, ["#f2ae3a", "#fffaf3", "#874460"]);
+    if (S.placed === shards.length) {
+      S.mode = "free"; outline.visible = true; S.auto = !reduce; S.spinVel = reduce ? 0 : 0.25;
+      S.squashT = 0; S.hopT = 0; sfx.win(); confetti(); say(t().fixed, 5200); feel("happy", 3);
+      setMission(t().fixed, 1); setTimeout(() => { if (S.mode === "free") refreshMission(); }, 5200);
+    } else refreshMission();
+  }
+  $("fixBtn").addEventListener("click", () => {
+    if (S.mode === "puzzle") { say(t().busy, 2500); return; }
+    $("countBtn").setAttribute("aria-pressed", "false"); breakJar();
+  });
+  $("countBtn").addEventListener("click", () => {
+    if (S.mode === "puzzle") { say(t().busy, 2500); return; }
+    if (S.mode === "count") { S.mode = "free"; S.found.clear(); redrawFound(); $("countBtn").setAttribute("aria-pressed", "false"); refreshMission(); return; }
+    S.mode = "count"; S.found.clear(); redrawFound(); S.auto = false; S.spinVel = 0;
+    $("countBtn").setAttribute("aria-pressed", "true"); refreshMission(); say(t().countStart, 4500); sfx.pop();
+  });
+  $("wakeBtn").addEventListener("click", () => {
+    if (S.awake) { say(t().sleepy, 2600); S.awake = false; S.talkUntil = 0; sfx.nope(); }
+    else wakeUp();
+    $("wakeBtn").setAttribute("aria-pressed", String(!S.awake));
+    applyLang();
+  });
+
+  function wakeUp() {
+    S.awake = true; S.hopT = 0; S.squashT = 0; feel("surprised", 0.7); sfx.boing();
+    setTimeout(() => say(t().woke, 3000), 350);
+    $("wakeBtn").setAttribute("aria-pressed", "false"); applyLang();
+  }
+
+  // ---------------- pointer: drag to spin, tap to interact ----------------
+  const ray = new THREE.Raycaster(); let down = null;
+  function ndc(e) { const r = stage.getBoundingClientRect(); return new THREE.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1); }
+  stage.addEventListener("pointerdown", (e) => { down = { x: e.clientX, y: e.clientY, t: performance.now(), last: e.clientX, drag: false }; });
+  stage.addEventListener("pointermove", (e) => {
+    S.ptr.copy(ndc(e));
+    if (!down) return;
+    if (!down.drag && Math.hypot(e.clientX - down.x, e.clientY - down.y) > 7) { down.drag = true; S.auto = false; try { stage.setPointerCapture(e.pointerId); } catch (er) {} }
+    if (down.drag && S.mode !== "puzzle") {
+      const dx = e.clientX - down.last; down.last = e.clientX;
+      S.spin += dx * 0.011; S.spinVel = dx * 0.011 * 60;
+    }
+  });
+  function endPointer(e) {
+    if (!down) return;
+    const wasTap = !down.drag; down = null;
+    if (!wasTap) {
+      if (S.awake && S.mode === "free" && Math.abs(S.spinVel) > 9) { feel("happy", 1.6); say(t().whee, 2600); sfx.boing(); }
+      return;
+    }
+    const r = stage.getBoundingClientRect(); const px = e.clientX - r.left, py = e.clientY - r.top;
+    ray.setFromCamera(ndc(e), camera);
+    const hit = ray.intersectObjects(pickables, false)[0];
+    if (!hit) return;
+    const idx = hit.object.userData.shard;
+    if (S.mode === "puzzle") { if (shards[idx].state === "out") sendHome(idx); return; }
+    if (S.mode === "count" && hit.uv && hit.object.material === clayMat) {
+      const h = hit.uv.y * HT, u = hit.uv.x;
+      if (h > BAND_BOT && h < BAND_TOP) {
+        const k = Math.min(N_TRI - 1, Math.floor(u * N_TRI)), du = Math.abs(u - (k + 0.5) / N_TRI) / triHalf, tt = (h - BAND_BOT) / (BAND_TOP - BAND_BOT);
+        if (du < tt + 0.12) {
+          if (S.found.has(k)) { say(t().already, 2200); feel("hmm", 1.2); sfx.nope(); return; }
+          S.found.add(k); redrawFound(); sfx.pop(); sparkle(px, py, 12, ["#f2ae3a", "#874460", "#fffaf3"]); feel("happy", 0.9);
+          if (S.found.size === N_TRI) { sfx.win(); confetti(); say(t().allFound(N_TRI), 5000); setMission(t().allFound(N_TRI), 1);
+            setTimeout(() => { if (S.mode === "count") { S.mode = "free"; S.found.clear(); redrawFound(); $("countBtn").setAttribute("aria-pressed", "false"); refreshMission(); } }, 6000); }
+          else { refreshMission(); if (S.found.size === 4) say(t().spinMore, 3000); }
+          return;
+        }
+      }
+      say(t().miss, 2600); feel("hmm", 1.4); sfx.nope(); return;
+    }
+    // free play: wake up, or boing and a fact
+    if (!S.awake) { wakeUp(); return; }
+    S.squashT = 0; sfx.boing(); sparkle(px, py, 10, ["#f2ae3a", "#fffaf3"]);
+    feel("surprised", 0.3);
+    const fact = t().facts[S.factIdx % t().facts.length]; S.factIdx++;
+    setTimeout(() => say(fact, 5200), 280);
+  }
+  stage.addEventListener("pointerup", endPointer);
+  stage.addEventListener("pointercancel", () => { down = null; });
+  stage.addEventListener("pointerleave", () => { S.ptr.set(0, 0); });
+
+  // ---------------- layout ----------------
+  function resize() {
+    const w = stage.clientWidth, h = stage.clientHeight; if (!w || !h) return;
+    renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  new ResizeObserver(resize).observe(stage); resize();
+
+  // ---------------- loop ----------------
+  const camFree = { pos: new THREE.Vector3(0, 1.55, 5.6), look: new THREE.Vector3(0, 0.95, 0) };
+  const camPuzzle = { pos: new THREE.Vector3(0, 4.1, 5.8), look: new THREE.Vector3(0, 0.45, 0) };
+  const camPos = camFree.pos.clone(), camLook = camFree.look.clone();
+  let last = performance.now(), clock = 0;
+  window.__jar = { S, shards, sendHome, feel, say };
+  function frame(now) {
+    const dt = Math.min(0.05, (now - last) / 1000); last = now; clock += dt;
+
+    // spin with inertia
+    if (S.mode !== "puzzle") {
+      if (!down || !down.drag) {
+        const facing = S.mode === "free";   // in the counting game, let children spin freely
+        const target = facing ? 0 : S.auto ? 0.28 : 0;
+        S.spinVel += (target - S.spinVel) * (1 - Math.exp(-(facing ? 2.2 : S.auto ? 0.8 : 2.5) * dt));
+        S.spin += S.spinVel * dt;
+        if (facing && Math.abs(S.spinVel) < 1.5) {   // turn the face towards the viewer, glancing at the pointer
+          const nearest = Math.round(S.spin / (Math.PI * 2)) * Math.PI * 2;
+          S.spin += (nearest + (S.awake ? S.ptr.x * 0.35 : 0) - S.spin) * (1 - Math.exp(-3.5 * dt));
+        }
+      }
+    }
+    spinner.rotation.y = S.spin;
+
+    // bob, boing, hop
+    S.squashT += dt; S.hopT += dt;
+    const boing = Math.exp(-S.squashT * 5) * Math.sin(S.squashT * 22) * 0.12;
+    let hop = 0;
+    if (S.awake && S.mode !== "puzzle") {
+      S.nextHop -= dt; if (S.nextHop < 0) { S.hopT = 0; S.nextHop = 3.5 + Math.random() * 3; }
+      if (S.hopT < 0.5) hop = Math.sin(S.hopT / 0.5 * Math.PI) * 0.22;
+    }
+    const bob = reduce || S.mode === "puzzle" ? 0 : S.awake ? Math.sin(clock * 1.6) * 0.025 : Math.sin(clock * 0.9) * 0.012;
+    const pre = S.awake && S.hopT < 0.08 ? 0.08 : 0;
+    jar.position.y = Math.max(0, bob + hop);
+    jar.scale.set(1 + boing * 0.6 + pre * 0.5, 1 - boing - pre, 1 + boing * 0.6 + pre * 0.5);
+    jar.rotation.z = S.mode === "puzzle" || reduce ? 0 : Math.sin(clock * 0.9) * 0.025;
+    shadow.scale.setScalar(1 - jar.position.y * 0.8); shadow.material.opacity = 1 - jar.position.y * 1.5;
+
+    // face
+    S.faceScale += ((S.mode !== "puzzle" ? 1 : 0) - S.faceScale) * (1 - Math.exp(-7 * dt));
+    face.visible = S.faceScale > 0.02;
+    face.scale.setScalar(Math.max(0.001, S.faceScale * (1 + Math.max(0, Math.sin(Math.min(1, S.faceScale) * Math.PI)) * 0.15)));
+    if (face.visible) {
+      const tnow = nowS();
+      const expr = !S.awake ? "sleep" : tnow < S.exprUntil ? S.expr : "idle";
+      const talking = S.awake && tnow < S.talkUntil && expr !== "surprised";
+      S.nextBlink -= dt; if (S.nextBlink < 0) { S.blinkT = 0; S.nextBlink = 2 + Math.random() * 3.5; }
+      S.blinkT += dt; const bl = S.blinkT < 0.16 ? Math.sin(S.blinkT / 0.16 * Math.PI) : 0;
+      const eyesOpen = expr === "idle" || expr === "surprised" || expr === "hmm";
+      eyes.forEach((E) => {
+        E.open.visible = eyesOpen; E.happy.visible = expr === "happy"; E.shut.visible = expr === "sleep";
+        const big = expr === "surprised" ? 1.18 : 1;
+        E.open.scale.set(big, big * (1 - bl * 0.9), big);
+        E.pupil.position.x = S.ptr.x * 0.035; E.pupil.position.y = S.ptr.y * 0.03;
+        const by = expr === "surprised" ? 0.045 : expr === "sleep" ? -0.025 : expr === "happy" ? 0.02 : 0;
+        const tilt = expr === "hmm" ? 0.35 * E.side : expr === "sleep" ? -0.15 * E.side : 0;
+        E.browPivot.position.y += (0.17 + by - E.browPivot.position.y) * (1 - Math.exp(-14 * dt));
+        E.browPivot.rotation.z += (tilt - E.browPivot.rotation.z) * (1 - Math.exp(-14 * dt));
+      });
+      const showOpen = talking || (expr === "happy");
+      mOpen.visible = showOpen; mO.visible = !showOpen && (expr === "surprised" || expr === "hmm");
+      mSmile.visible = !showOpen && !mO.visible;
+      if (showOpen) {
+        const syll = talking ? 0.35 + 0.65 * Math.abs(Math.sin(clock * 12.5) * Math.sin(clock * 4.1 + 1)) : 1;
+        mOpen.scale.set(expr === "happy" ? 1.15 : 0.85, syll * (expr === "happy" ? 1 : 0.95), 1);
+      }
+      mO.scale.setScalar(expr === "hmm" ? 0.7 : 1);
+      mSmile.scale.setScalar(expr === "sleep" ? 0.55 : 1);
+      if (expr === "sleep" && clock > S.nextZ) {   // floating Zzz
+        S.nextZ = clock + 1.1;
+        const [zx, zy] = screenOf(jar.localToWorld(new THREE.Vector3(0.35, 2.0, 0)));
+        parts.push({ x: zx, y: zy, vx: 18, vy: -38, life: 2.4, age: 0, size: 28 + Math.random() * 10, color: "#874460", kind: "z", rot: -0.2 });
+      }
+    }
+
+    // shards
+    shards.forEach((sh) => {
+      if (sh.state !== "flying-out" && sh.state !== "flying-home") return;
+      sh.t = Math.min(1, sh.t + dt / sh.dur);
+      const k = sh.state === "flying-home" ? easeBack(sh.t) : easeOut(sh.t);
+      sh.piece.position.lerpVectors(sh.from, sh.to, k);
+      sh.piece.position.y += Math.sin(Math.min(1, sh.t) * Math.PI) * sh.arc;
+      sh.piece.rotation.set(sh.rotFrom.x + (sh.rotTo.x - sh.rotFrom.x) * k, sh.rotFrom.y + (sh.rotTo.y - sh.rotFrom.y) * k, sh.rotFrom.z + (sh.rotTo.z - sh.rotFrom.z) * k);
+      if (sh.t >= 1) {
+        if (sh.state === "flying-out") sh.state = "out";
+        else { sh.state = "home"; sh.piece.position.copy(sh.home); sh.piece.rotation.set(0, 0, 0); shardArrived(sh); }
+      }
+    });
+    if (S.mode === "puzzle") shards.forEach((sh, i) => { if (sh.state === "out") sh.piece.position.y = sh.to.y + Math.sin(clock * 2.2 + i) * 0.03; });
+    shards.forEach((sh) => {   // little shadows under loose pieces
+      const loose = sh.state !== "home";
+      sh.blob.visible = loose;
+      if (loose) { sh.blob.position.x = sh.piece.position.x; sh.blob.position.z = sh.piece.position.z;
+        sh.blob.material.opacity = Math.max(0, 0.9 - sh.piece.position.y * 0.5); sh.blob.scale.setScalar(0.7 + sh.piece.position.y * 0.25); }
+    });
+    shadow.material.opacity = S.mode === "puzzle" && S.placed < shards.length ? 0.15 + 0.85 * S.placed / shards.length : shadow.material.opacity;
+
+    // camera
+    const narrow = camera.aspect < 1 ? 1 / camera.aspect : 1;
+    const target = S.mode === "puzzle" && S.placed < shards.length ? camPuzzle : camFree;
+    camPos.lerp(target.pos, 1 - Math.exp(-2.2 * dt)); camLook.lerp(target.look, 1 - Math.exp(-2.2 * dt));
+    camera.position.set(camPos.x + S.ptr.x * 0.12, camPos.y + S.ptr.y * 0.08, camPos.z * (0.6 + 0.4 * narrow));
+    camera.lookAt(camLook);
+
+    renderer.render(scene, camera);
+    drawFx(dt);
+    requestAnimationFrame(frame);
+  }
+  applyLang();
+  requestAnimationFrame(frame);
+  setTimeout(() => { if (S.mode === "free" && S.awake) { S.hopT = 0; feel("happy", 1.2); say(t().hello, 4200); } }, 1100);
+})();
+</script>
