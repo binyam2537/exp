@@ -1,0 +1,543 @@
+<title>Sultan bin Saqr Living Portrait</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,500;1,300&family=Noto+Naskh+Arabic:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a single gallery wall. The portrait hangs in a lit niche, the museum label sits beneath it, controls read like a catalogue strip. Deliberately one dark look. */
+:root {
+  --wall: #15130f;          /* gallery wall, warm umber-black */
+  --wall-2: #1d1a15;        /* raised panel */
+  --ink: #e9e2d3;           /* label text, aged paper */
+  --ink-dim: #a39a88;       /* secondary text */
+  --rule: #3a342a;          /* hairlines */
+  --brass: #c7a467;         /* single accent: picture-light brass */
+  --font-display: "Spectral", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-arabic: "Noto Naskh Arabic", "Geeza Pro", "Arabic Typesetting", "Times New Roman", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+html, body { background: var(--wall); color: var(--ink); }
+body {
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1.55;
+  padding-inline: clamp(16px, 4vw, 48px);
+  padding-block: clamp(16px, 3vw, 36px) 40px;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 30%, #2a251c 0%, rgba(42,37,28,0) 70%),
+    var(--wall);
+  min-height: 100%;
+}
+.wall { max-width: 1240px; margin-inline: auto; display: grid; gap: clamp(18px, 2.4vw, 28px); }
+
+/* the portrait */
+.stage {
+  position: relative;
+  width: 100%;
+  max-width: calc(76vh * 1.5464);
+  margin-inline: auto;
+  aspect-ratio: 1800 / 1164;
+  max-height: 76vh;
+  border-radius: 2px;
+  overflow: hidden;
+  background: #0d0c0a;
+  box-shadow: 0 0 0 1px #2c271f, 0 30px 80px -20px rgba(0,0,0,.75), 0 0 140px -40px rgba(199,164,103,.25);
+  touch-action: pan-y;
+  cursor: crosshair;
+}
+.stage img, .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.stage img { object-fit: cover; transform: scale(1.1); filter: grayscale(.3) sepia(.15); }
+.stage canvas { opacity: 0; transition: opacity 1.2s ease; }
+.stage.live canvas { opacity: 1; }
+.hint {
+  position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%);
+  font: 500 11px/1 var(--font-mono); letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink); background: rgba(13,12,10,.55); padding: 8px 12px; border-radius: 999px;
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  transition: opacity .8s ease; pointer-events: none; white-space: nowrap;
+}
+.stage.touched .hint { opacity: 0; }
+.hint .short { display: none; }
+@media (max-width: 720px) { .hint { font-size: 10px; padding: 6px 10px; bottom: 10px; } .hint .long { display: none; } .hint .short { display: inline; } }
+.status { position: absolute; top: 12px; left: 12px; font: 400 11px/1.3 var(--font-mono); color: var(--ink-dim); }
+
+/* museum label */
+.label {
+  display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px 28px; align-items: start;
+  border-top: 1px solid var(--rule); padding-top: 18px;
+}
+.label > * { min-width: 0; }
+.label h1 {
+  margin: 0; font-weight: 300; font-size: clamp(22px, 2.6vw, 32px); line-height: 1.15; letter-spacing: .005em;
+  text-wrap: balance;
+}
+.label h1 em { font-style: italic; color: var(--brass); font-weight: 300; }
+.label p { margin: 6px 0 0; color: var(--ink-dim); font-size: 15px; max-width: 52ch; }
+.label .ar {
+  direction: rtl; text-align: right; font-family: var(--font-arabic);
+}
+.label .ar h2 { margin: 0; font-weight: 600; font-size: clamp(19px, 2.2vw, 26px); line-height: 1.5; }
+.label .ar p { margin: 2px 0 0 auto; font-family: var(--font-arabic); }
+.reign {
+  align-self: center; font: 500 12px/1.4 var(--font-mono); letter-spacing: .16em; color: var(--brass);
+  border: 1px solid var(--rule); padding: 10px 12px; text-align: center; font-variant-numeric: tabular-nums;
+}
+.reign span { display: block; color: var(--ink-dim); letter-spacing: .12em; font-size: 10px; margin-top: 4px; }
+
+/* controls */
+.controls {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px;
+  font: 400 12px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-dim);
+  background: var(--wall-2); border: 1px solid var(--rule); padding: 14px 16px; border-radius: 3px;
+}
+.controls .group { display: flex; align-items: center; gap: 10px; }
+.controls label { cursor: pointer; display: flex; align-items: center; gap: 8px; }
+button {
+  font: 500 12px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink); background: transparent; border: 1px solid var(--rule); border-radius: 999px;
+  padding: 9px 14px; cursor: pointer; transition: border-color .2s, color .2s, background .2s;
+}
+button:hover { border-color: var(--brass); color: var(--brass); }
+button[aria-pressed="true"] { background: var(--brass); border-color: var(--brass); color: var(--wall); }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+input[type="range"] { accent-color: var(--brass); width: 120px; }
+input[type="checkbox"] { accent-color: var(--brass); width: 15px; height: 15px; margin: 0; }
+select {
+  font: 400 12px/1 var(--font-mono); color: var(--ink); background: var(--wall); border: 1px solid var(--rule);
+  border-radius: 3px; padding: 7px 8px; text-transform: none; letter-spacing: .02em;
+}
+.controls .spacer { flex: 1 1 auto; }
+
+.made {
+  font: 400 11px/1.6 var(--font-mono); color: var(--ink-dim); letter-spacing: .04em;
+  display: flex; flex-wrap: wrap; gap: 6px 18px; border-top: 1px solid var(--rule); padding-top: 14px;
+}
+.made b { color: var(--ink); font-weight: 500; }
+
+@media (max-width: 720px) {
+  .label { grid-template-columns: 1fr; }
+  .label .ar { text-align: right; }
+  .reign { justify-self: start; }
+  .stage { max-height: none; }
+  .controls { gap: 12px 16px; }
+  .controls .spacer { display: none; }
+}
+</style>
+
+<main class="wall">
+  <div class="stage" id="stage" aria-label="Animated portrait of Sheikh Sultan bin Saqr Al Qasimi. Move the pointer over it to change the viewing angle and light.">
+    <img id="still" src="photo.jpg" alt="Black and white portrait of Sheikh Sultan bin Saqr Al Qasimi wearing a patterned headdress and dark bisht.">
+    <div class="hint" id="hint"><span class="long">Move across the portrait · </span><span class="short">Drag to look · </span>tap the face</div>
+    <div class="status" id="status" role="status"></div>
+  </div>
+
+  <section class="label" aria-label="Museum label">
+    <div>
+      <h1>Sheikh Sultan bin Saqr <em>Al Qasimi</em></h1>
+      <p>Ruler of Sharjah. A studio portrait from his reign, given depth, breath and light.</p>
+    </div>
+    <div class="reign">1924 – 1951<span>RULER OF SHARJAH</span></div>
+    <div class="ar" lang="ar">
+      <h2>الشيخ سلطان بن صقر القاسمي</h2>
+      <p>حاكم الشارقة (١٩٢٤ – ١٩٥١م)</p>
+    </div>
+  </section>
+
+  <section class="controls" aria-label="Portrait controls">
+    <div class="group"><button id="motion" type="button" aria-pressed="true">Motion on</button></div>
+    <div class="group"><label for="depth">Depth</label><input id="depth" type="range" min="0" max="2" step="0.01" value="1"></div>
+    <div class="group"><label for="lightFollow"><input id="lightFollow" type="checkbox" checked>Light follows pointer</label></div>
+    <div class="group"><label for="dust"><input id="dust" type="checkbox" checked>Dust in the light</label></div>
+    <div class="group"><label for="tone">Tone</label>
+      <select id="tone">
+        <option value="1" selected>Silver gelatin</option>
+        <option value="2">Warm sepia</option>
+        <option value="0">As scanned</option>
+      </select>
+    </div>
+    <div class="spacer"></div>
+    <div class="group"><button id="blinkBtn" type="button">Blink</button><button id="reset" type="button">Centre view</button></div>
+  </section>
+
+  <footer class="made">
+    <span><b>Depth</b> Depth Anything V2 Large</span>
+    <span><b>Restoration</b> Swin2SR ×4 real-world</span>
+    <span><b>Eyes</b> MediaPipe Face Landmarker</span>
+    <span><b>Render</b> three.js relief mesh + per-pixel motion shaders</span>
+    <span>Source photograph: HH Private Collection</span>
+  </footer>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  const stage = document.getElementById("stage");
+  const statusEl = document.getElementById("status");
+  const IMG_ASPECT = 1800 / 1164;
+  const OVERSCAN = 1.1;
+  const FOV = 28;
+
+  // Landmarks in image space (x right, y down, 0..1), from MediaPipe on the restored photo.
+  const EYE_L = [0.4622, 0.2506], EYE_LS = [0.0235, 0.0125];
+  const EYE_R = [0.5418, 0.2521], EYE_RS = [0.0225, 0.0128];
+  const FACE = [0.501, 0.345];
+
+  if (typeof THREE === "undefined") { statusEl.textContent = "3D engine did not load. Showing the still photograph."; return; }
+
+  let renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+  } catch (e) { statusEl.textContent = "WebGL is unavailable here. Showing the still photograph."; return; }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setClearColor(0x0d0c0a, 1);
+  stage.insertBefore(renderer.domElement, stage.querySelector(".hint"));
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(FOV, IMG_ASPECT, 0.01, 20);
+  const baseDist = (0.5 / OVERSCAN) / Math.tan(THREE.MathUtils.degToRad(FOV / 2));
+
+  const GLSL_COMMON = `
+    #define ASPECT ${IMG_ASPECT.toFixed(5)}
+    uniform float uTime;
+    uniform float uBreath;
+    uniform float uSway;
+    uniform float uHeadRot;
+    uniform vec2  uHeadOff;
+    uniform sampler2D uDepth;
+    float gScarf; float gHead; float gChest;
+    float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+    float vnoise(vec2 p){
+      vec2 i = floor(p), f = fract(p); vec2 u = f*f*(3.0-2.0*f);
+      return mix(mix(hash(i), hash(i+vec2(1.0,0.0)), u.x), mix(hash(i+vec2(0.0,1.0)), hash(i+vec2(1.0,1.0)), u.x), u.y);
+    }
+    float capsule(vec2 p, vec2 a, vec2 b, float r){
+      vec2 A = vec2(ASPECT, 1.0);
+      vec2 pa = (p - a) * A, ba = (b - a) * A;
+      float h = clamp(dot(pa, ba) / dot(ba, ba), 0.0, 1.0);
+      return length(pa - ba * h) / r;
+    }
+    // Inverse map: for a point p on screen (image space, y down) return where to sample the source photo.
+    vec2 lifeWarp(vec2 p){
+      vec2 q = p;
+      vec2 A = vec2(ASPECT, 1.0);
+      // breathing: chest and shoulders swell away from a point below the frame
+      gChest = smoothstep(0.42, 0.72, p.y) * (1.0 - smoothstep(0.34, 0.47, abs(p.x - 0.5)));
+      vec2 anc = vec2(0.5, 1.2);
+      q = anc + (q - anc) / (1.0 + 0.011 * uBreath * gChest);
+      // head: small roll around the neck, drift and a rise on each breath
+      gHead = 1.0 - smoothstep(0.7, 1.25, length((p - vec2(0.5, 0.25)) / vec2(0.17, 0.31)));
+      vec2 piv = vec2(0.5, 0.56);
+      float a = -uHeadRot * gHead;
+      vec2 d = (q - piv) * A;
+      d = mat2(cos(a), sin(a), -sin(a), cos(a)) * d;
+      q = piv + d / A;
+      q -= (uHeadOff + vec2(0.0, -0.0035 * uBreath)) * gHead;
+      // headdress tails: a slow ripple travelling down the cloth
+      float sl = 1.0 - smoothstep(0.55, 1.0, capsule(p, vec2(0.405, 0.12), vec2(0.385, 1.02), 0.115));
+      float sr = 1.0 - smoothstep(0.55, 1.0, capsule(p, vec2(0.595, 0.12), vec2(0.66, 1.02), 0.125));
+      float face = 1.0 - smoothstep(0.85, 1.25, length((p - vec2(0.5, 0.34)) / vec2(0.072, 0.165)));
+      gScarf = max(sl, sr) * (1.0 - face) * smoothstep(0.14, 0.95, p.y);
+      float w = sin(uTime * 1.05 - p.y * 7.5 + sr * 1.7) * 0.65
+              + (vnoise(vec2(p.y * 3.5 - uTime * 0.45, uTime * 0.17 + sr * 3.0)) - 0.5) * 1.3;
+      q.x -= gScarf * uSway * 0.0062 * w;
+      q.y -= gScarf * uSway * 0.0014 * cos(uTime * 0.85 - p.y * 6.0);
+      return q;
+    }
+  `;
+
+  const vertexShader = GLSL_COMMON + `
+    uniform float uDepthAmt;
+    varying vec2 vUv;
+    void main(){
+      vUv = uv;
+      vec2 p = vec2(uv.x, 1.0 - uv.y);
+      vec2 s = lifeWarp(p);
+      float d = texture2D(uDepth, vec2(s.x, 1.0 - s.y)).r;
+      vec3 pos = position;
+      pos.z = d * uDepthAmt * 0.24;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+    }
+  `;
+
+  const fragmentShader = GLSL_COMMON + `
+    uniform sampler2D uPhoto;
+    uniform sampler2D uNormal;
+    uniform float uBlink;
+    uniform vec3  uLight;
+    uniform vec2  uSpot;
+    uniform float uLightAmt;
+    uniform float uTone;
+    uniform float uFlicker;
+    uniform float uGrainSeed;
+    uniform float uDebug;
+    varying vec2 vUv;
+
+    // Upper lid slides down over the eye. Returns lid colour weight (x) and lash shading (y).
+    vec3 photoAt(vec2 s){ return texture2D(uPhoto, vec2(s.x, 1.0 - s.y)).rgb; }
+    vec2 blink(vec2 s, vec2 c, vec2 hs, float k, out vec3 lidCol){
+      lidCol = vec3(0.0);
+      if (k <= 0.001) return vec2(0.0, 1.0);
+      vec2 q = (s - c) / hs;
+      float m = 1.0 - smoothstep(0.7, 1.15, length(q * vec2(0.92, 1.0)));
+      if (m <= 0.0) return vec2(0.0, 1.0);
+      float L = mix(-1.0, 0.85, k) + 0.28 * q.x * q.x * k;
+      float w = (1.0 - smoothstep(L - 0.12, L + 0.12, q.y)) * m;
+      // lid skin is borrowed from a thin band just above the crease, softened
+      float y = c.y - hs.y * 1.55;
+      float dx = hs.x * 0.3;
+      vec3 band = (photoAt(vec2(s.x - 2.0 * dx, y)) + photoAt(vec2(s.x - dx, y)) + photoAt(vec2(s.x, y - hs.y * 0.3))
+                 + photoAt(vec2(s.x + dx, y)) + photoAt(vec2(s.x + 2.0 * dx, y))) * 0.2;
+      vec3 skin = (photoAt(c + vec2(-hs.x * 0.6, -hs.y * 1.7)) + photoAt(c + vec2(hs.x * 0.6, -hs.y * 1.7))
+                 + photoAt(c + vec2(-hs.x * 0.3, hs.y * 1.8)) + photoAt(c + vec2(hs.x * 0.3, hs.y * 1.8))) * 0.25;
+      lidCol = mix(band, skin, 0.45) * mix(1.0, 0.9, smoothstep(L - 0.8, L, q.y));
+      float ld = (q.y - L) / 0.16;
+      return vec2(w, 1.0 - 0.2 * k * m * exp(-ld * ld));
+    }
+
+    void main(){
+      vec2 p = vec2(vUv.x, 1.0 - vUv.y);
+      vec2 s = lifeWarp(p);
+      vec2 t = vec2(s.x, 1.0 - s.y);
+      vec3 col = photoAt(s);
+      vec3 lidL, lidR;
+      vec2 bl = blink(s, vec2(${EYE_L[0]}, ${EYE_L[1]}), vec2(${EYE_LS[0]}, ${EYE_LS[1]}), uBlink, lidL);
+      vec2 br = blink(s, vec2(${EYE_R[0]}, ${EYE_R[1]}), vec2(${EYE_RS[0]}, ${EYE_RS[1]}), uBlink, lidR);
+      col = mix(col, lidL, bl.x) * bl.y;
+      col = mix(col, lidR, br.x) * br.y;
+
+      // relight from the depth map
+      vec3 n = normalize(texture2D(uNormal, t).xyz * 2.0 - 1.0);
+      vec3 Ld = normalize(uLight);
+      float shade = 1.0 + uLightAmt * (dot(n, Ld) - Ld.z) * 0.85;
+      float dep = texture2D(uDepth, t).r;
+      float spot = exp(-dot((p - uSpot) * vec2(ASPECT, 1.0), (p - uSpot) * vec2(ASPECT, 1.0)) / 0.28);
+      shade += uLightAmt * (spot - 0.45) * 0.16 * (0.55 + dep);
+      col *= shade * uFlicker;
+
+      float lum = dot(col, vec3(0.299, 0.587, 0.114));
+      if (uTone > 1.5) {
+        vec3 sep = vec3(1.08, 0.97, 0.80) * lum;
+        col = mix(sep, sep * vec3(1.03, 1.0, 0.93), smoothstep(0.2, 0.8, lum));
+      } else if (uTone > 0.5) {
+        vec3 shadowT = vec3(0.93, 0.95, 1.01), highT = vec3(1.02, 1.0, 0.96);
+        col = lum * mix(shadowT, highT, smoothstep(0.15, 0.85, lum));
+      }
+
+      // silver grain, vignette
+      float g = hash(gl_FragCoord.xy * 0.73 + uGrainSeed) + hash(gl_FragCoord.yx * 1.31 - uGrainSeed) - 1.0;
+      col += g * 0.035 * (0.6 + 0.4 * (1.0 - lum));
+      vec2 v = (p - 0.5) * vec2(1.0, 1.15);
+      col *= 1.0 - smoothstep(0.32, 0.78, length(v)) * 0.62;
+
+      if (uDebug > 0.5) col = mix(col, vec3(gScarf, gChest, gHead), 0.55);
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `;
+
+  const loader = new THREE.TextureLoader();
+  function load(url) {
+    return new Promise((res, rej) => loader.load(url, res, undefined, rej));
+  }
+
+  const uniforms = {
+    uTime: { value: 0 }, uBreath: { value: 0 }, uSway: { value: 1 }, uHeadRot: { value: 0 },
+    uHeadOff: { value: new THREE.Vector2() }, uDepth: { value: null }, uPhoto: { value: null }, uNormal: { value: null },
+    uDepthAmt: { value: 1 }, uBlink: { value: 0 }, uLight: { value: new THREE.Vector3(-0.35, 0.45, 0.85) },
+    uSpot: { value: new THREE.Vector2(0.45, 0.3) }, uLightAmt: { value: 1 }, uTone: { value: 1 },
+    uFlicker: { value: 1 }, uGrainSeed: { value: 0 }, uDebug: { value: 0 }
+  };
+
+  // dust motes drifting in the picture light
+  const DUST_N = 110;
+  const dustGeo = new THREE.BufferGeometry();
+  const dPos = new Float32Array(DUST_N * 3), dSeed = new Float32Array(DUST_N);
+  for (let i = 0; i < DUST_N; i++) {
+    dPos[i * 3] = (Math.random() - 0.5) * 1.5;
+    dPos[i * 3 + 1] = (Math.random() - 0.5) * 1.0;
+    dPos[i * 3 + 2] = 0.12 + Math.random() * 0.85;
+    dSeed[i] = Math.random();
+  }
+  dustGeo.setAttribute("position", new THREE.BufferAttribute(dPos, 3));
+  dustGeo.setAttribute("seed", new THREE.BufferAttribute(dSeed, 1));
+  const dustMat = new THREE.ShaderMaterial({
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+    uniforms: { uTime: { value: 0 }, uPx: { value: 1 }, uAlpha: { value: 1 } },
+    vertexShader: `
+      attribute float seed; uniform float uTime; uniform float uPx; varying float vA;
+      void main(){
+        vec3 p = position;
+        float t = uTime * (0.025 + seed * 0.035);
+        p.x += sin(t * 3.1 + seed * 40.0) * 0.06 + t * 0.4;
+        p.y += sin(t * 2.3 + seed * 17.0) * 0.05 + t * 0.9;
+        p.x = mod(p.x + 0.75, 1.5) - 0.75;
+        p.y = mod(p.y + 0.5, 1.0) - 0.5;
+        // brighter inside a diagonal shaft from the upper left
+        float sd = (p.x * 0.8 + p.y * 0.6 + 0.05) / 0.32;
+        float shaft = exp(-sd * sd);
+        vA = (0.15 + 0.85 * shaft) * (0.55 + 0.45 * sin(uTime * (0.8 + seed) + seed * 30.0));
+        vec4 mv = modelViewMatrix * vec4(p, 1.0);
+        gl_PointSize = uPx * (1.2 + seed * 3.0) * (1.0 / -mv.z);
+        gl_Position = projectionMatrix * mv;
+      }`,
+    fragmentShader: `
+      uniform float uAlpha; varying float vA;
+      void main(){
+        float r = length(gl_PointCoord - 0.5);
+        float a = smoothstep(0.5, 0.0, r);
+        gl_FragColor = vec4(vec3(1.0, 0.93, 0.8) * a * a * vA * 0.42 * uAlpha, 1.0);
+      }`
+  });
+  const dust = new THREE.Points(dustGeo, dustMat);
+  dust.frustumCulled = false;
+
+  // interaction state
+  const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const state = {
+    motion: !reduceMotion, life: reduceMotion ? 0 : 1,
+    px: 0, py: 0, tx: 0, ty: 0, lastPointer: -10, inside: false,
+    idleW: 1, lightFollow: true, dust: !reduceMotion, dustA: reduceMotion ? 0 : 1, depthTarget: 1,
+    blinkStart: -10, nextBlink: 1.8, doubleQueued: false, nod: 0
+  };
+  const motionBtn = document.getElementById("motion");
+  const dustBox = document.getElementById("dust");
+  if (reduceMotion) { motionBtn.setAttribute("aria-pressed", "false"); motionBtn.textContent = "Motion off"; dustBox.checked = false; }
+
+  let clockT = 0, lifeT = 0;
+  window.__portrait = { uniforms, state };
+
+  function triggerBlink(t) { if (t - state.blinkStart > 0.35) state.blinkStart = t; }
+  function blinkCurve(dt) {
+    if (dt < 0 || dt > 0.3) return 0;
+    if (dt < 0.085) { const x = dt / 0.085; return x * x; }
+    if (dt < 0.115) return 1;
+    const x = (dt - 0.115) / 0.185; return 1 - (1 - (1 - x) * (1 - x)) ;
+  }
+  function breathCurve(t) {
+    const ph = (t / 4.9) % 1;
+    const s = (x) => x * x * (3 - 2 * x);
+    return ph < 0.42 ? s(ph / 0.42) : 1 - s((ph - 0.42) / 0.58);
+  }
+
+  function toLocal(e) {
+    const r = stage.getBoundingClientRect();
+    return [((e.clientX - r.left) / r.width), ((e.clientY - r.top) / r.height)];
+  }
+  stage.addEventListener("pointermove", (e) => {
+    const [x, y] = toLocal(e);
+    state.tx = Math.max(-1, Math.min(1, x * 2 - 1));
+    state.ty = Math.max(-1, Math.min(1, 1 - y * 2));
+    state.lastPointer = clockT; state.inside = true;
+    stage.classList.add("touched");
+  });
+  stage.addEventListener("pointerleave", () => { state.inside = false; });
+  stage.addEventListener("pointerdown", (e) => {
+    const [x, y] = toLocal(e);
+    state.tx = x * 2 - 1; state.ty = 1 - y * 2; state.lastPointer = clockT; state.inside = true;
+    stage.classList.add("touched");
+    const dx = (x - FACE[0]) * IMG_ASPECT, dy = y - FACE[1];
+    if (dx * dx + dy * dy < 0.035) { triggerBlink(lifeT); state.nod = 1; }
+  });
+
+  motionBtn.addEventListener("click", () => {
+    state.motion = !state.motion;
+    motionBtn.setAttribute("aria-pressed", String(state.motion));
+    motionBtn.textContent = state.motion ? "Motion on" : "Motion off";
+  });
+  document.getElementById("depth").addEventListener("input", (e) => { state.depthTarget = parseFloat(e.target.value); });
+  document.getElementById("lightFollow").addEventListener("change", (e) => { state.lightFollow = e.target.checked; });
+  dustBox.addEventListener("change", (e) => { state.dust = e.target.checked; });
+  document.getElementById("tone").addEventListener("change", (e) => { uniforms.uTone.value = parseFloat(e.target.value); });
+  document.getElementById("blinkBtn").addEventListener("click", () => triggerBlink(lifeT));
+  document.getElementById("reset").addEventListener("click", () => { state.tx = 0; state.ty = 0; state.lastPointer = clockT; state.inside = true; setTimeout(() => { state.inside = false; }, 50); });
+  window.addEventListener("keydown", (e) => { if (e.key === "m" && e.altKey) uniforms.uDebug.value = 1 - uniforms.uDebug.value; });
+
+  function resize() {
+    const w = stage.clientWidth, h = stage.clientHeight;
+    if (!w || !h) return;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    dustMat.uniforms.uPx.value = h * renderer.getPixelRatio() * 0.012;
+  }
+  new ResizeObserver(resize).observe(stage);
+
+  const damp = (a, b, k, dt) => a + (b - a) * (1 - Math.exp(-k * dt));
+
+  Promise.all([load("photo.jpg"), load("depth.png"), load("normal.png")]).then(([photo, depth, normal]) => {
+    // no mipmaps: the eyelid remap jumps UVs, and mip selection would smear the seam
+    photo.minFilter = THREE.LinearFilter; photo.generateMipmaps = false;
+    depth.minFilter = THREE.LinearFilter; depth.generateMipmaps = false;
+    normal.minFilter = THREE.LinearFilter; normal.generateMipmaps = false;
+    uniforms.uPhoto.value = photo; uniforms.uDepth.value = depth; uniforms.uNormal.value = normal;
+
+    const geo = new THREE.PlaneGeometry(IMG_ASPECT, 1, 420, 272);
+    const mat = new THREE.ShaderMaterial({ uniforms, vertexShader, fragmentShader });
+    scene.add(new THREE.Mesh(geo, mat));
+    scene.add(dust);
+    resize();
+
+    let last = performance.now();
+    function frame(now) {
+      const dt = Math.min(0.05, (now - last) / 1000); last = now;
+      clockT += dt;
+      state.life = damp(state.life, state.motion ? 1 : 0, 2.5, dt);
+      lifeT += dt * (0.15 + 0.85 * state.life);
+      const L = state.life;
+
+      // pointer vs idle drift
+      const idle = !state.inside && clockT - state.lastPointer > 1.6;
+      state.idleW = damp(state.idleW, idle ? 1 : 0, 1.2, dt);
+      const ix = Math.sin(lifeT * 0.21) * 0.55 + Math.sin(lifeT * 0.073) * 0.25;
+      const iy = Math.sin(lifeT * 0.17 + 1.3) * 0.35;
+      const gx = state.tx * (1 - state.idleW) + ix * state.idleW * L;
+      const gy = state.ty * (1 - state.idleW) + iy * state.idleW * L;
+      state.px = damp(state.px, gx, 3.2, dt);
+      state.py = damp(state.py, gy, 3.2, dt);
+
+      const depthAmt = uniforms.uDepthAmt.value = damp(uniforms.uDepthAmt.value, state.depthTarget, 6, dt);
+      const pivotZ = 0.6 * 0.24 * depthAmt;
+      camera.position.set(state.px * 0.085, state.py * 0.055, baseDist + pivotZ);
+      camera.lookAt(0, 0, pivotZ * 0.92);
+
+      // life
+      uniforms.uTime.value = lifeT;
+      uniforms.uBreath.value = breathCurve(lifeT) * L;
+      uniforms.uSway.value = L;
+      state.nod = damp(state.nod, 0, 2.2, dt);
+      uniforms.uHeadRot.value = (Math.sin(lifeT * 0.37) * 0.007 + Math.sin(lifeT * 0.83 + 2.0) * 0.003) * L;
+      uniforms.uHeadOff.value.set(
+        (state.px * 0.0045 + Math.sin(lifeT * 0.29) * 0.0018) * L,
+        (-state.py * 0.0025 + state.nod * Math.sin((1 - state.nod) * Math.PI) * 0.006) * L
+      );
+
+      if (L > 0.5 && lifeT > state.nextBlink) {
+        triggerBlink(lifeT);
+        if (Math.random() < 0.15) state.doubleQueued = true;
+        state.nextBlink = lifeT + 2.2 + Math.random() * 4.2;
+      }
+      if (state.doubleQueued && lifeT - state.blinkStart > 0.42) { state.blinkStart = lifeT; state.doubleQueued = false; }
+      uniforms.uBlink.value = typeof state.forceBlink === "number" ? state.forceBlink : blinkCurve(lifeT - state.blinkStart);
+
+      // light
+      const lx = state.lightFollow ? state.px : Math.sin(lifeT * 0.11) * 0.5;
+      const ly = state.lightFollow ? state.py : 0.4 + Math.sin(lifeT * 0.09) * 0.2;
+      uniforms.uLight.value.set(lx * 0.75, ly * 0.6 + 0.15, 0.85);
+      uniforms.uSpot.value.set(0.5 + lx * 0.35, 0.42 - ly * 0.35);
+      const flick = 1 + (Math.sin(clockT * 7.3) * 0.5 + Math.sin(clockT * 13.7) * 0.3 + Math.sin(clockT * 2.1) * 0.6) * 0.008 * L;
+      uniforms.uFlicker.value = flick;
+      uniforms.uGrainSeed.value = state.motion ? (clockT * 60 | 0) % 97 * 1.37 : 0;
+
+      state.dustA = damp(state.dustA, state.dust ? 1 : 0, 2, dt);
+      dust.visible = state.dustA > 0.01;
+      dustMat.uniforms.uAlpha.value = state.dustA;
+      dustMat.uniforms.uTime.value = lifeT;
+
+      renderer.render(scene, camera);
+      if (!stage.classList.contains("live")) stage.classList.add("live");
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }).catch(() => { statusEl.textContent = "Could not load the portrait textures. Showing the still photograph."; });
+})();
+</script>
