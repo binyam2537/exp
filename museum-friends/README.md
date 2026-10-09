@@ -3,7 +3,7 @@
 Interactive, family-friendly 3D versions of museum artifacts. Each one is a single HTML page using three.js r128, with no build step.
 
 ```bash
-cd museum-friends && python3 -m http.server 8000   # open http://localhost:8000/jarra/ or /painted-jar/
+cd museum-friends && python3 -m http.server 8000   # open /jarra/, /siraj/ or /painted-jar/
 ```
 
 ## painted-jar
@@ -34,3 +34,13 @@ The painted jar as a character, named Jarra (جرّة means "jar" in Arabic). It
 - **Turning:** after a spin, Jarra turns back to face you. In the counting game it doesn't turn back, so children can find the triangles on the back.
 - **Nap time:** closed eyes and floating "z"s. Tapping Jarra wakes it up.
 - **Greeting:** says hello when the page opens.
+
+## siraj
+
+A bronze oil lamp as a talking character. Siraj (سراج) is an Arabic word for "lamp". The model is hand-built from a reference photo: lathe base, body and lid, a lofted open spout, and a tube handle.
+
+- **Voice:** 18 lines, each recorded in English (`en-US-AndrewNeural`) and Emirati Arabic (`ar-AE-HamdanNeural`) with edge-tts. The files are `voice/<line>-<lang>.mp3`, and the text is in `voice/lines.json`. Regenerate them with `python voice/gen_voice.py voice/lines.json voice`.
+- **Lip-sync:** the clip's 250–1000 Hz energy, measured live with a Web Audio analyser, opens the mouth. The lid nods while Siraj talks and pops up when he's surprised.
+- **Light my flame:** rub the lamp until it glows warm and the wick lights. The scene turns to night, lit by the flame. Tapping the flame makes Siraj say "Ouch!", and "Blow it out" puts the flame out with a puff of smoke. Siraj explains that rubbing a lamp is magic only in stories.
+- **Polish me:** rubbing paints shiny bronze through the green patina, using per-part colour and roughness/metalness canvases. Siraj then explains that museums never polish real objects, and "Bring back my patina" restores the green.
+- **Also:** nap time, spin to "Wheee", and tap for facts, the same as Jarra.

@@ -1,0 +1,20 @@
+{
+ "hello":  ["Hello! I'm Siraj, the bronze lamp. Tap me!", "مرحبًا! أنا سراج، المصباح البرونزي. المسني!"],
+ "fact1":  ["I'm an oil lamp. People poured oil inside me and lit a wick at the end of my long spout.", "أنا مصباح زيت. كان الناس يصبّون الزيت في داخلي، ويشعلون فتيلًا في طرف فوهتي الطويلة."],
+ "fact2":  ["I'm made of bronze, a metal made by mixing copper and tin.", "أنا مصنوع من البرونز، وهو معدن يُصنع بخلط النحاس والقصدير."],
+ "fact3":  ["My green colour is called patina. Bronze slowly turns green over many, many years.", "لوني الأخضر اسمه الزِّنجار. البرونز يتحوّل ببطء إلى اللون الأخضر على مرّ سنوات طويلة جدًا."],
+ "fact4":  ["Before electric lights, lamps like me helped families see at night.", "قبل المصابيح الكهربائية، كانت مصابيح مثلي تساعد العائلات على الرؤية في الليل."],
+ "fact5":  ["Look at my tall, curly handle! It made me easy to carry.", "انظر إلى مقبضي الطويل الملتفّ! كان يجعل حملي سهلًا."],
+ "fact6":  ["Can you spot the red flower patterns on my round tummy?", "هل ترى نقوش الزهور الحمراء على بطني المستدير؟"],
+ "rubStart": ["Rub me to light my flame!", "افركني لتشتعل شعلتي!"],
+ "tickle": ["Hee hee, that tickles!", "هههه، هذا يدغدغني!"],
+ "lit":    ["Ta-da! In stories, rubbing a lamp is magic. Really, people lit my wick with a little flame.", "تادا! في الحكايات، فركُ المصباح سحر. لكن في الحقيقة، كان الناس يشعلون فتيلي بلهب صغير."],
+ "ouch":   ["Ouch, careful! My flame is hot.", "آه، انتبه! شعلتي حارّة."],
+ "blown":  ["Whoosh! The flame is out.", "فووو! انطفأت الشعلة."],
+ "polishStart": ["Rub my green patina to see how shiny I was when I was new.", "افرك زِنجاري الأخضر لترى كم كنتُ لامعًا عندما كنتُ جديدًا."],
+ "polished": ["Wow, I'm shiny! But in a real museum, experts never polish me. My green patina is part of my story.", "واو، أنا لامع! لكن في المتحف الحقيقي، لا يلمّعني الخبراء أبدًا. زِنجاري الأخضر جزء من حكايتي."],
+ "sleepy": ["Yawn... time for a little nap.", "آه... حان وقت قيلولة صغيرة."],
+ "woke":   ["Huh? Oh, hello again!", "هاه؟ أوه، مرحبًا من جديد!"],
+ "whee":   ["Wheee! That made me dizzy!", "ويييي! أصابني الدوار!"],
+ "hmm":    ["Hmm, try rubbing my round body.", "همم، جرّب أن تفرك جسمي المستدير."]
+}
