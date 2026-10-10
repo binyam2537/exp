@@ -1,0 +1,9 @@
+{
+  "name": "grillme",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Free-form murder-mystery interrogation where suspects can't contradict themselves.",
+  "scripts": { "start": "node server.mjs", "test": "node test.mjs" },
+  "dependencies": { "three": "0.170.0" }
+}

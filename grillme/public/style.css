@@ -1,0 +1,37 @@
+:root{--ink:#0b0908;--paper:#e9dfc9;--dim:#9a8f78;--amber:#e0a246;--red:#b8412f;--panel:rgba(14,11,9,.82)}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--ink);color:var(--paper);font-family:Georgia,'Times New Roman',serif;overflow:hidden}
+#scene{position:fixed;inset:0;width:100%;height:100%}
+header{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;gap:20px;padding:14px 22px;background:linear-gradient(#000c,#0000);z-index:2}
+h1{margin:0;font:900 26px/1 'Arial Black',Impact,sans-serif;letter-spacing:.14em}h1 span{color:var(--amber)}
+nav{display:flex;gap:8px;flex:1;flex-wrap:wrap}
+nav button{background:none;border:1px solid #5a4d38;color:var(--dim);padding:7px 14px;cursor:pointer;font:inherit;letter-spacing:.04em}
+nav button.on{color:var(--ink);background:var(--amber);border-color:var(--amber)}
+#accuse{background:none;color:var(--red);border:1px solid var(--red);padding:8px 14px;cursor:pointer;font:inherit;text-transform:uppercase;letter-spacing:.1em;font-size:12px}
+#accuse:hover{background:var(--red);color:#fff}
+#stage{position:fixed;inset:70px 0 0 0;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;padding:16px 22px;pointer-events:none}
+#dialog,#book{pointer-events:auto;background:var(--panel);border:1px solid #3a3022;backdrop-filter:blur(6px)}
+#dialog{width:min(640px,58vw);display:flex;flex-direction:column;max-height:46vh}
+#who{padding:8px 14px;border-bottom:1px solid #3a3022;color:var(--amber);font-style:italic}
+#who small{color:var(--dim);margin-left:8px}
+#log{overflow:auto;padding:12px 14px;display:flex;flex-direction:column;gap:10px;font-size:16px;line-height:1.45}
+.me{color:var(--dim)}.me::before{content:'YOU  ';font:700 10px Arial;letter-spacing:.15em;color:#6b5f48}
+.them::before{content:attr(data-n) '  ';font:700 10px Arial;letter-spacing:.15em;color:var(--amber)}
+.note{font:italic 13px Georgia;color:var(--amber);border-left:2px solid var(--amber);padding-left:8px}
+.note.flip{color:var(--red);border-color:var(--red)}
+#form{display:flex;border-top:1px solid #3a3022}
+#q{flex:1;background:none;border:0;color:var(--paper);padding:14px;font:inherit;font-size:16px;outline:none}
+#form button{background:var(--amber);border:0;padding:0 22px;font:700 13px Arial;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+#book{width:min(380px,38vw);max-height:62vh;display:flex;flex-direction:column}
+.tabs{display:flex}.tabs button{flex:1;background:none;border:0;border-bottom:2px solid transparent;color:var(--dim);padding:10px;font:700 12px Arial;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.tabs button.on{color:var(--amber);border-color:var(--amber)}
+.pane{display:none;overflow:auto;padding:10px 14px;font-size:14px;line-height:1.4}.pane.on{display:block}
+.fact{padding:8px 0;border-bottom:1px dashed #3a3022}.fact button{margin-top:6px;background:none;border:1px solid var(--amber);color:var(--amber);padding:3px 9px;font:11px Arial;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.fact button:hover{background:var(--amber);color:var(--ink)}
+.fact.new{animation:flash 1.6s}@keyframes flash{from{background:#e0a24655}to{background:none}}
+.st h4{margin:12px 0 4px;color:var(--amber);font:700 11px Arial;letter-spacing:.14em;text-transform:uppercase}
+.st li{margin:0 0 5px;list-style:none}.st li.f{color:var(--red)}.st li.t{color:#b9d4a0}.st li s{opacity:.5}
+.modal{position:fixed;inset:0;background:#000d;display:flex;align-items:center;justify-content:center;z-index:9;padding:20px}.modal.hidden{display:none}
+.modal>div{max-width:560px;border:1px solid var(--amber);padding:30px;background:var(--ink)}
+.modal h2{margin:0 0 12px;font:900 30px 'Arial Black',sans-serif;color:var(--amber)}.hint{color:var(--dim);font-size:14px}
+.modal button{margin-top:12px;background:var(--amber);border:0;padding:12px 20px;font:700 13px Arial;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+@media(max-width:800px){#stage{flex-direction:column-reverse;align-items:stretch;inset:60px 0 0}#dialog,#book{width:100%;max-height:30vh}h1{font-size:18px}}

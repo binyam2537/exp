@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GRILL ME — The Larkspur Affair</title>
+<link rel="icon" href="data:,"><link rel="stylesheet" href="style.css">
+<script type="importmap">{"imports":{"three":"/vendor/three.js"}}</script>
+</head><body>
+<canvas id="scene"></canvas>
+<header>
+  <h1>GRILL<span>ME</span></h1>
+  <nav id="suspects"></nav>
+  <button id="accuse">Make an accusation</button>
+</header>
+<main id="stage">
+  <section id="dialog">
+    <div id="who"></div>
+    <div id="log" aria-live="polite"></div>
+    <form id="form"><input id="q" autocomplete="off" placeholder="Ask anything. Press them. Catch them out…" maxlength="500"><button>Ask</button></form>
+  </section>
+  <aside id="book">
+    <div class="tabs"><button data-t="facts" class="on">Evidence</button><button data-t="stmts">Statements</button></div>
+    <div id="facts" class="pane on"></div><div id="stmts" class="pane"></div>
+  </aside>
+</main>
+<div id="intro" class="modal"><div><h2>The Larkspur Affair</h2><p id="introText"></p><p class="hint">Evidence in your notebook can be <b>presented</b> to a suspect. Lies hold until the right evidence breaks them — then the story <b>changes, and is logged</b>.</p><p id="mode" class="hint"></p><button id="start">Enter the interrogation room</button></div></div>
+<div id="end" class="modal hidden"><div><h2 id="endT"></h2><p id="endP"></p><button onclick="location.reload()">New game</button></div></div>
+<script type="module" src="main.js"></script>
+</body></html>
