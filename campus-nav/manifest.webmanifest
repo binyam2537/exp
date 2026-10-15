@@ -1,0 +1,9 @@
+{
+  "name": "Campus Navigator",
+  "short_name": "Navigator",
+  "start_url": "./index.html",
+  "display": "fullscreen",
+  "orientation": "any",
+  "background_color": "#F2F2F7",
+  "theme_color": "#F2F2F7"
+}

@@ -1,0 +1,14 @@
+{
+  "name": "campus-nav",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Indoor 3D navigation kiosk for the University of Dubai — College of Engineering & IT",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "start": "python3 -m http.server 8080"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}
