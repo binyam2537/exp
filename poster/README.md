@@ -5,8 +5,11 @@
 - `src/poster.html` — the source (edit the text here)
 
 Structure follows the official NEECON 2026 poster template: master header,
-title/authors/affiliation, Abstract, Problem & Objectives, Methodology,
-Results & Analysis, Conclusions, References & Contact, master footer.
+title/authors/affiliation, then two columns (Abstract, Problem Statement &
+Objectives, Related Literature, Methodology | Design & Validation, Results &
+Analysis, Conclusion), References & Contact, master footer.
+
+Type: Newsreader (headings) and Public Sans (text). Icons: Phosphor.
 
 ## Rebuild
 
