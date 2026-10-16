@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SolarTwin AI · NEECON 2026 Poster (Option C)</title>
+<!--
+  A0 portrait research poster (841 x 1189 mm) for NEECON 2026. Option C: colour-blocked, asymmetric.
+  Same content and section order as the official template; built from the same blocks as option A.
+-->
+<style>
+  @page { size: 841mm 1189mm; margin: 0; }
+  @font-face { font-family: "Newsreader"; font-weight: 500; src: url(assets/fonts/newsreader-500.woff2) format("woff2"); }
+  @font-face { font-family: "Newsreader"; font-weight: 600; src: url(assets/fonts/newsreader-600.woff2) format("woff2"); }
+  @font-face { font-family: "Public Sans"; font-weight: 400; src: url(assets/fonts/public-sans-400.woff2) format("woff2"); }
+  @font-face { font-family: "Public Sans"; font-weight: 600; src: url(assets/fonts/public-sans-600.woff2) format("woff2"); }
+  @font-face { font-family: "Public Sans"; font-weight: 700; src: url(assets/fonts/public-sans-700.woff2) format("woff2"); }
+
+  :root {
+    --paper: #F3F4F2;
+    --sheet: #FAFBFA;
+    --band: #E5E8E4;
+    --ink: #18212D;
+    --ink-2: #3A4350;
+    --muted: #59626E;
+    --rule: #CDD2CD;
+    --navy: #1E3A5F;
+    --ochre: #8A5A0B;
+    --teal: #00806A;
+    --brick: #A23B2A;
+
+    --serif: "Newsreader", Georgia, serif;
+    --sans: "Public Sans", "Helvetica Neue", sans-serif;
+
+    --margin: 40mm;
+    --col-gap: 32mm;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--paper); }
+  body {
+    width: 841mm; height: 1189mm; overflow: hidden;
+    font-family: var(--sans); color: var(--ink);
+    font-variant-numeric: lining-nums tabular-nums;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .poster { width: 841mm; height: 1189mm; display: flex; flex-direction: column; }
+  svg.i { width: 1em; height: 1em; flex: none; display: block; }
+
+  /* master header (template) */
+  .top { flex: none; height: 54mm; margin: 0 var(--margin); display: flex; align-items: center; justify-content: space-between; }
+  .conf { font-size: 21pt; line-height: 1.35; color: var(--ink-2); }
+  .conf b { font-weight: 700; color: var(--ink); }
+  .logos { display: flex; align-items: center; gap: 12mm; mix-blend-mode: multiply; }
+  .logos img { display: block; }
+
+  /* title */
+  .title { flex: none; margin: 0 var(--margin); padding: 16mm 0 16mm; display: grid; grid-template-columns: 1fr 230mm; gap: 24mm; align-items: end; border-bottom: 0.35mm solid var(--rule); }
+  h1 { font-family: var(--serif); font-weight: 600; font-size: 80pt; line-height: 1.04; letter-spacing: -0.015em; color: var(--ink); }
+  .sub { font-family: var(--serif); font-weight: 500; font-size: 40pt; line-height: 1.18; color: var(--ink-2); max-width: 420mm; }
+  .authors { margin-top: 10mm; font-size: 27pt; line-height: 1.45; }
+  .authors b { font-weight: 700; }
+  .authors .affil { display: block; font-size: 21pt; color: var(--muted); margin-top: 1mm; }
+  .art { align-self: center; mix-blend-mode: multiply; }
+  .art img { display: block; width: 100%; }
+
+  /* body columns */
+  .cols { flex: 1; margin: 0 var(--margin); display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--col-gap); position: relative; min-height: 0; }
+  .cols::before { content: ""; position: absolute; left: 50%; top: 14mm; bottom: 10mm; width: 0.35mm; background: var(--rule); }
+  .col { display: flex; flex-direction: column; padding-top: 14mm; min-height: 0; }
+  section { padding: 0 0 14mm; }
+  section + section { border-top: 0.35mm solid var(--rule); padding-top: 13mm; }
+  .col > section:last-child { flex: 1; display: flex; flex-direction: column; }
+
+  h2 { font-family: var(--serif); font-weight: 600; font-size: 50pt; line-height: 1.1; letter-spacing: -0.01em; color: var(--navy); margin-bottom: 6mm; }
+  h3 { font-size: 22pt; font-weight: 700; color: var(--ink); }
+  p, li, dd { font-size: 28pt; line-height: 1.45; color: var(--ink-2); }
+  p + p { margin-top: 4mm; }
+  strong { font-weight: 700; color: var(--ink); }
+
+  ol.goals { list-style: none; counter-reset: g; margin-top: 6mm; display: flex; flex-direction: column; gap: 3.5mm; }
+  ol.goals li { counter-increment: g; display: grid; grid-template-columns: 11mm 1fr; }
+  ol.goals li::before { content: counter(g) "."; font-weight: 700; color: var(--ochre); }
+
+  /* methodology diagram */
+  .flow { margin-top: 2mm; display: flex; flex-direction: column; align-items: stretch; }
+  .step { display: grid; grid-template-columns: 15mm 1fr; column-gap: 7mm; align-items: start; padding: 8mm 9mm; border: 0.35mm solid var(--rule); background: var(--sheet); }
+  .step .ico { font-size: 14mm; color: var(--ink); grid-row: span 2; margin-top: 0.6mm; }
+  .step h3 { font-size: 27pt; }
+  .step p { font-size: 22.5pt; line-height: 1.38; color: var(--muted); }
+  .step.trust { border-color: var(--teal); }
+  .step.trust .ico { color: var(--teal); }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+  .link { height: 12mm; display: flex; justify-content: center; color: var(--muted); }
+  .link svg { height: 12mm; width: 5mm; }
+  .note { margin-top: 9mm; font-size: 22.5pt; line-height: 1.42; color: var(--muted); }
+
+  /* figures */
+  figure { margin: 2mm 0 0; }
+  figcaption { margin-top: 4mm; font-size: 20pt; line-height: 1.4; color: var(--muted); }
+  figcaption b { color: var(--ink-2); font-weight: 700; }
+
+  /* console screenshot */
+  .ui { border: 0.35mm solid var(--rule); background: var(--sheet); border-radius: 1.2mm; overflow: hidden; }
+  .ui-head { display: flex; justify-content: space-between; align-items: baseline; padding: 4.5mm 6mm; border-bottom: 0.35mm solid var(--rule); font-size: 17pt; color: var(--muted); }
+  .ui-head b { font-size: 19pt; color: var(--ink); font-weight: 700; margin-right: 3mm; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 0.35mm solid var(--rule); }
+  .kpi { padding: 4mm 6mm; }
+  .kpi + .kpi { border-left: 0.35mm solid var(--rule); }
+  .kpi small { display: block; font-size: 14pt; color: var(--muted); margin-bottom: 1mm; }
+  .kpi b { font-size: 20pt; font-weight: 700; }
+  .ui-main { display: grid; grid-template-columns: 1fr 112mm; }
+  .ui-chart { padding: 4mm 5mm 3mm 6mm; }
+  .ui-trace { padding: 4mm 6mm; border-left: 0.35mm solid var(--rule); }
+  .ui-label { font-size: 15pt; font-weight: 700; color: var(--ink); margin-bottom: 2mm; }
+  .trace { list-style: none; counter-reset: t; display: flex; flex-direction: column; gap: 3.2mm; }
+  .trace li { counter-increment: t; display: grid; grid-template-columns: 7mm 1fr; font-size: 14.5pt; line-height: 1.32; color: var(--muted); }
+  .trace li::before { content: counter(t); font-weight: 700; color: var(--ink-2); }
+  .trace li b { display: block; color: var(--ink); font-weight: 700; }
+  .ui-foot { display: flex; gap: 2.5mm; align-items: center; padding: 3.5mm 6mm; border-top: 0.35mm solid var(--rule); }
+  .ui-foot span { font-size: 14.5pt; font-weight: 600; padding: 1.6mm 3.6mm; border: 0.35mm solid var(--rule); border-radius: 0.8mm; color: var(--ink-2); }
+  .ui-foot span.on { background: var(--ink); border-color: var(--ink); color: var(--sheet); }
+  .ui-foot small { font-size: 14.5pt; color: var(--muted); margin-right: 1.5mm; }
+
+  .sub-h { font-family: var(--serif); font-weight: 600; font-size: 35pt; color: var(--navy); margin: 12mm 0 0; }
+  .scen { margin-top: 6mm; display: grid; grid-template-columns: 1fr 1fr; column-gap: 10mm; row-gap: 4.5mm; }
+  .scen > div { display: grid; grid-template-columns: 9mm 1fr; }
+  .scen .k { font-family: var(--serif); font-weight: 600; font-size: 29pt; color: var(--ochre); line-height: 1.25; }
+  .scen h3 { font-size: 24pt; }
+  .scen p { font-size: 21pt; line-height: 1.35; color: var(--muted); }
+
+  .scenarios { margin-top: 6mm; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6mm; }
+  .scenarios figure { margin: 0; }
+  .mini { border: 0.35mm solid var(--rule); background: var(--sheet); padding: 3mm 3mm 2mm; }
+  .mini svg { display: block; width: 100%; height: auto; }
+  .scenarios figcaption { margin-top: 3mm; display: flex; align-items: baseline; gap: 2.4mm; font-size: 20pt; font-weight: 700; color: var(--ink); }
+  .scenarios .k { font-family: var(--serif); font-weight: 600; font-size: 26pt; color: var(--ochre); }
+  .metrics { margin-top: 9mm; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 0.5mm solid var(--ink); }
+  .metrics > div { padding: 4mm 5mm 0 0; display: flex; flex-direction: column; gap: 1.6mm; }
+  .metrics > div + div { padding-left: 5mm; border-left: 0.35mm solid var(--rule); }
+  .metrics h3, .metrics h4 { font-size: 18pt; font-weight: 700; color: var(--muted); margin-bottom: 1mm; }
+  .metrics span { font-size: 22pt; color: var(--ink); }
+
+  /* results table */
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; margin: 1mm 0 7mm; }
+  col.c-case { width: 40%; } col.c-model { width: 33%; } col.c-res { width: 27%; }
+  th { text-align: left; font-size: 18pt; font-weight: 700; color: var(--muted); padding: 0 0 3mm; border-bottom: 0.5mm solid var(--ink); }
+  td { font-size: 24pt; line-height: 1.25; color: var(--ink-2); padding: 4.5mm 0; border-bottom: 0.35mm solid var(--rule); vertical-align: top; }
+  th + th, td + td { padding-left: 5mm; }
+  th.r, td.r { text-align: right; }
+  td.r { font-weight: 700; color: var(--ink); }
+  td.r.neg { color: var(--brick); }
+  td small { display: block; margin-top: 1mm; font-size: 18pt; line-height: 1.25; color: var(--muted); }
+  .chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+  .concl { display: grid; grid-template-columns: 1fr 1fr; column-gap: 12mm; row-gap: 10mm; margin-top: 2mm; }
+  .concl .ico { display: block; font-size: 13mm; color: var(--ochre); margin-bottom: 3mm; }
+  .concl h3 { font-size: 25pt; margin-bottom: 1.5mm; }
+  .concl p { font-size: 23.5pt; line-height: 1.42; }
+
+  /* references */
+  .refs { flex: none; margin: 0 var(--margin); padding: 9mm 0 11mm; border-top: 0.35mm solid var(--rule); display: grid; grid-template-columns: auto 1fr; column-gap: 14mm; align-items: baseline; }
+  .refs h2 { font-size: 30pt; margin: 0; }
+  .refs p { font-size: 18pt; line-height: 1.45; color: var(--muted); }
+  .refs p + p { margin-top: 1mm; }
+
+  /* master footer (template) */
+  .bottom { flex: none; background: var(--band); padding: 7mm var(--margin); display: flex; align-items: center; gap: 10mm; }
+  .bottom img { mix-blend-mode: multiply; }
+  .bottom p { font-size: 18pt; line-height: 1.35; color: var(--ink-2); }
+  .bottom p b { color: var(--ink); }
+
+  /* ===== Option C: colour-blocked, asymmetric ===== */
+  @font-face { font-family: "Schibsted Grotesk"; font-weight: 700; src: url(assets/fonts/schibsted-grotesk-700.woff2) format("woff2"); }
+  @font-face { font-family: "Schibsted Grotesk"; font-weight: 800; src: url(assets/fonts/schibsted-grotesk-800.woff2) format("woff2"); }
+  :root { --head: "Schibsted Grotesk", "Helvetica Neue", sans-serif; --deep: #0F3D3A; --side: #DCE7E3; --gold: #E0B45C; --margin: 34mm; }
+  .strip { flex: none; height: 46mm; margin: 0 var(--margin); display: flex; align-items: center; justify-content: space-between; }
+  .strip .conf { font-size: 20pt; line-height: 1.35; color: var(--ink-2); }
+  .strip .conf b { color: var(--ink); }
+  .hero { flex: none; background: var(--deep); color: #fff; padding: 22mm var(--margin) 20mm; display: grid; grid-template-columns: 1fr 210mm; gap: 24mm; align-items: center; }
+  .hero h1 { font-family: var(--head); font-weight: 800; font-size: 80pt; line-height: 1.02; letter-spacing: -0.02em; color: #fff; }
+  .hero .authors { margin-top: 11mm; font-size: 26pt; line-height: 1.45; color: #CFE0DB; }
+  .hero .authors b { color: #fff; }
+  .hero .art { mix-blend-mode: normal; }
+  .hero .art img { display: block; width: 100%; }
+  .body { flex: 1; min-height: 0; margin: 0 var(--margin); padding-top: 14mm; display: grid; grid-template-columns: 296mm 1fr; column-gap: 16mm; }
+  .side { background: var(--side); padding: 12mm 12mm 10mm; display: flex; flex-direction: column; }
+  .side .blk + .blk { margin-top: 10mm; padding-top: 10mm; border-top: 0.35mm solid #B9CCC5; }
+  .side p, .side li { font-size: 23pt; }
+  .side .trace li { font-size: 13.5pt; }
+  .side figcaption { font-size: 17pt; }
+  .side .fig .box { fill: #F4F8F6; } .side .fig .box.twin, .side .fig .sub { fill: var(--side); }
+  .main { display: flex; flex-direction: column; min-height: 0; }
+  .main > .blk + .blk { margin-top: 12mm; padding-top: 12mm; border-top: 0.35mm solid var(--rule); }
+  h2 { font-family: var(--head); font-weight: 800; font-size: 40pt; letter-spacing: -0.01em; color: var(--deep); margin-bottom: 6mm; }
+  .sub-h { font-family: var(--head); font-weight: 700; font-size: 28pt; color: var(--deep); margin: 10mm 0 0; }
+  .flow.h { flex-direction: row; align-items: stretch; gap: 0; }
+  .flow.h > .step { flex: 1; grid-template-columns: 1fr; padding: 7mm 6mm; }
+  .flow.h .step .ico { grid-row: auto; margin-bottom: 3mm; }
+  .flow.h .pair { flex: 1.25; grid-template-columns: 1fr; gap: 4mm; }
+  .flow.h .pair .step { grid-template-columns: 12mm 1fr; padding: 5mm 6mm; }
+  .flow.h .pair .step .ico { font-size: 11mm; }
+  .flow.h .link { height: auto; width: 9mm; align-items: center; }
+  .flow.h .link svg { transform: rotate(-90deg); }
+  .flow.h .step h3 { font-size: 23pt; } .flow.h .step p { font-size: 19pt; }
+  .pairrow { display: grid; grid-template-columns: 1fr 1fr; column-gap: 14mm; }
+  .main .scenarios { grid-template-columns: repeat(4, 1fr); }
+  .main .metrics { margin-top: 7mm; }
+  .resrow { display: grid; grid-template-columns: 1fr 1fr; column-gap: 12mm; align-items: start; }
+  .resrow td { font-size: 20pt; } .resrow td small { font-size: 16pt; } .resrow th { font-size: 16pt; }
+  .resrow p { font-size: 22pt; }
+  .side .ui-main { grid-template-columns: 1fr 96mm; }
+  .side .ui-head { flex-direction: column; gap: 1mm; }
+  .metrics span { font-size: 21pt; }
+  .concl-band { flex: none; background: var(--deep); margin-top: 14mm; padding: 14mm var(--margin) 15mm; display: grid; grid-template-columns: 200mm 1fr; column-gap: 16mm; align-items: start; }
+  .concl-band h2 { color: #fff; font-size: 48pt; }
+  .concl-band .concl { grid-template-columns: repeat(4, 1fr); column-gap: 10mm; margin: 0; }
+  .concl-band .concl h3 { color: #fff; font-size: 23pt; }
+  .concl-band .concl p { color: #CFE0DB; font-size: 20.5pt; }
+  .concl-band .concl .ico { color: var(--gold); }
+  .refs { margin: 0 var(--margin); border-top: 0; }
+  .refs h2 { font-size: 26pt; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <header class="strip">
+    <p class="conf"><b>2026 Intl. Near East Conference on Electrical &amp; Energy Systems</b><br>21–23 October 2026, Dubai, UAE</p>
+    <div class="logos">
+      <img src="assets/neecon-logo.png" style="height:27mm" alt="NEECON 2026">
+      <img src="assets/ud-logo.svg" style="height:22mm" alt="University of Dubai">
+      <img src="assets/ieee-uae.png" style="height:19mm" alt="IEEE UAE Section">
+      <img src="assets/ieee-pes.jpg" style="height:23mm" alt="IEEE Power &amp; Energy Society">
+    </div>
+  </header>
+
+  <div class="hero">
+    <div>
+      <h1>A Trustworthy Agentic Digital Twin<br>for Adaptive Solar Energy Management</h1>
+      <p class="authors"><b>Binyam Mamo Sharew, Dina Endris Belay, Samuel Dereje Tadesse</b><br>Advisor: Dr. Nour Aburaed{{PAPER_ID}}</p>
+    </div>
+    <div class="art"><img src="assets/twin-line-light.svg" alt="Line drawing of a solar array and its digital twin"></div>
+  </div>
+
+  <main class="body">
+    <aside class="side">
+      <div class="blk"><h2>Abstract</h2>
+        <p>Forecasting models trained at one solar plant often lose accuracy at a new site. Our accepted NEECON 2026 paper measured both outcomes: successful transfer within a region and negative transfer across regions. <strong>SolarTwin AI</strong> is a software digital twin that checks transfer risk, compares forecast models, plans battery and flexible-load actions within hard limits, and records why each action was taken.</p>
+      </div>
+      <div class="blk"><h2>Problem Statement &amp; Objectives</h2>
+        <p>New plants have little generation history. A model borrowed from another plant can drift without warning, and an energy schedule built on that forecast inherits the error.</p>
+        <ol class="goals">
+          <li><span><strong>Detect</strong> when a transferred forecast should not be trusted.</span></li>
+          <li><span><strong>Decide</strong> a safe battery and flexible-load schedule within operating limits.</span></li>
+          <li><span><strong>Explain</strong> each decision with the evidence that produced it.</span></li>
+        </ol>
+      </div>
+      <div class="blk"><h2>Related Literature</h2>
+        <p>Solar forecasting usually depends on site-specific history. Domain adaptation (DANN, CDAN) aligns source and target features so a model can transfer without target labels; our ISGT Middle East 2025 study reached R² = 0.75 in blind cross-plant transfer [2]. Digital twins let operators test plant and storage decisions in simulation before acting on them.</p>
+      </div>
+      <div class="blk"><h2>Design &amp; Validation</h2>
+        <figure>
+          <div class="ui">
+            <div class="ui-head"><span><b>SolarTwin AI</b>Energy Operations Console</span><span>Scenario: seasonal domain shift · simulated plant</span></div>
+            <div class="kpis">
+              <div class="kpi"><small>Forecast status</small><b style="color:var(--ochre)">Caution</b></div>
+              <div class="kpi"><small>Transfer risk</small><b style="color:var(--brick)">High</b></div>
+              <div class="kpi"><small>Battery</small><b>68%</b></div>
+              <div class="kpi"><small>Decision</small><b style="color:var(--teal)">Use fallback</b></div>
+            </div>
+            <div class="ui-main">
+              <div class="ui-chart"><div class="ui-label">Battery state of charge</div><div id="soc"></div></div>
+              <div class="ui-trace">
+                <div class="ui-label">Decision trace</div>
+                <ol class="trace">
+                  <li><span><b>Models disagree</b>Gap above threshold at 10:40</span></li>
+                  <li><span><b>Shift detected</b>Inputs drift from training data</span></li>
+                  <li><span><b>Fallback selected</b>Transformer forecast in use</span></li>
+                  <li><span><b>Plan re-optimized</b>Reserve kept above 20%</span></li>
+                </ol>
+              </div>
+            </div>
+            <div class="ui-foot"><small>Scenario</small><span>Normal</span><span>Cloud event</span><span class="on">Seasonal shift</span><span>Demand spike</span></div>
+          </div>
+          <figcaption><b>Fig. 2.</b> Energy Operations Console. Judges pick a scenario and watch the forecast, risk signal and battery plan respond. Simulated plant and data.</figcaption>
+        </figure>
+      </div>
+    </aside>
+    <div class="main">
+      <div class="blk">
+        <h2>Methodology</h2>
+        <figure class="method">{{fig:method}}
+          <figcaption><b>Fig. 1.</b> System architecture. Solid arrows are numerical signals computed in code; the dashed arrow is the evidence log the LLM agent reads to explain decisions.</figcaption>
+        </figure>
+      </div>
+      <div class="blk">
+        <h2>Results &amp; Analysis</h2>
+        <div class="resrow">
+          <div><table>
+          <colgroup><col class="c-case"><col class="c-model"><col class="c-res"></colgroup>
+          <thead><tr><th>Transfer case [1]</th><th>Model</th><th class="r">Result</th></tr></thead>
+          <tbody>
+            <tr><td>Plant 1 to Plant 2<small>Same region, capacity mismatch</small></td><td>CDAN + LSTM + CSI</td><td class="r">R² = 0.8325</td></tr>
+            <tr><td>India to Australia<small>Cross-regional</small></td><td>CDAN + LSTM + CSI</td><td class="r neg">Negative transfer</td></tr>
+            <tr><td>India to Australia<small>Cross-regional</small></td><td>Transformer<small>No adaptation</small></td><td class="r">Positive skill</td></tr>
+          </tbody>
+        </table><p>Adaptation helps when sites are similar and can hurt when they differ, so transfer risk must be measured before a forecast drives a decision. Fig. 3 shows how the monitor responds in a simulated shift.</p></div>
+          <div><figure class="chart"><div id="fc"></div>
+          <figcaption><b>Fig. 3.</b> Forecast candidates against observed output in a simulated seasonal shift. After the risk flag, the fallback forecast is used.</figcaption>
+        </figure></div>
+        </div>
+      </div>
+      <div class="blk">
+        <h2>Evaluation Protocol</h2>
+        <div class="scenarios">
+          <figure><div class="mini" data-scenario="normal"></div><figcaption><span class="k">A</span>Normal operation</figcaption></figure>
+          <figure><div class="mini" data-scenario="cloud"></div><figcaption><span class="k">B</span>Sudden cloud</figcaption></figure>
+          <figure><div class="mini" data-scenario="shift"></div><figcaption><span class="k">C</span>Transfer risk</figcaption></figure>
+          <figure><div class="mini" data-scenario="demand"></div><figcaption><span class="k">D</span>Demand spike</figcaption></figure>
+        </div>
+        <div class="metrics">
+          <div><h3>Forecast</h3><span>MAE</span><span>RMSE</span><span>R²</span></div>
+          <div><h3>Risk monitor</h3><span>Precision</span><span>Recall</span><span>False alarms</span></div>
+          <div><h3>Energy plan</h3><span>Operating cost</span><span>Renewable use</span><span>Unmet demand</span></div>
+        </div>
+      
+      </div>
+    </div>
+  </main>
+
+  <section class="concl-band">
+    <h2>Conclusion</h2>
+    
+        <div class="concl">
+          <div><span class="ico">{{ph:lightbulb}}</span><h3>Takeaway</h3><p>Forecast trust can be measured and acted on before it affects operations.</p></div>
+          <div><span class="ico">{{ph:books}}</span><h3>Contribution to theory</h3><p>Links capacity-aware transfer learning with risk monitoring and constrained control.</p></div>
+          <div><span class="ico">{{ph:wrench}}</span><h3>Contribution to practice</h3><p>A low-cost, offline tool to test new sites, weather events and demand changes.</p></div>
+          <div><span class="ico">{{ph:flag-pennant}}</span><h3>Future work</h3><p>Report detector precision, recall and false alarms; compare cost and unmet demand with baselines.</p></div>
+        </div>
+      
+  </section>
+
+  <footer class="refs">
+    <h2>References &amp; Contact</h2>
+    <div>
+      <p>[1] Belay et al., “Learning When to Transfer: Robust Solar Power Forecasting Under Capacity Mismatch,” accepted at NEECON 2026.</p>
+      <p>[2] D. E. Belay et al., “Domain Adaptation for Cross-Plant Solar Power Forecasting Using Time Series Deep Learning Models,” IEEE PES ISGT Middle East 2025.</p>
+      {{CONTACT}}
+    </div>
+  </footer>
+
+  <div class="bottom">
+    <img src="assets/neecon-logo.png" style="height:28mm" alt="NEECON 2026">
+    <p><b>2026 International Near East Conference on Electrical &amp; Energy Systems (NEECON 2026)</b><br>October 21–23, 2026, Dubai, United Arab Emirates</p>
+  </div>
+</div>
+<script>
+{{charts}}
+</script>
+</body>
+</html>

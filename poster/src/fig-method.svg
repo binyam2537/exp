@@ -1,0 +1,82 @@
+<svg class="fig" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 690" role="img" aria-label="System architecture of SolarTwin AI">
+<style>
+  .fig { display: block; width: 100%; height: auto; font-family: var(--sans); }
+  .fig .box { fill: var(--fig-box, var(--sheet)); stroke: var(--fig-line, var(--ink-2)); stroke-width: 1.6; }
+  .fig .box.key { stroke: var(--teal); stroke-width: 3; }
+  .fig .box.llm { fill: none; stroke-dasharray: 8 6; }
+  .fig .box.twin { fill: var(--fig-twin, var(--paper)); }
+  .fig .sub { fill: var(--fig-sub, var(--paper)); stroke: var(--fig-subline, var(--rule)); stroke-width: 1.2; }
+  .fig .sep { stroke: var(--fig-subline, var(--rule)); stroke-width: 1.2; }
+  .fig .h { font-size: 23px; font-weight: 700; fill: var(--ink); }
+  .fig .tag { font-size: 15px; font-weight: 600; fill: var(--muted); }
+  .fig .box.key + .h, .fig .key ~ .tag { }
+  .fig .t { font-size: 18px; fill: var(--ink-2); }
+  .fig .t.small { font-size: 16.5px; fill: var(--muted); }
+  .fig .lbl { font-size: 16px; fill: var(--muted); font-weight: 600; }
+  .fig .flow { fill: none; stroke: var(--ink-2); stroke-width: 1.8; }
+  .fig .flow.dash { stroke-dasharray: 7 5; }
+  .fig .ahead { fill: var(--ink-2); }
+</style>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="ahead"/></marker></defs>
+<rect x="10" y="40" width="200" height="290" class="box"/>
+<text x="28" y="76" class="h" text-anchor="start">Data inputs</text>
+<line x1="28" x2="194" y1="92" y2="92" class="sep"/>
+<text x="28" y="128" class="t" text-anchor="start">Plant telemetry</text>
+<text x="28" y="170" class="t" text-anchor="start">Weather, irradiance</text>
+<text x="28" y="212" class="t" text-anchor="start">Clear-sky index</text>
+<text x="28" y="254" class="t" text-anchor="start">Shift events</text>
+<rect x="270" y="40" width="310" height="290" class="box"/>
+<text x="288" y="76" class="h" text-anchor="start">Forecast engine</text>
+<line x1="288" x2="564" y1="92" y2="92" class="sep"/>
+<rect x="288" y="84" width="274" height="58" class="sub"/>
+<text x="304" y="120" class="t" text-anchor="start">CDAN + LSTM + CSI</text>
+<rect x="288" y="160" width="274" height="58" class="sub"/>
+<text x="304" y="196" class="t" text-anchor="start">Transformer</text>
+<rect x="288" y="236" width="274" height="58" class="sub"/>
+<text x="304" y="272" class="t" text-anchor="start">Persistence</text>
+<rect x="640" y="40" width="350" height="290" class="box key"/>
+<text x="658" y="76" class="h" text-anchor="start">Trust monitor</text>
+<text x="974" y="76" class="tag" text-anchor="end">proposed</text>
+<line x1="658" x2="974" y1="92" y2="92" class="sep"/>
+<text x="658" y="128" class="t" text-anchor="start">Input feature shift</text>
+<text x="658" y="180" class="t" text-anchor="start">Model disagreement</text>
+<text x="658" y="232" class="t" text-anchor="start">Transfer risk score</text>
+<text x="658" y="284" class="t" text-anchor="start">Fallback when risk is high</text>
+<rect x="10" y="420" width="200" height="260" class="box llm"/>
+<text x="28" y="456" class="h" text-anchor="start">Explanation</text>
+<line x1="28" x2="194" y1="472" y2="472" class="sep"/>
+<text x="28" y="500" class="t" text-anchor="start">LLM agent</text>
+<text x="28" y="530" class="t small" text-anchor="start">Reads the evidence</text>
+<text x="28" y="560" class="t small" text-anchor="start">log and writes the</text>
+<text x="28" y="590" class="t small" text-anchor="start">decision trace.</text>
+<text x="28" y="620" class="t small" text-anchor="start">Cannot change</text>
+<text x="28" y="650" class="t small" text-anchor="start">numbers or limits.</text>
+<rect x="270" y="420" width="310" height="260" class="box twin"/>
+<text x="288" y="456" class="h" text-anchor="start">Digital twin</text>
+<text x="564" y="456" class="tag" text-anchor="end">simulated</text>
+<line x1="288" x2="564" y1="472" y2="472" class="sep"/>
+<text x="288" y="508" class="t" text-anchor="start">PV plant</text>
+<text x="288" y="552" class="t" text-anchor="start">Battery</text>
+<text x="288" y="596" class="t" text-anchor="start">Flexible load</text>
+<text x="288" y="640" class="t" text-anchor="start">Weather events</text>
+<rect x="640" y="420" width="350" height="260" class="box"/>
+<text x="658" y="456" class="h" text-anchor="start">Energy optimizer</text>
+<line x1="658" x2="974" y1="472" y2="472" class="sep"/>
+<text x="658" y="508" class="t" text-anchor="start">Goal: lowest operating cost</text>
+<text x="658" y="552" class="t" text-anchor="start">Battery charge limits</text>
+<text x="658" y="596" class="t" text-anchor="start">Battery power limits</text>
+<text x="658" y="640" class="t" text-anchor="start">Supply meets demand</text>
+<path d="M210 185 H264" class="flow" marker-end="url(#ah)"/>
+<text x="237" y="172" class="lbl" text-anchor="middle">data</text>
+<path d="M580 185 H634" class="flow" marker-end="url(#ah)"/>
+<text x="607" y="172" class="lbl" text-anchor="middle">output</text>
+<path d="M815 330 V414" class="flow" marker-end="url(#ah)"/>
+<text x="830" y="368" class="lbl" text-anchor="start">selected forecast</text>
+<text x="830" y="388" class="lbl" text-anchor="start">and risk</text>
+<path d="M640 550 H586" class="flow" marker-end="url(#ah)"/>
+<text x="613" y="537" class="lbl" text-anchor="middle">plan</text>
+<path d="M425 420 V375 H110 V336" class="flow" marker-end="url(#ah)"/>
+<text x="124" y="366" class="lbl" text-anchor="start">measured output and battery state (feedback)</text>
+<path d="M270 550 H216" class="flow dash" marker-end="url(#ah)"/>
+<text x="243" y="537" class="lbl" text-anchor="middle">log</text>
+</svg>
