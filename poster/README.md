@@ -29,3 +29,9 @@ npm run build
 Set `PAPER_ID` and `CONTACT_EMAIL` at the top of `build.mjs` to show them on the posters.
 Figures 2 and 3 and the scenario diagrams show a simulated scenario; replace them with
 measured results when available.
+
+## Editable Canva version
+
+`export-layout.mjs` exports option B as text boxes, shapes and image crops (`layout.json` + `img/`),
+and `canva_ops.py` turns that into Canva edit operations. The editable design in Canva is named
+"SolarTwin AI - NEECON 2026 Poster (Option B, editable)".
