@@ -19,6 +19,15 @@ A colleague's paper, restyled in the option B look: `src/option-d.html` ->
 `src/fig_cdan.py` -> `src/fig-cdan.svg` draws the CDAN + LSTM + CSI architecture.
 The 48-hour tracking figure is a placeholder until the original plot from the paper is added.
 
+## Third version: colleague's original layout (option E)
+
+`src/option-e.html` -> `Learning-When-to-Transfer_NEECON2026_A0_original-layout.pdf` and `preview-e.png`.
+It keeps the colleague's own layout (navy header, five numbered panels, teal diagram, table and plot)
+with touch-ups only: clean NEECON and University of Dubai logos, readable text, a vector redraw of the
+architecture diagram (`src/fig_cdan_classic.py`), and 4x upscaled copies of the original pictures and
+plot in `assets/colleague/`. In Canva it is "Learning When to Transfer - NEECON 2026 Poster
+(original layout, editable)". `export-layout.mjs` reads `data-shape` and `data-t` marks on this page.
+
 ## Source
 
 - `src/option-a.html`, `src/option-b.html`, `src/option-c.html`: one page per option

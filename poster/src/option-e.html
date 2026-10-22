@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Learning When to Transfer · NEECON 2026 Poster</title>
+<meta name="pdf-name" content="Learning-When-to-Transfer_NEECON2026_A0_original-layout.pdf">
+<!--
+  A0 portrait poster for the accepted NEECON 2026 paper, keeping the colleague's own layout
+  (navy header, five numbered panels, teal diagram, table and tracking plot) with touch-ups only:
+  clean logos, readable text, a vector redraw of the architecture diagram, and 4x upscaled
+  copies of the original illustrations and plot (assets/colleague/).
+  Build with `npm run build`.
+-->
+<style>
+  @page { size: 841mm 1189mm; margin: 0; }
+  @font-face { font-family: "Public Sans"; font-weight: 400; src: url(assets/fonts/public-sans-400.woff2) format("woff2"); }
+  @font-face { font-family: "Public Sans"; font-weight: 700; src: url(assets/fonts/public-sans-700.woff2) format("woff2"); }
+  @font-face { font-family: "STIX Two Text"; font-style: italic; font-weight: 400; src: url(assets/fonts/stix-text-latin-400i.woff2) format("woff2"); unicode-range: U+0000-00FF,U+2000-206F,U+2212; }
+  @font-face { font-family: "STIX Two Text"; font-style: italic; font-weight: 400; src: url(assets/fonts/stix-text-latinext-400i.woff2) format("woff2"); unicode-range: U+0100-02BA; }
+  @font-face { font-family: "STIX Two Text"; font-style: italic; font-weight: 400; src: url(assets/fonts/stix-text-greek-400i.woff2) format("woff2"); unicode-range: U+0370-03FF; }
+  @font-face { font-family: "STIX Two Math"; font-weight: 400; src: url(assets/fonts/stix-math-400.woff2) format("woff2"); }
+
+  :root {
+    --navy: #10213F;
+    --ink: #0B1F3A;
+    --teal: #1F6E73;
+    --row-a: #DCE0E3;
+    --row-b: #EEF0F1;
+    --sans: "Public Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #FFFFFF; }
+  body {
+    width: 841mm; height: 1189mm; overflow: hidden;
+    font-family: var(--sans); color: var(--ink);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .poster { width: 841mm; height: 1189mm; display: flex; flex-direction: column; }
+
+  /* header */
+  .band { flex: none; height: 132mm; background: var(--navy); display: grid; grid-template-columns: 128mm 1fr 128mm; align-items: center; padding: 0 12mm; }
+  .card { width: 118mm; height: 98mm; background: #FFFFFF; border-radius: 4mm; display: grid; place-items: center; }
+  .card img { display: block; width: 102mm; }
+  .seal { justify-self: end; width: 112mm; height: 112mm; border-radius: 50%; background: #FFFFFF; display: grid; place-items: center; }
+  .seal img { display: block; width: 104mm; height: 104mm; }
+  .head { text-align: center; color: #FFFFFF; }
+  .band h1 { font-size: 60pt; white-space: nowrap; line-height: 1.08; font-weight: 700; letter-spacing: 0.005em; }
+  .band .authors { margin-top: 4mm; font-size: 28pt; line-height: 1.32; }
+
+  /* panels */
+  .body { flex: 1; padding: 9mm 10mm 10mm; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 326mm 284mm 1fr; gap: 8mm 9mm; min-height: 0; }
+  section { border: 1.6mm solid var(--navy); border-radius: 6mm; background: #FFFFFF; display: flex; flex-direction: column; min-height: 0; }
+  section.wide { grid-column: 1 / -1; }
+  section h2 { flex: none; background: var(--navy); color: #FFFFFF; text-align: center; font-size: 50pt; font-weight: 700; line-height: 1; padding: 6mm 0 6.5mm; border-radius: 3.4mm 3.4mm 0 0; }
+  .in { flex: 1; padding: 7mm 9mm 8mm; display: flex; flex-direction: column; min-height: 0; }
+
+  p, li { font-size: 33pt; line-height: 1.3; }
+  .lead { font-weight: 700; font-size: 34pt; }
+  .sub-h { font-size: 36pt; font-weight: 700; line-height: 1.2; margin-top: 4mm; }
+  b { font-weight: 700; }
+  .bul { list-style: none; }
+  .bul li { position: relative; padding-left: 12mm; }
+  .bul li::before { content: "•"; position: absolute; left: 3mm; }
+  .bul.ind { margin-left: 9mm; }
+
+  /* figure helpers */
+  .lbl { font-size: 32pt; }
+  .cap { font-size: 30pt; font-style: italic; text-align: center; }
+  .note { font-size: 28pt; text-align: center; }
+  .stage { position: relative; }
+  .stage img { display: block; width: 100%; }
+  .stage .lbl { position: absolute; }
+
+  /* table */
+  table { width: 100%; border-collapse: collapse; margin-top: 1mm; }
+  th, td { font-size: 32pt; line-height: 1.2; text-align: center; padding: 3mm 3mm; }
+  th { background: var(--teal); color: #FFFFFF; font-weight: 700; }
+  tr:nth-child(odd) td { background: var(--row-a); }
+  tr:nth-child(even) td { background: var(--row-b); }
+  td:first-child { text-align: left; padding-left: 5mm; }
+  td + td, th + th { border-left: 0.8mm solid #FFFFFF; }
+  .small { font-size: 22pt; }
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <header class="band" data-shape>
+    <div class="card" data-shape><img src="assets/neecon-logo.png" alt="NEECON 2026" data-img="logo-neecon"></div>
+    <div class="head">
+      <h1 data-t>LEARNING WHEN TO TRANSFER: ROBUST SOLAR<br>POWER FORECASTING UNDER CAPACITY MISMATCH</h1>
+      <p class="authors" data-t>Dina Belay, Binyam Mamo Sharew, Samuel Tadesse, Nour Aburaed, Sabina Abdul Hadi<br>Department of Electrical and Computer Engineering, University of Dubai, UAE<br>{s0000003955, s0000003957, s0000004025, noaburaed, sahadi}@ud.ac.ae</p>
+    </div>
+    <div class="seal" data-shape><img src="assets/ud-emblem.svg" alt="University of Dubai" data-img="logo-ud"></div>
+  </header>
+
+  <main class="body">
+
+    <section data-shape>
+      <h2 data-shape data-t>1. PROBLEM STATEMENT &amp; MOTIVATION</h2>
+      <div class="in">
+        <p class="lead" data-t>Cold-start PV data scarcity and magnitude overfitting during transfer between plants of unequal capacity</p>
+        <div class="stage" style="margin:13mm 4mm 0 14mm">
+          <img src="assets/colleague/panels.png" alt="14 MW source plant and 1.4 MW target plant" data-img="panels">
+          <span class="lbl" style="left:6%;top:-10mm" data-t>14 MW Source</span>
+          <span class="lbl" style="left:69%;top:15mm" data-t>1.4 MW Target</span>
+        </div>
+        <p class="cap" style="margin-top:3mm" data-t>Magnitude overfitting under unequal capacities</p>
+        <p class="sub-h" style="margin-top:8mm" data-t>Objectives</p>
+        <ul class="bul">
+          <li data-t>Investigate zero-target-label unsupervised transfer</li>
+          <li data-t>Decouple scale via per-unit normalization</li>
+          <li data-t>Eliminate deterministic diurnal cycles with the Clear-Sky Index</li>
+          <li data-t>Align dynamics through a CDAN</li>
+        </ul>
+      </div>
+    </section>
+
+    <section data-shape>
+      <h2 data-shape data-t>2. KEY CONTRIBUTIONS &amp; DATA</h2>
+      <div class="in">
+        <p class="sub-h" style="margin-top:0" data-t>1) Failure Mode Characterization</p>
+        <ul class="bul ind"><li data-t>Identifies magnitude overfitting as the cause of transfer collapse and motivates magnitude normalization</li></ul>
+        <p class="sub-h" data-t>2) Physics-Guided Domain Alignment</p>
+        <ul class="bul ind"><li data-t>Per-unit scaling and the Clear-Sky Index remove capacity and diurnal effects before CDAN alignment</li></ul>
+        <p class="sub-h" data-t>3) Transfer Boundary Delineation</p>
+        <div class="stage" style="margin:10mm 24mm 0">
+          <img src="assets/colleague/maps.png" alt="India source and Australia target" data-img="maps">
+          <span class="lbl" style="left:15%;top:-9mm" data-t>India</span>
+          <span class="lbl" style="left:74%;top:-9mm" data-t>Australia</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1.25fr;gap:6mm;margin:1mm 0 2mm">
+          <p class="note" data-t>(mature source)</p>
+          <p class="note" data-t>(cross-continental target with<br>discordant hemispheric seasonality)</p>
+        </div>
+        <ul class="bul"><li data-t>Tests intra-regional and cross-continental transfer</li></ul>
+      </div>
+    </section>
+
+    <section class="wide" data-shape>
+      <h2 data-shape data-t>3. PROPOSED METHODOLOGY &amp; ARCHITECTURE</h2>
+      <div class="in" style="padding:6mm 34mm 4mm">
+        <figure data-img="fig-cdan">{{fig:cdan-classic}}</figure>
+        <p class="note" style="margin-top:3mm" data-t>Fig. 1. Proposed CDAN + LSTM + CSI architecture</p>
+      </div>
+    </section>
+
+    <section data-shape>
+      <h2 data-shape data-t>4. EXPERIMENTAL BENCHMARK &amp; TRACKING</h2>
+      <div class="in">
+        <table>
+          <tr><th data-shape></th><th data-shape><span data-t>Task 1<br>India</span></th><th data-shape><span data-t>Task 2<br>Australia</span></th><th data-shape><span data-t>Task 3<br>Australia</span></th></tr>
+          <tr><td data-shape><span data-t>A1: Source-only LSTM</span></td><td data-shape><span data-t>0.8325</span></td><td data-shape><span data-t>–</span></td><td data-shape><span data-t>–</span></td></tr>
+          <tr><td data-shape><span data-t>A3: CDAN+LSTM</span></td><td data-shape><span data-t>0.8329</span></td><td data-shape><span data-t>–</span></td><td data-shape><span data-t>–</span></td></tr>
+          <tr><td data-shape><span data-t>A4: Transformer</span></td><td data-shape><span data-t>–</span></td><td data-shape><span data-t>0.5428</span></td><td data-shape><span data-t>0.5428</span></td></tr>
+          <tr><td data-shape><b data-t>Proposed (CDAN+LSTM+CSI)</b></td><td data-shape><b data-t>0.8325</b></td><td data-shape><b data-t>0.5428</b></td><td data-shape><b data-t>–</b></td></tr>
+        </table>
+        <p class="lbl" style="text-align:center;margin-top:8mm" data-t>Uncalibrated Baseline: Ŷ &gt; 10,000 kW (Off-Scale)</p>
+        <div class="stage" style="margin:2mm 0 0"><img src="assets/colleague/chart.png" alt="48-hour tracking curve" data-img="chart"></div>
+        <p class="note" style="margin-top:2mm" data-t>Fig. 2. 48-hour tracking curve</p>
+      </div>
+    </section>
+
+    <section data-shape>
+      <h2 data-shape data-t>5. DISCUSSION &amp; FUTURE WORK</h2>
+      <div class="in">
+        <p class="sub-h" style="margin-top:0" data-t>Key Insight</p>
+        <ul class="bul">
+          <li data-t><b>Adversarial alignment</b> is highly effective <b>intra-regionally</b>, but <b>cross-continental transfer</b> (India to Australia) encounters <b>negative transfer (R² &lt; 0)</b> due to <b>seasonal phase misalignment</b>.</li>
+          <li data-t>Unadapted Transformers are resilient and retain positive skill.</li>
+        </ul>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10mm;margin:7mm 6mm 0;align-items:end">
+          <div class="stage" style="padding:0 6mm"><img src="assets/colleague/intra.png" alt="Intra-regional CDAN" data-img="intra"></div>
+          <div class="stage" style="padding:0 8mm"><img src="assets/colleague/globes.png" alt="Cross-hemisphere CDAN" data-img="globes"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10mm;margin:3mm 6mm 0">
+          <div><p class="note" style="font-size:28pt;font-weight:700" data-t>Intra-Regional CDAN</p><p class="note" style="font-size:28pt" data-t>(Aligned Representation)</p></div>
+          <div><p class="note" style="font-size:28pt;font-weight:700" data-t>Cross-Hemisphere CDAN</p><p class="note" style="font-size:28pt" data-t>(Negative Transfer)</p></div>
+        </div>
+        <p class="sub-h" style="margin-top:7mm" data-t>Conclusion</p>
+        <ul class="bul">
+          <li data-t>Resolves the uncalibrated magnitude collapse with per-unit scaling and nocturnal zero-masking.</li>
+          <li data-t><b>Outlines</b> adaptation boundaries: intra-regional alignment helps, cross-continental transfer does not.</li>
+          <li data-t><b>Establishes a zero-label transfer benchmark.</b></li>
+          <li data-t><b>Future work with post-commissioning fine-tuning.</b></li>
+          <li data-t><b>Acknowledgment:</b> GenAI/LLM tools helped in preparing this poster.</li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+</div>
+</body>
+</html>

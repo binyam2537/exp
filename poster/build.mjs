@@ -44,6 +44,7 @@ const inline = src => src
   .replace('{{charts}}', charts)
   .replace('{{fig:method}}', readFileSync(join(root, 'src/fig-method.svg'), 'utf8'))
   .replace('{{fig:cdan}}', readFileSync(join(root, 'src/fig-cdan.svg'), 'utf8'))
+  .replace('{{fig:cdan-classic}}', readFileSync(join(root, 'src/fig-cdan-classic.svg'), 'utf8'))
   .replace('{{PAPER_ID}}', PAPER_ID ? ` · Paper ID ${PAPER_ID}` : '')
   .replace('{{CONTACT}}', CONTACT_EMAIL ? `<p>Contact: ${CONTACT_EMAIL}</p>` : '');
 

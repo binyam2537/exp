@@ -26,7 +26,19 @@ const layout = await page.evaluate(() => {
     const cs = getComputedStyle(e);
     shapes.push({ kind, ...r(e), color: hex(cs.backgroundColor), radius: parseFloat(cs.borderTopLeftRadius) || 0 });
   });
-  add('.band', 'band'); add('section', 'box'); add('.bottom', 'band');
+  // Pages that mark their shapes with data-shape (option E) export exactly those, with per-corner radii and borders.
+  const alpha = c => { const m = c.match(/[\d.]+/g); return m.length > 3 ? Number(m[3]) : 1; };
+  document.querySelectorAll('[data-shape]').forEach(e => {
+    const cs = getComputedStyle(e);
+    const bw = parseFloat(cs.borderTopWidth) || 0;
+    const fill = alpha(cs.backgroundColor) > 0 ? hex(cs.backgroundColor) : null;
+    if (!fill && !bw) return;
+    const rad = ['borderTopLeftRadius', 'borderTopRightRadius', 'borderBottomRightRadius', 'borderBottomLeftRadius']
+      .map(k => cs[k].endsWith('%') ? 1e6 : parseFloat(cs[k]) || 0);
+    shapes.push({ kind: 'shape', ...r(e), color: fill || '#FFFFFF', radii: rad, radius: rad[0],
+      ...(bw ? { stroke: hex(cs.borderTopColor), strokeWidth: bw } : {}) });
+  });
+  if (!shapes.length) { add('.band', 'band'); add('section', 'box'); add('.bottom', 'band'); }
   document.querySelectorAll('.ph').forEach(e => {
     const cs = getComputedStyle(e);
     shapes.push({ kind: 'placeholder', ...r(e), color: hex(cs.backgroundColor), radius: parseFloat(cs.borderTopLeftRadius) || 0,
@@ -36,16 +48,26 @@ const layout = await page.evaluate(() => {
   const sel = ['.top .conf', '.band h1', '.band .authors', 'section h2', '.sub-h', 'section > p:not(.note)', 'section .note',
     'ol.goals li', 'figcaption', 'th', 'td', '.metrics > div', '.concl h3', '.concl p', '.refs h2', '.refs p', '.bottom p',
     '.contrib .k', '.contrib h3', '.contrib p', 'section > h3', '.bul li', '.ph p'];
-  document.querySelectorAll(sel.join(',')).forEach(e => {
+  const marked = document.querySelector('[data-t]');
+  document.querySelectorAll(marked ? '[data-t]' : sel.join(',')).forEach(e => {
     if (!e.innerText || !e.innerText.trim()) return;
     const cs = getComputedStyle(e);
     let text = e.innerText.replace(/ /g, ' ').trim();
     if (e.closest('[data-img]')) return;
     if (e.matches('ol.goals li')) text = (Array.from(e.parentNode.children).indexOf(e) + 1) + '. ' + text;
-    if (e.matches('.bul li')) text = '• ' + text;
+    if (e.matches('.bul li') && !marked) text = '• ' + text;
     if (cs.textTransform === 'uppercase') text = text.toUpperCase();
-    texts.push({ ...r(e), text, size: parseFloat(cs.fontSize), weight: parseInt(cs.fontWeight) >= 600 ? 'bold' : 'normal',
-      color: hex(cs.color), align: cs.textAlign === 'right' ? 'end' : cs.textAlign === 'center' ? 'center' : 'start',
+    // A text inside a table cell takes the cell's width and alignment; list items become real bullet lists.
+    const cell = marked && e.closest('td, th');
+    const box = cell && cell !== e ? { ...r(e), left: r(cell).left, width: r(cell).width } : r(e);
+    const ccs = cell ? getComputedStyle(cell) : cs;
+    const list = marked && e.matches('.bul li');
+    // Canva styles a whole text box at once, so only fully bold runs stay bold.
+    const bold = e.querySelectorAll('b').length && [...e.querySelectorAll('b')].reduce((n, b) => n + b.innerText.replace(/\s/g, '').length, 0) >= text.replace(/\s/g, '').length;
+    texts.push({ ...box, list, text, size: parseFloat(cs.fontSize), weight: bold || parseInt(cs.fontWeight) >= 600 ? 'bold' : 'normal',
+      style: cs.fontStyle,
+      color: hex(cs.color), align: cell ? (ccs.textAlign === 'center' ? 'center' : ccs.textAlign === 'right' ? 'end' : 'start')
+        : cs.textAlign === 'right' ? 'end' : cs.textAlign === 'center' ? 'center' : 'start',
       lineHeight: cs.lineHeight === 'normal' ? 1.2 : parseFloat(cs.lineHeight) / parseFloat(cs.fontSize),
       font: cs.fontFamily.split(',')[0].replace(/"/g, '') });
   });
@@ -56,6 +78,8 @@ const layout = await page.evaluate(() => {
 
 // Images: hide text that is rebuilt as text boxes, then screenshot the graphic parts.
 await page.addStyleTag({ content: '.scenarios figcaption { visibility: hidden !important; }' });
+// Shapes are rebuilt natively, so image crops are taken on a transparent page.
+await page.addStyleTag({ content: 'html, body, [data-shape] { background: transparent !important; border-color: transparent !important; } [data-t] { visibility: hidden !important; }' });
 const marked = await page.evaluate(() => Array.from(document.querySelectorAll('[data-img]')).map(e => e.dataset.img));
 const shots = marked.length ? marked.map(n => [n, `[data-img="${n}"]`]) : [
   ['logos-top', '.top > img'], ['logos-right', '.top .logos'], ['art', '.band .art'], ['console', 'figure .ui'],
@@ -67,7 +91,7 @@ layout.images = [];
 for (const [name, s] of shots) {
   const el = page.locator(s).first();
   const box = await el.boundingBox();
-  await el.screenshot({ path: join(out, 'img', name + '.png') });
+  await el.screenshot({ path: join(out, 'img', name + '.png'), omitBackground: true });
   layout.images.push({ name, file: `img/${name}.png`, ...box });
 }
 writeFileSync(join(out, 'layout.json'), JSON.stringify(layout, null, 1));
