@@ -21,6 +21,10 @@ const fonts = {
   'barlow-condensed-600.woff2': '@fontsource/barlow-condensed/files/barlow-condensed-latin-600-normal.woff2',
   'barlow-condensed-700.woff2': '@fontsource/barlow-condensed/files/barlow-condensed-latin-700-normal.woff2',
   'schibsted-grotesk-700.woff2': '@fontsource/schibsted-grotesk/files/schibsted-grotesk-latin-700-normal.woff2',
+  'stix-text-latin-400i.woff2': '@fontsource/stix-two-text/files/stix-two-text-latin-400-italic.woff2',
+  'stix-text-latinext-400i.woff2': '@fontsource/stix-two-text/files/stix-two-text-latin-ext-400-italic.woff2',
+  'stix-text-greek-400i.woff2': '@fontsource/stix-two-text/files/stix-two-text-greek-400-italic.woff2',
+  'stix-math-400.woff2': '@fontsource/stix-two-math/files/stix-two-math-latin-400-normal.woff2',
   'schibsted-grotesk-800.woff2': '@fontsource/schibsted-grotesk/files/schibsted-grotesk-latin-800-normal.woff2',
 };
 mkdirSync(join(root, 'assets/fonts'), { recursive: true });
@@ -39,6 +43,7 @@ const inline = src => src
   .replaceAll('{{arrow}}', arrow)
   .replace('{{charts}}', charts)
   .replace('{{fig:method}}', readFileSync(join(root, 'src/fig-method.svg'), 'utf8'))
+  .replace('{{fig:cdan}}', readFileSync(join(root, 'src/fig-cdan.svg'), 'utf8'))
   .replace('{{PAPER_ID}}', PAPER_ID ? ` · Paper ID ${PAPER_ID}` : '')
   .replace('{{CONTACT}}', CONTACT_EMAIL ? `<p>Contact: ${CONTACT_EMAIL}</p>` : '');
 
@@ -64,7 +69,9 @@ for (const file of options) {
   });
   issues.forEach(i => console.warn(`WARNING [${id.toUpperCase()}]:`, i));
 
-  await page.pdf({ path: join(root, `SolarTwin-AI_NEECON2026_A0_option-${id.toUpperCase()}.pdf`), width: '841mm', height: '1189mm', printBackground: true, preferCSSPageSize: true });
+  // A page can name its own print file with <meta name="pdf-name">; otherwise it is an option of the SolarTwin poster.
+  const pdfName = await page.evaluate(() => document.querySelector('meta[name="pdf-name"]')?.content);
+  await page.pdf({ path: join(root, pdfName || `SolarTwin-AI_NEECON2026_A0_option-${id.toUpperCase()}.pdf`), width: '841mm', height: '1189mm', printBackground: true, preferCSSPageSize: true });
   await page.screenshot({ path: join(root, `preview-${id}.png`), scale: 'css' });
   await page.close();
   console.log(`Built option ${id.toUpperCase()}`);

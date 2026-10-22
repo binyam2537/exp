@@ -10,13 +10,14 @@ L = json.loads((d / 'layout.json').read_text())
 media = dict(line.split() for line in (d / 'media.txt').read_text().splitlines() if line.strip())
 r = lambda v: round(v, 1)
 
-def rect(x, y, w, h, color, radius=0):
-    return {'type': 'insert_shape', 'page_id': page, 'left': r(x), 'top': r(y), 'width': r(w), 'height': r(h),
+def rect(x, y, w, h, color, radius=0, stroke=None, stroke_weight=0):
+    extra = {'stroke_color': stroke, 'stroke_weight': round(stroke_weight, 1)} if stroke else {}
+    return {**extra, 'type': 'insert_shape', 'page_id': page, 'left': r(x), 'top': r(y), 'width': r(w), 'height': r(h),
             'path': f'M0 0 H{r(w)} V{r(h)} H0 Z', 'view_box_width': r(w), 'view_box_height': r(h),
             'color': color, **({'corner_rounding': r(radius)} if radius else {})}
 
 shapes = [rect(0, 0, L['width'], L['height'], L['background'])]
-shapes += [rect(s['left'], s['top'], s['width'], s['height'], s['color'], s['radius']) for s in L['shapes']]
+shapes += [rect(s['left'], s['top'], s['width'], s['height'], s['color'], s['radius'], s.get('stroke'), s.get('strokeWidth', 0)) for s in L['shapes']]
 images = [{'type': 'insert_fill', 'page_id': page, 'asset_type': 'image', 'asset_id': media[i['name']],
            'alt_text': i['name'].replace('-', ' '), 'left': r(i['x']), 'top': r(i['y']),
            'width': r(i['width']), 'height': r(i['height'])} for i in L['images']]

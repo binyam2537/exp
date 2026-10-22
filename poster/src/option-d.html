@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Learning When to Transfer · NEECON 2026 Poster</title>
+<meta name="pdf-name" content="Learning-When-to-Transfer_NEECON2026_A0.pdf">
+<!--
+  A0 portrait poster for the accepted NEECON 2026 paper (colleague version, restyled in the option B look).
+  Section order follows the official NEECON 2026 poster template:
+  master header, title and authors, then two columns
+  (Abstract, Problem Statement & Objectives, Related Literature, Methodology |
+   Design & Validation, Results & Analysis, Conclusion), References & Contact, master footer.
+  Build with `npm run build`.
+-->
+<style>
+  @page { size: 841mm 1189mm; margin: 0; }
+  @font-face { font-family: "Newsreader"; font-weight: 500; src: url(assets/fonts/newsreader-500.woff2) format("woff2"); }
+  @font-face { font-family: "Newsreader"; font-weight: 600; src: url(assets/fonts/newsreader-600.woff2) format("woff2"); }
+  @font-face { font-family: "Public Sans"; font-weight: 400; src: url(assets/fonts/public-sans-400.woff2) format("woff2"); }
+  @font-face { font-family: "Public Sans"; font-weight: 600; src: url(assets/fonts/public-sans-600.woff2) format("woff2"); }
+  @font-face { font-family: "Public Sans"; font-weight: 700; src: url(assets/fonts/public-sans-700.woff2) format("woff2"); }
+
+  :root {
+    --paper: #F3F4F2;
+    --sheet: #FAFBFA;
+    --band: #E5E8E4;
+    --ink: #18212D;
+    --ink-2: #3A4350;
+    --muted: #59626E;
+    --rule: #CDD2CD;
+    --navy: #1E3A5F;
+    --ochre: #8A5A0B;
+    --teal: #00806A;
+    --brick: #A23B2A;
+
+    --serif: "Newsreader", Georgia, serif;
+    --sans: "Public Sans", "Helvetica Neue", sans-serif;
+
+    --margin: 40mm;
+    --col-gap: 32mm;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--paper); }
+  body {
+    width: 841mm; height: 1189mm; overflow: hidden;
+    font-family: var(--sans); color: var(--ink);
+    font-variant-numeric: lining-nums tabular-nums;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .poster { width: 841mm; height: 1189mm; display: flex; flex-direction: column; }
+  svg.i { width: 1em; height: 1em; flex: none; display: block; }
+
+  /* master header (template) */
+  .top { flex: none; margin: 0 var(--margin); padding-top: 30mm; display: flex; align-items: center; justify-content: space-between; gap: 30mm; }
+  .logos { display: flex; align-items: center; gap: 12mm; mix-blend-mode: multiply; }
+  .logos img { display: block; }
+
+  /* title */
+  .title { flex: none; margin: 0 var(--margin); padding: 6mm 0 18mm; display: grid; grid-template-columns: 1fr 250mm; gap: 24mm; align-items: end; border-bottom: 0.35mm solid var(--rule); }
+  h1 { font-family: var(--serif); font-weight: 600; font-size: 132pt; line-height: 0.95; letter-spacing: -0.025em; color: var(--ink); }
+  .sub { font-family: var(--serif); font-weight: 500; font-size: 40pt; line-height: 1.18; color: var(--ink-2); max-width: 420mm; }
+  .authors { margin-top: 14mm; font-size: 26pt; line-height: 1.4; }
+  .authors b { font-weight: 700; }
+  .authors .affil { display: block; font-size: 21pt; color: var(--muted); margin-top: 1mm; }
+  .art { align-self: center; mix-blend-mode: multiply; }
+  .art img { display: block; width: 100%; }
+
+  /* body columns */
+  .cols { flex: 1; margin: 0 var(--margin); display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--col-gap); position: relative; min-height: 0; }
+  .cols::before { content: ""; position: absolute; left: 50%; top: 14mm; bottom: 10mm; width: 0.35mm; background: var(--rule); }
+  .col { display: flex; flex-direction: column; padding-top: 14mm; min-height: 0; }
+  section { padding: 0 0 14mm; }
+  section + section { border-top: 0.35mm solid var(--rule); padding-top: 13mm; }
+  .col > section:last-child { flex: 1; display: flex; flex-direction: column; }
+
+  h2 { font-family: var(--serif); font-weight: 600; font-size: 50pt; line-height: 1.1; letter-spacing: -0.01em; color: var(--navy); margin-bottom: 6mm; }
+  h3 { font-size: 22pt; font-weight: 700; color: var(--ink); }
+  p, li, dd { font-size: 28pt; line-height: 1.45; color: var(--ink-2); }
+  p + p { margin-top: 4mm; }
+  strong { font-weight: 700; color: var(--ink); }
+
+  ol.goals { list-style: none; counter-reset: g; margin-top: 6mm; display: flex; flex-direction: column; gap: 3.5mm; }
+  ol.goals li { counter-increment: g; display: grid; grid-template-columns: 11mm 1fr; }
+  ol.goals li::before { content: counter(g) "."; font-weight: 700; color: var(--ochre); }
+
+  /* methodology diagram */
+  .flow { margin-top: 2mm; display: flex; flex-direction: column; align-items: stretch; }
+  .step { display: grid; grid-template-columns: 15mm 1fr; column-gap: 7mm; align-items: start; padding: 8mm 9mm; border: 0.35mm solid var(--rule); background: var(--sheet); }
+  .step .ico { font-size: 14mm; color: var(--ink); grid-row: span 2; margin-top: 0.6mm; }
+  .step h3 { font-size: 27pt; }
+  .step p { font-size: 22.5pt; line-height: 1.38; color: var(--muted); }
+  .step.trust { border-color: var(--teal); }
+  .step.trust .ico { color: var(--teal); }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+  .link { height: 12mm; display: flex; justify-content: center; color: var(--muted); }
+  .link svg { height: 12mm; width: 5mm; }
+  .note { margin-top: 9mm; font-size: 22.5pt; line-height: 1.42; color: var(--muted); }
+
+  /* figures */
+  figure { margin: 2mm 0 0; }
+  figcaption { margin-top: 4mm; font-size: 20pt; line-height: 1.4; color: var(--muted); }
+  figcaption b { color: var(--ink-2); font-weight: 700; }
+
+  /* console screenshot */
+  .ui { border: 0.35mm solid var(--rule); background: var(--sheet); border-radius: 1.2mm; overflow: hidden; }
+  .ui-head { display: flex; justify-content: space-between; align-items: baseline; padding: 4.5mm 6mm; border-bottom: 0.35mm solid var(--rule); font-size: 17pt; color: var(--muted); }
+  .ui-head b { font-size: 19pt; color: var(--ink); font-weight: 700; margin-right: 3mm; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 0.35mm solid var(--rule); }
+  .kpi { padding: 4mm 6mm; }
+  .kpi + .kpi { border-left: 0.35mm solid var(--rule); }
+  .kpi small { display: block; font-size: 14pt; color: var(--muted); margin-bottom: 1mm; }
+  .kpi b { font-size: 20pt; font-weight: 700; }
+  .ui-main { display: grid; grid-template-columns: 1fr 112mm; }
+  .ui-chart { padding: 4mm 5mm 3mm 6mm; }
+  .ui-trace { padding: 4mm 6mm; border-left: 0.35mm solid var(--rule); }
+  .ui-label { font-size: 15pt; font-weight: 700; color: var(--ink); margin-bottom: 2mm; }
+  .trace { list-style: none; counter-reset: t; display: flex; flex-direction: column; gap: 3.2mm; }
+  .trace li { counter-increment: t; display: grid; grid-template-columns: 7mm 1fr; font-size: 14.5pt; line-height: 1.32; color: var(--muted); }
+  .trace li::before { content: counter(t); font-weight: 700; color: var(--ink-2); }
+  .trace li b { display: block; color: var(--ink); font-weight: 700; }
+  .ui-foot { display: flex; gap: 2.5mm; align-items: center; padding: 3.5mm 6mm; border-top: 0.35mm solid var(--rule); }
+  .ui-foot span { font-size: 14.5pt; font-weight: 600; padding: 1.6mm 3.6mm; border: 0.35mm solid var(--rule); border-radius: 0.8mm; color: var(--ink-2); }
+  .ui-foot span.on { background: var(--ink); border-color: var(--ink); color: var(--sheet); }
+  .ui-foot small { font-size: 14.5pt; color: var(--muted); margin-right: 1.5mm; }
+
+  .sub-h { font-family: var(--serif); font-weight: 600; font-size: 35pt; color: var(--navy); margin: 12mm 0 0; }
+  .scen { margin-top: 6mm; display: grid; grid-template-columns: 1fr 1fr; column-gap: 10mm; row-gap: 4.5mm; }
+  .scen > div { display: grid; grid-template-columns: 9mm 1fr; }
+  .scen .k { font-family: var(--serif); font-weight: 600; font-size: 29pt; color: var(--ochre); line-height: 1.25; }
+  .scen h3 { font-size: 24pt; }
+  .scen p { font-size: 21pt; line-height: 1.35; color: var(--muted); }
+
+  .scenarios { margin-top: 6mm; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6mm; }
+  .scenarios figure { margin: 0; }
+  .mini { border: 0.35mm solid var(--rule); background: var(--sheet); padding: 3mm 3mm 2mm; }
+  .mini svg { display: block; width: 100%; height: auto; }
+  .scenarios figcaption { margin-top: 3mm; display: flex; align-items: baseline; gap: 2.4mm; font-size: 20pt; font-weight: 700; color: var(--ink); }
+  .scenarios .k { font-family: var(--serif); font-weight: 600; font-size: 26pt; color: var(--ochre); }
+  .metrics { margin-top: 9mm; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 0.5mm solid var(--ink); }
+  .metrics > div { padding: 4mm 5mm 0 0; display: flex; flex-direction: column; gap: 1.6mm; }
+  .metrics > div + div { padding-left: 5mm; border-left: 0.35mm solid var(--rule); }
+  .metrics h4 { font-size: 18pt; font-weight: 700; color: var(--muted); margin-bottom: 1mm; }
+  .metrics span { font-size: 22pt; color: var(--ink); }
+
+  /* results table */
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; margin: 1mm 0 7mm; }
+  col.c-case { width: 40%; } col.c-model { width: 33%; } col.c-res { width: 27%; }
+  th { text-align: left; font-size: 18pt; font-weight: 700; color: var(--muted); padding: 0 0 3mm; border-bottom: 0.5mm solid var(--ink); }
+  td { font-size: 24pt; line-height: 1.25; color: var(--ink-2); padding: 4.5mm 0; border-bottom: 0.35mm solid var(--rule); vertical-align: top; }
+  th + th, td + td { padding-left: 5mm; }
+  th.r, td.r { text-align: right; }
+  td.r { font-weight: 700; color: var(--ink); }
+  td.r.neg { color: var(--brick); }
+  td small { display: block; margin-top: 1mm; font-size: 18pt; line-height: 1.25; color: var(--muted); }
+  .chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+  .concl { display: grid; grid-template-columns: 1fr 1fr; column-gap: 12mm; row-gap: 10mm; margin-top: 2mm; }
+  .concl .ico { display: block; font-size: 13mm; color: var(--ochre); margin-bottom: 3mm; }
+  .concl h3 { font-size: 25pt; margin-bottom: 1.5mm; }
+  .concl p { font-size: 23.5pt; line-height: 1.42; }
+
+  /* references */
+  .refs { flex: none; margin: 0 var(--margin); padding: 9mm 0 11mm; border-top: 0.35mm solid var(--rule); display: grid; grid-template-columns: auto 1fr; column-gap: 14mm; align-items: baseline; }
+  .refs h2 { font-size: 30pt; margin: 0; }
+  .refs p { font-size: 18pt; line-height: 1.45; color: var(--muted); }
+  .refs p + p { margin-top: 1mm; }
+
+  /* master footer (template) */
+  .bottom { flex: none; background: var(--band); padding: 7mm var(--margin); display: flex; align-items: center; gap: 10mm; }
+  .bottom img { mix-blend-mode: multiply; }
+  .bottom p { font-size: 18pt; line-height: 1.35; color: var(--ink-2); }
+  .bottom p b { color: var(--ink); }
+
+  /* ===== Option B: colored containers ===== */
+  @font-face { font-family: "Barlow Condensed"; font-weight: 600; src: url(assets/fonts/barlow-condensed-600.woff2) format("woff2"); }
+  @font-face { font-family: "Barlow Condensed"; font-weight: 700; src: url(assets/fonts/barlow-condensed-700.woff2) format("woff2"); }
+  :root { --cond: "Barlow Condensed", "Arial Narrow", sans-serif; --box: #E3E9EE; --navy: #1D3557; --margin: 30mm; }
+  .top { padding: 0; height: 52mm; gap: 20mm; }
+  .top .conf { flex: 1; font-size: 21pt; line-height: 1.35; color: var(--ink-2); }
+  .top .conf b { color: var(--ink); }
+  .band { flex: none; background: var(--navy); padding: 20mm var(--margin) 18mm; display: grid; grid-template-columns: 1fr 200mm; gap: 20mm; align-items: center; }
+  .band h1 { font-family: var(--cond); font-weight: 700; font-size: 90pt; line-height: 0.98; letter-spacing: 0; text-transform: uppercase; color: #FFFFFF; }
+  .band .sub { font-family: var(--sans); font-weight: 400; font-size: 34pt; line-height: 1.25; color: #D2DCE7; margin-top: 6mm; }
+  .band .authors { margin-top: 10mm; font-size: 25pt; color: #E9EEF3; }
+  .band .authors b { color: #FFFFFF; }
+  .band .art { mix-blend-mode: normal; }
+  .cols { column-gap: 12mm; }
+  .cols::before { display: none; }
+  .col { padding-top: 12mm; gap: 10mm; }
+  section, section + section { background: var(--box); border: 0; border-radius: 1.5mm; padding: 11mm 12mm 12mm; }
+  h2 { font-family: var(--cond); font-weight: 700; font-size: 46pt; text-transform: uppercase; letter-spacing: 0.01em; line-height: 1; color: var(--navy); margin-bottom: 6mm; }
+  .sub-h { font-family: var(--cond); font-weight: 700; font-size: 32pt; text-transform: uppercase; letter-spacing: 0.01em; color: var(--navy); }
+  .step, .mini, .ui { background: #F8FAFB; border-color: #CBD5DE; }
+  .step.trust { border-color: var(--teal); }
+  table th { border-bottom-color: var(--navy); }
+  td { border-bottom-color: #C6D0DA; }
+  .metrics { border-top-color: var(--navy); }
+  .metrics > div + div { border-left-color: #C6D0DA; }
+  section.key { background: var(--navy); }
+  section.key h2 { color: #FFFFFF; }
+  section.key .concl h3 { color: #FFFFFF; }
+  section.key .concl p { color: #D2DCE7; }
+  section.key .concl .ico { color: #E2B866; }
+  section.key .concl { row-gap: 16mm; margin-top: 6mm; }
+  section.key .concl .ico { font-size: 15mm; }
+  section.key .concl h3 { font-size: 28pt; }
+  section.key .concl p { font-size: 26pt; }
+  .refs { border-top: 0; padding-top: 10mm; }
+  .refs h2 { font-size: 30pt; }
+
+  /* ===== Option D: paper poster in the option B look ===== */
+  .cols { flex: none; }
+  .cols2 { flex: 1; }
+  .cols .col { padding-top: 10mm; }
+  section.wide { flex: none; margin: 10mm var(--margin) 0; background: var(--box); border-radius: 1.5mm; padding: 10mm 12mm 9mm; }
+  .band h1 { font-size: 80pt; }
+  .figcap-inline { font-size: 20pt; line-height: 1.4; color: var(--muted); margin-top: 4mm; }
+  .figcap-inline b { color: var(--ink-2); }
+  .capfig, .geofig { margin: 8mm 0 0; }
+  .cap-row, .geo-row { display: flex; align-items: flex-end; justify-content: center; gap: 22mm; padding: 6mm 0 2mm; }
+  .cap, .geo { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1mm; color: var(--navy); }
+  .cap .big { font-size: 46mm; } .cap .small { font-size: 20mm; }
+  .cap b, .geo b { font-size: 30pt; color: var(--ink); }
+  .cap small, .geo small { font-size: 19pt; line-height: 1.3; color: var(--muted); }
+  .cap-arrow { font-size: 16mm; color: var(--muted); align-self: center; }
+  .geo span { font-size: 30mm; color: var(--teal); }
+  .contrib { display: flex; flex-direction: column; gap: 7mm; }
+  .contrib > div { display: grid; grid-template-columns: 14mm 1fr; }
+  .contrib .k { font-family: var(--cond); font-weight: 700; font-size: 40pt; line-height: 1; color: var(--ochre); }
+  .contrib h3 { font-size: 26pt; margin-bottom: 1.5mm; }
+  .contrib p { font-size: 25pt; }
+  .goals li { font-size: 25pt; }
+  col.c-m { width: 46%; } col.c-n { width: 18%; }
+  th small { display: block; font-weight: 400; font-size: 16pt; color: var(--muted); }
+  td.n { font-variant-numeric: tabular-nums; }
+  tr.best td { font-weight: 700; color: var(--ink); border-bottom-color: var(--navy); }
+  .ph { margin-top: 7mm; height: 104mm; border: 0.5mm solid #C6D0DA; background: #F8FAFB; border-radius: 1.2mm; display: grid; place-items: center; }
+  .ph p { font-size: 22pt; color: var(--muted); }
+  section.key h3 { color: #FFFFFF; font-size: 27pt; margin: 2mm 0 2mm; }
+  section.key p { color: #D2DCE7; font-size: 24pt; }
+  .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 10mm; margin: 9mm 0 9mm; }
+  .vs > div { display: flex; flex-direction: column; gap: 1.5mm; }
+  .vs span { font-size: 15mm; color: #E2B866; }
+  .vs b { font-size: 24pt; color: #FFFFFF; }
+  .vs small { font-size: 20pt; color: #D2DCE7; }
+  .bul { padding-left: 8mm; display: flex; flex-direction: column; gap: 3mm; }
+  .bul li { font-size: 23pt; line-height: 1.4; color: #D2DCE7; }
+  .ack { margin-top: auto; padding-top: 8mm; font-size: 17pt !important; color: #AFC0D3 !important; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <header class="top">
+    <img src="assets/neecon-logo.png" style="height:30mm" alt="NEECON 2026" data-img="logos-top">
+    <p class="conf"><b>2026 Intl. Near East Conference on Electrical &amp; Energy Systems</b><br>21–23 October 2026, Dubai, UAE</p>
+    <div class="logos" data-img="logos-right">
+      <img src="assets/ud-logo.svg" style="height:24mm" alt="University of Dubai">
+      <img src="assets/ieee-uae.png" style="height:20mm" alt="IEEE UAE Section">
+      <img src="assets/ieee-pes.jpg" style="height:25mm" alt="IEEE Power &amp; Energy Society">
+    </div>
+  </header>
+
+  <div class="band">
+    <div>
+      <h1>Learning When to Transfer: Robust Solar Power<br>Forecasting Under Capacity Mismatch</h1>
+      <p class="authors"><b>Dina Belay, Binyam Mamo Sharew, Samuel Tadesse, Nour Aburaed, Sabina Abdul Hadi</b><br>Department of Electrical and Computer Engineering, University of Dubai, UAE{{PAPER_ID}}</p>
+    </div>
+    <div class="art" data-img="art"><img src="assets/twin-line-light.svg" alt="Line drawing of a source and a target solar array"></div>
+  </div>
+
+  <main class="cols">
+    <div class="col">
+      <section>
+        <h2>Problem Statement &amp; Motivation</h2>
+        <p>New PV plants start with no generation history. A model trained on a larger plant learns its output magnitude and overfits to it when transferred to a smaller one.</p>
+        <figure class="capfig" data-img="fig-capacity">
+          <div class="cap-row">
+            <div class="cap"><span class="big">{{ph:solar-panel}}</span><b>14 MW</b><small>Source plant</small></div>
+            <span class="cap-arrow">{{ph:arrow-right}}</span>
+            <div class="cap"><span class="small">{{ph:solar-panel}}</span><b>1.4 MW</b><small>Target plant</small></div>
+          </div>
+        </figure>
+        <p class="figcap-inline">Magnitude overfitting under a ten-fold capacity gap.</p>
+        <h3 class="sub-h">Objectives</h3>
+        <ol class="goals">
+          <li><span>Investigate <strong>zero-target-label</strong>, unsupervised transfer.</span></li>
+          <li><span><strong>Decouple scale</strong> through per-unit normalization.</span></li>
+          <li><span><strong>Remove the daily cycle</strong> with the Clear-Sky Index (CSI).</span></li>
+          <li><span><strong>Align dynamics</strong> with a conditional domain adversarial network (CDAN).</span></li>
+        </ol>
+      </section>
+    </div>
+    <div class="col">
+      <section>
+        <h2>Key Contributions &amp; Data</h2>
+        <div class="contrib">
+          <div><span class="k">1</span><div><h3>Failure-mode characterization</h3><p>Shows that magnitude overfitting causes the collapse when source and target capacities differ.</p></div></div>
+          <div><span class="k">2</span><div><h3>Physics-guided domain alignment</h3><p>Per-unit scaling and the CSI remove capacity and daily-cycle effects before CDAN aligns what remains.</p></div></div>
+          <div><span class="k">3</span><div><h3>Transfer boundary delineation</h3><p>Tests transfer within India and across continents to Australia, where the seasons are reversed.</p></div></div>
+        </div>
+        <figure class="geofig" data-img="fig-geo">
+          <div class="geo-row">
+            <div class="geo"><span>{{ph:globe-hemisphere-east}}</span><b>India</b><small>Mature source<br>Northern Hemisphere</small></div>
+            <span class="cap-arrow">{{ph:arrow-right}}</span>
+            <div class="geo"><span>{{ph:globe-hemisphere-east}}</span><b>Australia</b><small>Cross-continental target<br>Southern Hemisphere</small></div>
+          </div>
+        </figure>
+      </section>
+    </div>
+  </main>
+
+  <section class="wide">
+    <h2>Proposed Methodology &amp; Architecture</h2>
+    <figure class="method" data-img="fig-cdan">{{fig:cdan}}</figure>
+    <p class="figcap-inline"><b>Fig. 1.</b> Capacity decoupling and CSI stationarization feed a shared 2-layer LSTM. A gradient reversal layer trains the conditional domain discriminator, so source and target features align without target labels.</p>
+  </section>
+
+  <main class="cols cols2">
+    <div class="col">
+      <section>
+        <h2>Experimental Benchmark &amp; Tracking</h2>
+        <table>
+          <colgroup><col class="c-m"><col class="c-n"><col class="c-n"><col class="c-n"></colgroup>
+          <thead><tr><th>Model (R²)</th><th class="r">Task 1<small>India</small></th><th class="r">Task 2<small>Australia</small></th><th class="r">Task 3<small>Australia</small></th></tr></thead>
+          <tbody>
+            <tr><td>A1 · Source-only LSTM</td><td class="r n">0.8325</td><td class="r n">–</td><td class="r n">–</td></tr>
+            <tr><td>A3 · CDAN + LSTM</td><td class="r n">0.8329</td><td class="r n">–</td><td class="r n">–</td></tr>
+            <tr><td>A4 · Transformer</td><td class="r n">–</td><td class="r n">0.5428</td><td class="r n">0.5428</td></tr>
+            <tr class="best"><td>Proposed · CDAN + LSTM + CSI</td><td class="r n">0.8325</td><td class="r n">0.5428</td><td class="r n">–</td></tr>
+          </tbody>
+        </table>
+        <div class="ph" data-shape="placeholder"><p>Place the 48-hour tracking figure from the paper here</p></div>
+        <p class="figcap-inline"><b>Fig. 2.</b> 48-hour tracking: proposed (CDAN + CSI) against ground truth. The uncalibrated baseline exceeds 10,000 kW (off-scale); hard-zero gating holds output at zero at night.</p>
+      </section>
+    </div>
+    <div class="col">
+      <section class="key">
+        <h2>Discussion &amp; Future Work</h2>
+        <h3>Key insight</h3>
+        <p>Adversarial alignment works well within a region. Across continents (India to Australia) it causes negative transfer (R² &lt; 0), because the seasons are out of phase. An unadapted Transformer is more robust there and keeps positive skill.</p>
+        <div class="vs" data-img="fig-vs">
+          <div><span>{{ph:arrows-in-line-horizontal}}</span><b>Intra-regional CDAN</b><small>Aligned representation</small></div>
+          <div><span>{{ph:arrows-out-line-horizontal}}</span><b>Cross-hemisphere CDAN</b><small>Negative transfer</small></div>
+        </div>
+        <h3>Conclusion</h3>
+        <ul class="bul">
+          <li>Per-unit scaling and nocturnal zero-masking fix the magnitude collapse of the uncalibrated baseline.</li>
+          <li>Defines where adaptation helps: within a region, but not across hemispheres.</li>
+          <li>Establishes a zero-target-label transfer benchmark under capacity mismatch.</li>
+          <li>Future work: fine-tuning after commissioning, once the first target labels arrive.</li>
+        </ul>
+        <p class="ack">Generative AI and LLM tools assisted in preparing this poster.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="refs">
+    <h2>References &amp; Contact</h2>
+    <div>
+      <p>[1] D. Belay et al., “Learning When to Transfer: Robust Solar Power Forecasting Under Capacity Mismatch,” NEECON 2026.</p>
+      <p>Contact: s0000003955, s0000003957, s0000004025, noaburaed, sahadi @ud.ac.ae</p>
+    </div>
+  </footer>
+
+  <div class="bottom">
+    <img src="assets/neecon-logo.png" style="height:28mm" alt="NEECON 2026" data-img="logo-footer">
+    <p><b>2026 International Near East Conference on Electrical &amp; Energy Systems (NEECON 2026)</b><br>October 21–23, 2026, Dubai, United Arab Emirates</p>
+  </div>
+</div>
+</body>
+</html>
